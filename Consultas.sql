@@ -1,0 +1,5 @@
+USE BIBLIO_DB;
+GO
+
+
+SELECT * from Libro
