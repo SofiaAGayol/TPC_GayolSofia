@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using dominio;
+using static System.Net.WebRequestMethods;
 
 namespace negocio
 {
@@ -39,7 +40,8 @@ namespace negocio
                     libro.Ejemplares = (int)datos.Lector["Ejemplares"];
                     libro.Disponibles = (int)datos.Lector["Disponibles"];
                     libro.Estado = datos.Lector["Estado"] is DBNull ? false : (bool)datos.Lector["Estado"]; ;
-                    libro.Imagen = (string)datos.Lector["ImagenURL"];
+                    if (!(datos.Lector["ImagenURL"] is DBNull))
+                        libro.Imagen = (string)datos.Lector["ImagenURL"];
 
                     // Asignar autor
                     libro.Autor = new Autor();

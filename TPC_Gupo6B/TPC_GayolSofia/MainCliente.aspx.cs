@@ -84,10 +84,8 @@ namespace TPC_GayolSofia
 
         protected void botonElegir_Click(object sender, EventArgs e)
         {
-            // Código para manejar la lógica al elegir un libro (por ejemplo, agregarlo a la cesta)
             var boton = (Button)sender;
             int idLibro = Convert.ToInt32(boton.CommandArgument);
-            // Aquí puedes realizar las acciones necesarias con el id del libro
         }
     }
 }

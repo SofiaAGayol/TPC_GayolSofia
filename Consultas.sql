@@ -3,3 +3,5 @@ GO
 
 
 SELECT * from Libro
+SELECT * from Categoria
+SELECT * from Autores
