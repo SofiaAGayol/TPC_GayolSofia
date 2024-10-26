@@ -12,6 +12,8 @@ namespace TPC_GayolSofia
 {
     public partial class LogIn : System.Web.UI.Page
     {
+        //USUARIO CON EL QUE SE VA A INICIAR SESION:
+        private string usuarioActivo;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -37,8 +39,9 @@ namespace TPC_GayolSofia
                     LblError.Text = "Contraseña no coincide.";
                     break;
                 case 2:
-                    LblError.Text = "";
-                    LblError.Text = "TODO PIOLA";
+                    usuarioActivo = Tb_Usuario.Text;
+                    Session["Usuario"] = usuarioActivo;
+                    Response.Redirect("Inicio.aspx");
                     break;
 
             }
