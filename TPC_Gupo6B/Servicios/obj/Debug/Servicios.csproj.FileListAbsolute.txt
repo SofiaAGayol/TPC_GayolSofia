@@ -1,0 +1,11 @@
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Servicios.dll
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Servicios.pdb
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Data-Management.dll
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Dominio.dll
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Data-Management.pdb
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\bin\Debug\Dominio.pdb
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\obj\Debug\Servicios.csproj.AssemblyReference.cache
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\obj\Debug\Servicios.csproj.CoreCompileInputs.cache
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\obj\Debug\Servicios.csproj.Up2Date
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\obj\Debug\Servicios.dll
+C:\Users\Guido\Desktop\UTN\Programacion III\ULTIMO\tp-winform-equipo-2A\Servicios\obj\Debug\Servicios.pdb

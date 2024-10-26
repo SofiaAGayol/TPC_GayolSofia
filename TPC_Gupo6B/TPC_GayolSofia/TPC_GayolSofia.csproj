@@ -239,6 +239,7 @@
       <DependentUpon>MainCliente.aspx</DependentUpon>
     </Compile>
     <Compile Include="negocio\AccesoDatos.cs" />
+    <Compile Include="negocio\UsuarioNegocio.cs" />
     <Compile Include="negocio\LibroNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
