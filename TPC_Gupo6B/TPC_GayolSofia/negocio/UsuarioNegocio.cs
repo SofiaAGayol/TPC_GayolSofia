@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using dominio;
+using TPC_GayolSofia.dominio;
 using static System.Net.WebRequestMethods;
 
 namespace negocio
@@ -14,24 +15,24 @@ namespace negocio
     public class UsuarioNegocio
     {
 
-        public int VerificarEmailYContrasena(string email, string contrasenia)
+        public int VerificarEmailYContrasena(string usuario, string contrasenia)
         {
             SqlConnection conexion = new SqlConnection();
             SqlCommand comando = new SqlCommand();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BBDD_KioscoLab3; integrated security=true";
+                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
 
                 comando.CommandText = "SELECT CASE " +
-                                      "WHEN Email = @Email AND Contrasenia = @Contrasenia THEN 2 " +
-                                      "WHEN Email = @Email THEN 1 " +
+                                      "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
+                                      "WHEN Usuario = @Usuario THEN 1 " +
                                       "ELSE 0 " +
                                       "END " +
-                                      "FROM Usuario " +
-                                      "WHERE Email = @Email;";
-                comando.Parameters.AddWithValue("@Email", email);
+                                      "FROM Usuarios " +
+                                      "WHERE Usuario = @Usuario;";
+                comando.Parameters.AddWithValue("@Usuario", usuario);
                 comando.Parameters.AddWithValue("@Contrasenia", contrasenia);
                 comando.Connection = conexion;
 
@@ -61,6 +62,48 @@ namespace negocio
                 }
             }
         }
+
+        public int ObtenerIdUsuario(string nombreUsuario)
+        {
+            SqlConnection conexion = new SqlConnection();
+            SqlCommand comando = new SqlCommand();
+
+            try
+            {
+                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true";
+                comando.CommandType = System.Data.CommandType.Text;
+                comando.CommandText = "SELECT IDUsuario FROM Usuarios WHERE Usuario = @Usuario";
+                comando.Parameters.AddWithValue("@Usuario", nombreUsuario);
+                comando.Connection = conexion;
+
+                conexion.Open();
+
+                object resultObj = comando.ExecuteScalar();
+
+                if (resultObj != null)
+                {
+                    return Convert.ToInt32(resultObj);
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conexion.State == System.Data.ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+        }
+
+
+        
         /*
         public List<Libro> listarConSP()
         {

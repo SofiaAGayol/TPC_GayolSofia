@@ -26,8 +26,9 @@ namespace TPC_GayolSofia
             string usuario = Tb_Usuario.Text;
             string contrasenia = Tb_Contrasenia.Text;
 
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
-            int resultado = VerificarEmailYContrasena(usuario, contrasenia);
+            int resultado = usuarioNegocio.VerificarEmailYContrasena(usuario, contrasenia);
 
             switch (resultado)
             {
@@ -40,67 +41,15 @@ namespace TPC_GayolSofia
                     break;
                 case 2:
                     usuarioActivo = Tb_Usuario.Text;
-                    Session["Usuario"] = usuarioActivo;
+
+                    int IDUsuarioActivo = usuarioNegocio.ObtenerIdUsuario(usuario);
+
+                    Session["IDUsuarioActivo"] = IDUsuarioActivo;
+
+
                     Response.Redirect("Inicio.aspx");
                     break;
 
-            }
-        }
-
-
-
-
-
-
-
-
-
-        ///ESTO DEBERIA IR EN NEGOCIO//
-        public int VerificarEmailYContrasena(string usuario, string contrasenia)
-        {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
-
-            try
-            {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true";
-                comando.CommandType = System.Data.CommandType.Text;
-
-                comando.CommandText = "SELECT CASE " +
-                                      "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
-                                      "WHEN Usuario = @Usuario THEN 1 " +
-                                      "ELSE 0 " +
-                                      "END " +
-                                      "FROM Usuarios " +
-                                      "WHERE Usuario = @Usuario;";
-                comando.Parameters.AddWithValue("@Usuario", usuario);
-                comando.Parameters.AddWithValue("@Contrasenia", contrasenia);
-                comando.Connection = conexion;
-
-                conexion.Open();
-
-                object resultObj = comando.ExecuteScalar();
-
-                if (resultObj != null)
-                {
-                    int result = (int)resultObj;
-                    return result;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (conexion.State == System.Data.ConnectionState.Open)
-                {
-                    conexion.Close();
-                }
             }
         }
     }

@@ -72,6 +72,8 @@ C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\Proyecto Final\T
 C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\Proyecto Final\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_Gayo.D7D3FF24.Up2Date
 C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\Proyecto Final\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.dll
 C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\Proyecto Final\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.pdb
+C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.csproj.AssemblyReference.cache
+C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.csproj.CoreCompileInputs.cache
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\TPC_GayolSofia.dll.config
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\TPC_GayolSofia.dll
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\TPC_GayolSofia.pdb
@@ -141,8 +143,6 @@ C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_Gayol
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\es\System.Web.Optimization.resources.dll
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\bin\es\Microsoft.AspNet.FriendlyUrls.resources.dll
-C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.csproj.AssemblyReference.cache
-C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.csproj.CoreCompileInputs.cache
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_Gayo.D7D3FF24.Up2Date
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.dll
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\TPC_GayolSofia\obj\Debug\TPC_GayolSofia.pdb
