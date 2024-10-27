@@ -17,33 +17,26 @@ namespace negocio
 
         public int VerificarEmailYContrasena(string usuario, string contrasenia)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true";
-                comando.CommandType = System.Data.CommandType.Text;
+                datos.setearConsulta("SELECT CASE " +
+                                     "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
+                                     "WHEN Usuario = @Usuario THEN 1 " +
+                                     "ELSE 0 " +
+                                     "END " +
+                                     "FROM Usuarios " +
+                                     "WHERE Usuario = @Usuario;");
 
-                comando.CommandText = "SELECT CASE " +
-                                      "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
-                                      "WHEN Usuario = @Usuario THEN 1 " +
-                                      "ELSE 0 " +
-                                      "END " +
-                                      "FROM Usuarios " +
-                                      "WHERE Usuario = @Usuario;";
-                comando.Parameters.AddWithValue("@Usuario", usuario);
-                comando.Parameters.AddWithValue("@Contrasenia", contrasenia);
-                comando.Connection = conexion;
+                datos.setearParametro("@Usuario", usuario);
+                datos.setearParametro("@Contrasenia", contrasenia);
 
-                conexion.Open();
-
-                object resultObj = comando.ExecuteScalar();
+                object resultObj = datos.ejecutarAccion();
 
                 if (resultObj != null)
                 {
-                    int result = (int)resultObj;
-                    return result;
+                    return Convert.ToInt32(resultObj);
                 }
                 else
                 {
@@ -56,29 +49,20 @@ namespace negocio
             }
             finally
             {
-                if (conexion.State == System.Data.ConnectionState.Open)
-                {
-                    conexion.Close();
-                }
+                datos.cerrarConexion();
             }
         }
 
         public int ObtenerIdUsuario(string nombreUsuario)
         {
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand();
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true";
-                comando.CommandType = System.Data.CommandType.Text;
-                comando.CommandText = "SELECT IDUsuario FROM Usuarios WHERE Usuario = @Usuario";
-                comando.Parameters.AddWithValue("@Usuario", nombreUsuario);
-                comando.Connection = conexion;
+                datos.setearConsulta("SELECT IDUsuario FROM Usuarios WHERE Usuario = @NombreUsuario");
+                datos.setearParametro("@NombreUsuario", nombreUsuario);
 
-                conexion.Open();
-
-                object resultObj = comando.ExecuteScalar();
+                object resultObj = datos.ejecutarAccion();
 
                 if (resultObj != null)
                 {
@@ -86,24 +70,21 @@ namespace negocio
                 }
                 else
                 {
-                    return -1;
+                    return -1; // Usuario no encontrado
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; // Considera registrar el error o manejarlo de manera más específica
             }
             finally
             {
-                if (conexion.State == System.Data.ConnectionState.Open)
-                {
-                    conexion.Close();
-                }
+                datos.cerrarConexion();
             }
         }
 
 
-        
+
         /*
         public List<Libro> listarConSP()
         {
