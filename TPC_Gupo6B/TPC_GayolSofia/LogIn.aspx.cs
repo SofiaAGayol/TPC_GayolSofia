@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using negocio;
 using dominio;
 using System.Data.SqlClient;
+using TPC_GayolSofia.dominio;
 
 namespace TPC_GayolSofia
 {
@@ -33,23 +34,23 @@ namespace TPC_GayolSofia
             switch (resultado)
             {
                 case 0:
-                    LblError.Text = "El user ingresado no se encuentra en nuestra Base de datos.";
+                    LblError.Text = "El usuario ingresado no se encuentra en nuestra Base de datos.";
                     break;
                 case 1:
-                    LblError.Text = "";
                     LblError.Text = "Contraseña no coincide.";
                     break;
                 case 2:
-                    usuarioActivo = Tb_Usuario.Text;
-
                     int IDUsuarioActivo = usuarioNegocio.ObtenerIdUsuario(usuario);
 
-                    Session["IDUsuarioActivo"] = IDUsuarioActivo;
+                    // Obtén el objeto Usuario completo
+                    Usuario usuarioActivo = usuarioNegocio.ObtenerUsuarioPorId(IDUsuarioActivo);
 
+                    // Guarda el objeto Usuario en la sesión utilizando Session.Add
+                    Session.Add("UsuarioActivo", usuarioActivo);
 
+                    // Redirige a la página de inicio
                     Response.Redirect("Inicio.aspx");
                     break;
-
             }
         }
     }

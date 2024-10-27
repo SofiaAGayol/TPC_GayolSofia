@@ -83,6 +83,49 @@ namespace negocio
             }
         }
 
+        public Usuario ObtenerUsuarioPorId(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios WHERE IDUsuario = @IDUsuario");
+                datos.setearParametro("@IDUsuario", idUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Usuario usuario = new Usuario
+                    {
+                        IdUsuario = Convert.ToInt32(datos.Lector["IDUsuario"]),
+                        NombreUsuario = datos.Lector["Usuario"].ToString(),
+                        Clave = datos.Lector["Clave"].ToString(),
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        DNI = datos.Lector["DNI"].ToString(),
+                        Email = datos.Lector["Email"].ToString(),
+                        Telefono = datos.Lector["Telefono"].ToString(),
+                        IDRol = Convert.ToInt32(datos.Lector["IDRol"])
+                    };
+
+                    return usuario;
+                }
+                else
+                {
+                    return null; // Usuario no encontrado
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex; // Considera registrar el error o manejarlo de manera más específica
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
 
         /*

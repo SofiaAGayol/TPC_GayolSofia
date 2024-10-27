@@ -10,6 +10,25 @@ namespace TPC_GayolSofia.dominio
         public int IdUsuario { get; set; }
         public string NombreUsuario { get; set; }
         public string Clave { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string DNI { get; set; }
+        public string Email { get; set; }
+        public string Telefono { get; set; }
+        public int IDRol { get; set; }
 
+        public Usuario() { }
+        public Usuario(int idUsuario, string nombreUsuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
+        {
+            IdUsuario = idUsuario;
+            NombreUsuario = nombreUsuario;
+            Clave = clave;
+            Nombre = nombre;
+            Apellido = apellido;
+            DNI = dni;
+            Email = email;
+            Telefono = telefono;
+            IDRol = idRol;
+        }
     }
 }
