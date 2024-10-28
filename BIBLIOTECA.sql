@@ -20,13 +20,14 @@ CREATE TABLE Usuarios (
     DNI CHAR(8) NOT NULL,
     Email NVARCHAR(100),
     Telefono NVARCHAR(15),
-    IDRol INT NOT NULL
+    IDRol INT NOT NULL,
+    CONSTRAINT FK_Usuarios_Rol FOREIGN KEY (IDRol) REFERENCES Rol(IDRol)
 );
 GO
 
--- Tabla Cargo
-CREATE TABLE Cargo (
-    IDCargo INT IDENTITY(1,1) PRIMARY KEY,
+-- Tabla Roles
+CREATE TABLE Rol (
+    IDRol INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(100)
 );
 GO
