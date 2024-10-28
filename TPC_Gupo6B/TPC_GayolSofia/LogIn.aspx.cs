@@ -33,21 +33,20 @@ namespace TPC_GayolSofia
             switch (resultado)
             {
                 case 0:
-                    LblError.Text = "El usuario ingresado no se encuentra en nuestra Base de datos.";
+                    alertMessage.InnerText = "El usuario ingresado no se encuentra registrado.";
+                    divAlert.Style["display"] = "block"; 
                     break;
                 case 1:
-                    LblError.Text = "Contraseña no coincide.";
+                    alertMessage.InnerText = "La contraseña no coincide con el usuario al que desea acceder.";
+                    divAlert.Style["display"] = "block";
                     break;
                 case 2:
                     int IDUsuarioActivo = usuarioNegocio.ObtenerIdUsuario(usuario);
 
-                    // Obtén el objeto Usuario completo
                     Usuario usuarioActivo = usuarioNegocio.ObtenerUsuarioPorId(IDUsuarioActivo);
 
-                    // Guarda el objeto Usuario en la sesión utilizando Session.Add
                     Session.Add("UsuarioActivo", usuarioActivo);
 
-                    // Redirige a la página de inicio
                     Response.Redirect("Inicio.aspx");
                     break;
             }

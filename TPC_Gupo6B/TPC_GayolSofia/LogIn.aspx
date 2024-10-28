@@ -1,26 +1,29 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="TPC_GayolSofia.LogIn" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <form>
-        <div class="row mb-3">
-            <asp:Label ID="lblUsuario" class="col-sm-2 col-form-label" runat="server" Text="Usuario"></asp:Label>
-            <div class="col-sm-10">
-                <asp:TextBox ID="Tb_Usuario" class="form-control" runat="server"></asp:TextBox>
-            </div>
+<div class="d-flex justify-content-center mt-5">
+    <div class="card" style="width: 600px;">
+        <div class="card-body">
+            <form>
+                <div class="mb-3 text-center">
+                    <asp:Label ID="lblUsuario" runat="server" Text="Usuario" CssClass="form-label"></asp:Label>
+                    <asp:TextBox ID="Tb_Usuario" class="form-control mx-auto" style="width: 100%;" runat="server" />
+                </div>
+                <div class="mb-3 text-center">
+                    <asp:Label ID="lblContrasena" runat="server" Text="Contraseña" CssClass="form-label"></asp:Label>
+                    <asp:TextBox ID="Tb_Contrasenia" type="password" class="form-control mx-auto" style="width: 100%;" runat="server" />
+                </div>
+                <div class="text-center">
+                </div>
+                <div class="text-center">
+                    <asp:Button ID="Btn_Ingreso" OnClick="Btn_Ingreso_Click" class="btn btn-primary" runat="server" Text="Ingresar" />
+                </div>
+            </form>
         </div>
-        <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Contraseña</label>
-            <div class="col-sm-10">
-                <asp:TextBox type="password" class="form-control" ID="Tb_Contrasenia" runat="server"></asp:TextBox>
-            </div>
-        </div>
-        <div class="row mb-3">
-            
-        </div>
-        <div class="row mb-3">
-            <asp:Label ID="LblError" runat="server" Text=""></asp:Label>
-        </div>
-        <asp:Button ID="Btn_Ingreso" OnClick="Btn_Ingreso_Click" class="btn btn-primary" runat="server" Text="Ingresar" />
-        
-    </form>
+    </div>
+</div>
+
+<div class="mx-auto justify-content-center mt-5 alert alert-danger" id="divAlert" style="display: none;" runat="server">
+    <span id="alertMessage" runat="server"></span>
+</div>
 </asp:Content>
