@@ -14,7 +14,45 @@ namespace negocio
 {
     public class UsuarioNegocio
     {
+        public List<Usuario> Listar()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Usuario> usuarios = new List<Usuario>();
 
+            try
+            {
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario usuario = new Usuario
+                    {
+                        IdUsuario = Convert.ToInt32(datos.Lector["IDUsuario"]),
+                        NombreUsuario = datos.Lector["Usuario"].ToString(),
+                        Clave = datos.Lector["Clave"].ToString(),
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        DNI = datos.Lector["DNI"].ToString(),
+                        Email = datos.Lector["Email"].ToString(),
+                        Telefono = datos.Lector["Telefono"].ToString(),
+                        IDRol = Convert.ToInt32(datos.Lector["IDRol"])
+                    };
+
+                    usuarios.Add(usuario);
+                }
+
+                return usuarios; // Devuelve la lista de usuarios
+            }
+            catch (Exception ex)
+            {
+                throw ex; // Considera registrar el error o manejarlo de manera más específica
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public int VerificarEmailYContrasena(string usuario, string contrasenia)
         {
             AccesoDatos datos = new AccesoDatos();
