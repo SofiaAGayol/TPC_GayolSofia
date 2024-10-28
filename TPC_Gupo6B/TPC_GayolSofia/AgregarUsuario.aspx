@@ -8,18 +8,14 @@
                 <h5 class="card-title text-center mb-2">Agregar Usuario</h5>
                 <div class="form-group text-center">
                     <label for="ddlRol">Rol</label>
-                    <asp:DropDownList ID="ddlRol" runat="server" CssClass="form-control w-75 mx-auto">
-                        <asp:ListItem Text="Seleccione un rol" Value="" />
-                        <asp:ListItem Text="Administrador" Value="1" />
-                        <asp:ListItem Text="Usuario" Value="2" />
-                        <asp:ListItem Text="Moderador" Value="3" />
-                    </asp:DropDownList>
+                        <asp:DropDownList ID="ddlRol" runat="server" CssClass="form-control w-75 mx-auto">
+                        </asp:DropDownList>
                 </div>
                 <div class="form-group text-center mt-2">
                     <label for="txtUsuario">Usuario</label>
                     <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control w-75 mx-auto" />
                 </div>
-                <div class="form-group text-center mt-2">
+                <div class="form-group text-center">
                     <label for="txtClave">Clave</label>
                     <asp:TextBox ID="txtClave" runat="server" CssClass="form-control w-75 mx-auto" TextMode="Password" />
                 </div>
@@ -44,10 +40,36 @@
                     <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control w-75 mx-auto" />
                 </div>
                 <div class="text-center">
-                    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success mt-2" />
+                    <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="Guardar" CssClass="btn btn-success mt-2" />
                 </div>
             </div>
         </div>
     </div>
+    <div class="mx-auto justify-content-center mt-5 alert alert-danger" id="divAlert" style="display: none;" runat="server">
+    <span id="alertMessage" runat="server"></span>
+</div>
+
+
+    <asp:Panel ID="pnlMensaje" runat="server" CssClass="mensaje-exito" style="display:none;">
+    <h2>Usuario agregado correctamente !</h2>
+    <asp:Button ID="btnCerrarMensaje" runat="server" Text="Cerrar" OnClick="btnCerrarMensaje_Click" CssClass="btn btn-primary mt-3" />
+</asp:Panel>
+
+<style>
+    .mensaje-exito {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 50px;
+        z-index: 1000;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        width: 400px;
+        border: 2px solid #c3e6cb;
+        border-radius: 8px;
+    }
+</style>
 
 </asp:Content>

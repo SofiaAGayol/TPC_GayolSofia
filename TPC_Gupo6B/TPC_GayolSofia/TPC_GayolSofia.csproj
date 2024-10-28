@@ -218,7 +218,6 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="dominio\Bibliotecario.cs" />
     <Compile Include="dominio\Cargo.cs" />
     <Compile Include="dominio\MetodoPago.cs" />
     <Compile Include="dominio\Nacionalidad.cs" />
@@ -229,6 +228,7 @@
     <Compile Include="dominio\Autor.cs" />
     <Compile Include="dominio\Membresia.cs" />
     <Compile Include="dominio\Prestamo.cs" />
+    <Compile Include="dominio\Rol.cs" />
     <Compile Include="dominio\TipoMembresia.cs" />
     <Compile Include="dominio\Usuario.cs" />
     <Compile Include="Global.asax.cs">

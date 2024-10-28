@@ -9,6 +9,38 @@ namespace TPC_GayolSofia.negocio
 {
     public class RolNegocio
     {
+        public List<Rol> Listar()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Rol> listaRoles = new List<Rol>();
+
+            try
+            {
+                datos.setearConsulta("SELECT IDRol, Descripcion FROM Rol");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Rol rol = new Rol
+                    {
+                        IDRol = (int)datos.Lector["IDRol"],
+                        Descripcion = datos.Lector["Descripcion"].ToString()
+                    };
+                    listaRoles.Add(rol);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return listaRoles;
+        }
+
         public string NombreRol(int IDRol)
         {
             AccesoDatos datos = new AccesoDatos();

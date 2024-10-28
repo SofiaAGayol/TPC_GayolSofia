@@ -113,7 +113,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; // Considera registrar el error o manejarlo de manera más específica
+                throw ex; 
             }
             finally
             {
@@ -156,7 +156,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; // Considera registrar el error o manejarlo de manera más específica
+                throw ex; 
             }
             finally
             {
@@ -164,6 +164,121 @@ namespace negocio
             }
         }
 
+
+
+        public bool ExisteUsuario(string usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE Usuario = @Usuario");
+                datos.setearParametro("@Usuario", usuario);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+        public bool ExisteDNI(string dni)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE DNI = @DNI");
+                datos.setearParametro("@DNI", dni);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+        public bool ExisteEmail(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE Email = @Email");
+                datos.setearParametro("@Email", email);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+
+
+        public bool Agregar(string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol) VALUES (@Usuario, @Clave, @Nombre, @Apellido, @DNI, @Email, @Telefono, @IDRol);");
+
+                datos.setearParametro("@Usuario", usuario);
+                datos.setearParametro("@Clave", clave); 
+                datos.setearParametro("@Nombre", nombre);
+                datos.setearParametro("@Apellido", apellido);
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@Email", email);
+                datos.setearParametro("@Telefono", telefono);
+                datos.setearParametro("@IDRol", idRol);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
 
 
         /*
