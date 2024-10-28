@@ -20,7 +20,11 @@
         <asp:BoundField HeaderText="DNI" DataField="DNI" />
         <asp:BoundField HeaderText="Email" DataField="Email" />
         <asp:BoundField HeaderText="Teléfono" DataField="Telefono" />
-        <asp:BoundField HeaderText="Rol" DataField="IDRol" />
+<asp:TemplateField HeaderText="Rol">
+    <ItemTemplate>
+        <%# ObtenerNombreRol(Convert.ToInt32(Eval("IDRol"))) %>
+    </ItemTemplate>
+</asp:TemplateField>
     </Columns>
 </asp:GridView>
     </div>
