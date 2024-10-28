@@ -27,5 +27,9 @@ namespace TPC_GayolSofia
             return rolNegocio.NombreRol(IDRol); // Llama al método y devuelve el nombre del rol
         }
 
+        protected void BtnAgregarUsuario_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AgregarUsuario.aspx");
+        }
     }
 }

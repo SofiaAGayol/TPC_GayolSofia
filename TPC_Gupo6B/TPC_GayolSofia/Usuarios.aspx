@@ -9,7 +9,7 @@
     </div>
 </nav>  
 
-<div class="row justify-content-center mb-5 mt-5">
+<div class="row justify-content-center mb-2 mt-5">
     <div class="col-12 text-center">
 <asp:GridView ID="Dgv_Usuarios" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-hover mx-auto">
     <Columns>
@@ -29,7 +29,15 @@
 </asp:GridView>
     </div>
 </div>
-    
+
+
+
+
+
+    <asp:Button ID="BtnAgregarUsuario" runat="server" Text="Agregar Usuario" OnClick="BtnAgregarUsuario_Click" CssClass="btn btn-success mb-5" />
+
+
+
 
 
 </asp:Content>

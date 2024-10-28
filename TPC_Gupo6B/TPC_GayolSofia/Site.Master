@@ -51,7 +51,7 @@
     </asp:ContentPlaceHolder>
     <hr style="margin-top: 0; margin-bottom: 0;" />
     <footer>
-        <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+        <p>&copy; <%: DateTime.Now.Year %> - Miaplicación ASP.NET</p>
     </footer>
 </div>
     </form>
