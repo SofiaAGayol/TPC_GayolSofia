@@ -11,7 +11,9 @@
 
 <div class="row justify-content-center mb-2 mt-5">
     <div class="col-12 text-center">
-<asp:GridView ID="Dgv_Usuarios" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-hover mx-auto">
+<asp:GridView ID="Dgv_Usuarios" DataKeyNames="IdUsuario" AllowPaging="True" PageSize="5"
+    runat="server" AutoGenerateColumns="false" OnPageIndexChanging="Dgv_Usuarios_PageIndexChanging"
+    CssClass="table table-striped table-bordered table-hover mx-auto">
     <Columns>
         <asp:BoundField HeaderText="ID" DataField="IdUsuario" />
         <asp:BoundField HeaderText="Usuario" DataField="NombreUsuario" />
@@ -25,6 +27,7 @@
         <%# ObtenerNombreRol(Convert.ToInt32(Eval("IDRol"))) %>
     </ItemTemplate>
 </asp:TemplateField>
+        <asp:CommandField HeaderText="Modificar" ShowSelectButton="true" SelectText=" ✍" />
     </Columns>
 </asp:GridView>
     </div>

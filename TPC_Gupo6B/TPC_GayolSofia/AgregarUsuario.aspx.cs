@@ -70,7 +70,7 @@ namespace TPC_GayolSofia
                 mensajeError = "Apellido no válido.";
             }
 
-            else if (string.IsNullOrEmpty(apellido) || usuarioNegocio.ExisteDNI(dni))
+            else if (string.IsNullOrEmpty(dni) || usuarioNegocio.ExisteDNI(dni))
             {
                 mensajeError = "DNI no válido.";
             }

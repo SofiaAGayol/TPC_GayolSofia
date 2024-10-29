@@ -31,5 +31,16 @@ namespace TPC_GayolSofia
         {
             Response.Redirect("AgregarUsuario.aspx");
         }
+
+        protected void Dgv_Usuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string id = Dgv_Usuarios.SelectedDataKey.Value.ToString();
+            Response.Redirect("Usuarios.aspx?id="+id);
+        }
+
+        protected void Dgv_Usuarios_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
     }
 }
