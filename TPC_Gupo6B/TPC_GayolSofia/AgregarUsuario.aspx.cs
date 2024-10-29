@@ -49,35 +49,57 @@ namespace TPC_GayolSofia
             string telefono = txtTelefono.Text;
             int idRol = Convert.ToInt32(ddlRol.SelectedValue);
 
-            // Verificar si el usuario ya existe
-            if (usuarioNegocio.ExisteUsuario(usuario))
+            // Inicializa un mensaje de error
+            string mensajeError = string.Empty;
+
+            // Verificar si el usuario ya existe o si da null
+            if (string.IsNullOrEmpty(usuario) || usuarioNegocio.ExisteUsuario(usuario))
             {
-                alertMessage.InnerText = "El usuario ya existe.";
-                divAlert.Style["display"] = "block";
-                return; 
+                mensajeError = "Usuario no válido.";
+            }
+            else if (string.IsNullOrEmpty(clave))
+            {
+                mensajeError = "Clave no válida.";
+            }
+            else if (string.IsNullOrEmpty(nombre))
+            {
+                mensajeError = "Nombre no válido.";
+            }
+            else if (string.IsNullOrEmpty(apellido))
+            {
+                mensajeError = "Apellido no válido.";
             }
 
-            // Verificar si el DNI ya existe
-            if (usuarioNegocio.ExisteDNI(dni))
+            else if (string.IsNullOrEmpty(apellido) || usuarioNegocio.ExisteDNI(dni))
             {
-                alertMessage.InnerText = "El DNI ya existe.";
+                mensajeError = "DNI no válido.";
+            }
+            else if (string.IsNullOrEmpty(email) || usuarioNegocio.ExisteEmail(email))
+            {
+                mensajeError = "Email no válido.";
+            }
+            else if (string.IsNullOrEmpty(telefono))
+            {
+                mensajeError = "Telefono no válido.";
+            }
+
+            // Si hay un mensaje de error, mostrarlo y salir del método
+            if (!string.IsNullOrEmpty(mensajeError))
+            {
+                alertMessage.InnerText = mensajeError;
                 divAlert.Style["display"] = "block";
                 return;
             }
 
-            // Verificar si el email ya existe
-            if (usuarioNegocio.ExisteEmail(email))
-            {
-                alertMessage.InnerText = "El email ya existe.";
-                divAlert.Style["display"] = "block";
-                return;
-            }
-
+            // Si todas las verificaciones son exitosas, agregar el nuevo usuario
             usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);
             pnlMensaje.Style["display"] = "block"; // Mostrar el panel de éxito
 
-            divAlert.Style["display"] = "none"; 
+            // Ocultar la alerta
+            divAlert.Style["display"] = "none";
         }
+
+
         protected void btnCerrarMensaje_Click(object sender, EventArgs e)
         {
             pnlMensaje.Style["display"] = "none";
