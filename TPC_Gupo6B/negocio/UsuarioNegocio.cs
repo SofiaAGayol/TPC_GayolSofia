@@ -255,7 +255,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol) VALUES (@Usuario, @Clave, @Nombre, @Apellido, @DNI, @Email, @Telefono, @IDRol);");
+                datos.setearConsulta("INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol, estado) VALUES (@Usuario, @Clave, @Nombre, @Apellido, @DNI, @Email, @Telefono, @IDRol, 1);");
 
                 datos.setearParametro("@Usuario", usuario);
                 datos.setearParametro("@Clave", clave); 
@@ -298,6 +298,30 @@ namespace negocio
                 datos.setearParametro("@Email", email);
                 datos.setearParametro("@Telefono", telefono);
                 datos.setearParametro("@IDRol", idRol);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+        public bool BajaLogica(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET estado = 0 WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
 
                 datos.ejecutarAccion();
             }

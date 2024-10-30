@@ -42,6 +42,15 @@
                 <div class="text-center">
                     <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="" CssClass="btn btn-success mt-2" />
                 </div>
+                <div class="text-center">
+                    <asp:Button ID="btnBaja" OnClick="btnBaja_Click" Text="Dar Baja" runat="server" CssClass="btn btn-danger mt-2" />
+                </div>
+                 <div class="text-center">
+                    <asp:CheckBox ID="CbBajaDef" runat="server" />
+                </div>
+                <div class="text-center">
+                     <asp:Button ID="btnBajaDef" OnClick="btnBajaDef_Click" runat="server" Text="Confirmar Baja" CssClass="btn btn-danger mt-2" />
+                </div>
             </div>
         </div>
     </div>
@@ -70,6 +79,7 @@
         border: 2px solid #c3e6cb;
         border-radius: 8px;
     }
+
 </style>
 
 </asp:Content>

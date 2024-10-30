@@ -14,8 +14,14 @@ namespace TPC_GayolSofia
 {
     public partial class AgregarUsuario : System.Web.UI.Page
     {
+        int id;
         protected void Page_Load(object sender, EventArgs e)
         {
+            btnBaja.Visible = false;
+            CbBajaDef.Visible = false;
+            btnBajaDef.Visible = false;
+
+
             if (!IsPostBack)
             {
                 CargarRoles();
@@ -23,7 +29,7 @@ namespace TPC_GayolSofia
             }
             if (Request.QueryString["id"] != null)
             {
-                int id = int.Parse(Request.QueryString["id"]);
+                id = int.Parse(Request.QueryString["id"]);
 
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
                 Usuario usuario = new Usuario();
@@ -37,6 +43,10 @@ namespace TPC_GayolSofia
                 txtEmail.Text = usuario.Email;
                 txtTelefono.Text = usuario.Telefono;
                 btnGuardar.Text = "Modificar";
+
+                btnBaja.Visible = true;
+                CbBajaDef.Visible = false;
+                btnBajaDef.Visible = false;
             };
         }
 
@@ -56,7 +66,6 @@ namespace TPC_GayolSofia
                 ddlRol.SelectedIndex = 0;
             }
         }
-
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
@@ -69,13 +78,11 @@ namespace TPC_GayolSofia
             string telefono = txtTelefono.Text;
             int idRol = Convert.ToInt32(ddlRol.SelectedValue);
 
-            // Inicializa un mensaje de error
             string mensajeError = string.Empty;
 
-            // Verificar si el usuario ya existe o si da null
             if (string.IsNullOrEmpty(usuario))
             {
-                mensajeError = "Usuario no válidoo.";
+                mensajeError = "Usuario no válido.";
             }
             else if (usuarioNegocio.ExisteUsuario(usuario))
             {
@@ -93,12 +100,11 @@ namespace TPC_GayolSofia
             {
                 mensajeError = "Apellido no válido.";
             }
-
             else if (string.IsNullOrEmpty(dni))
             {
                 mensajeError = "DNI no válido.";
             }
-            else if ( usuarioNegocio.ExisteDNI(dni))
+            else if (usuarioNegocio.ExisteDNI(dni))
             {
                 mensajeError = "DNI ya registrado.";
             }
@@ -115,7 +121,6 @@ namespace TPC_GayolSofia
                 mensajeError = "Telefono no válido.";
             }
 
-            // Si hay un mensaje de error, mostrarlo y salir del método
             if (!string.IsNullOrEmpty(mensajeError))
             {
                 alertMessage.InnerText = mensajeError;
@@ -123,22 +128,17 @@ namespace TPC_GayolSofia
                 return;
             }
 
-
-
-            // EL BOTON LLAMA A MODIFICAR SI ENCUENTRA ID EN LA URL
             if (Request.QueryString["id"] != null)
             {
                 int id = int.Parse(Request.QueryString["id"]);
-
                 usuarioNegocio.Modificar(id, usuario, clave, nombre, apellido, dni, email, telefono, idRol);
+            }
+            else
+            {
+                usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);
+                pnlMensaje.Style["display"] = "block";
+            }
 
-            };
-
-            // Si todas las verificaciones son exitosas, agregar el nuevo usuario
-            usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);
-            pnlMensaje.Style["display"] = "block"; // Mostrar el panel de éxito
-
-            // Ocultar la alerta
             divAlert.Style["display"] = "none";
         }
 
@@ -147,6 +147,24 @@ namespace TPC_GayolSofia
         {
             pnlMensaje.Style["display"] = "none";
             Response.Redirect("Usuarios.aspx");
+        }
+
+        protected void btnBaja_Click(object sender, EventArgs e)
+        {
+            btnBaja.Visible = false;
+            CbBajaDef.Visible = true;
+            btnBajaDef.Visible = true;
+        }
+
+        protected void btnBajaDef_Click(object sender, EventArgs e)
+        {
+            UsuarioNegocio negocio = new UsuarioNegocio();
+
+            if (CbBajaDef.Checked)
+            {
+                negocio.BajaLogica(id);
+                Response.Redirect("Usuarios.aspx");
+            }
         }
     }
 }
