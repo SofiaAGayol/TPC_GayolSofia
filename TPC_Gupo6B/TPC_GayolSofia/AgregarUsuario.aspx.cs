@@ -1,4 +1,5 @@
 ﻿using negocio;
+using dominio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TPC_GayolSofia.dominio;
 using TPC_GayolSofia.negocio;
+
 
 namespace TPC_GayolSofia
 {
@@ -17,7 +19,25 @@ namespace TPC_GayolSofia
             if (!IsPostBack)
             {
                 CargarRoles();
+                btnGuardar.Text = "Agregar";
             }
+            if (Request.QueryString["id"] != null)
+            {
+                int id = int.Parse(Request.QueryString["id"]);
+
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                Usuario usuario = new Usuario();
+                usuario= usuarioNegocio.ObtenerUsuarioPorId(id);
+
+                txtUsuario.Text = usuario.NombreUsuario;
+                txtClave.Text = usuario.Clave;
+                txtNombre.Text = usuario.Nombre;
+                txtApellido.Text = usuario.Apellido;
+                txtDNI.Text = usuario.DNI;
+                txtEmail.Text = usuario.Email;
+                txtTelefono.Text = usuario.Telefono;
+                btnGuardar.Text = "Modificar";
+            };
         }
 
         private void CargarRoles()
@@ -53,9 +73,13 @@ namespace TPC_GayolSofia
             string mensajeError = string.Empty;
 
             // Verificar si el usuario ya existe o si da null
-            if (string.IsNullOrEmpty(usuario) || usuarioNegocio.ExisteUsuario(usuario))
+            if (string.IsNullOrEmpty(usuario))
             {
-                mensajeError = "Usuario no válido.";
+                mensajeError = "Usuario no válidoo.";
+            }
+            else if (usuarioNegocio.ExisteUsuario(usuario))
+            {
+                mensajeError = "Usuario ya registrado.";
             }
             else if (string.IsNullOrEmpty(clave))
             {
@@ -70,13 +94,21 @@ namespace TPC_GayolSofia
                 mensajeError = "Apellido no válido.";
             }
 
-            else if (string.IsNullOrEmpty(dni) || usuarioNegocio.ExisteDNI(dni))
+            else if (string.IsNullOrEmpty(dni))
             {
                 mensajeError = "DNI no válido.";
             }
-            else if (string.IsNullOrEmpty(email) || usuarioNegocio.ExisteEmail(email))
+            else if ( usuarioNegocio.ExisteDNI(dni))
+            {
+                mensajeError = "DNI ya registrado.";
+            }
+            else if (string.IsNullOrEmpty(email))
             {
                 mensajeError = "Email no válido.";
+            }
+            else if (usuarioNegocio.ExisteEmail(email))
+            {
+                mensajeError = "Email ya registrado.";
             }
             else if (string.IsNullOrEmpty(telefono))
             {
@@ -90,6 +122,17 @@ namespace TPC_GayolSofia
                 divAlert.Style["display"] = "block";
                 return;
             }
+
+
+
+            // EL BOTON LLAMA A MODIFICAR SI ENCUENTRA ID EN LA URL
+            if (Request.QueryString["id"] != null)
+            {
+                int id = int.Parse(Request.QueryString["id"]);
+
+                usuarioNegocio.Modificar(id, usuario, clave, nombre, apellido, dni, email, telefono, idRol);
+
+            };
 
             // Si todas las verificaciones son exitosas, agregar el nuevo usuario
             usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);

@@ -13,7 +13,7 @@
     <div class="col-12 text-center">
 <asp:GridView ID="Dgv_Usuarios" DataKeyNames="IdUsuario" AllowPaging="True" PageSize="5"
     runat="server" AutoGenerateColumns="false" OnPageIndexChanging="Dgv_Usuarios_PageIndexChanging"
-    CssClass="table table-striped table-bordered table-hover mx-auto">
+    OnSelectedIndexChanged="Dgv_Usuarios_SelectedIndexChanged" CssClass="table table-striped table-bordered table-hover mx-auto">
     <Columns>
         <asp:BoundField HeaderText="ID" DataField="IdUsuario" />
         <asp:BoundField HeaderText="Usuario" DataField="NombreUsuario" />

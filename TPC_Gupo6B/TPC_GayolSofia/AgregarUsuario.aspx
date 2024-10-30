@@ -40,7 +40,7 @@
                     <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control w-75 mx-auto" />
                 </div>
                 <div class="text-center">
-                    <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="Guardar" CssClass="btn btn-success mt-2" />
+                    <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="" CssClass="btn btn-success mt-2" />
                 </div>
             </div>
         </div>

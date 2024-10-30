@@ -281,6 +281,38 @@ namespace negocio
         }
 
 
+        public bool Modificar(int idUsuario,string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Usuario = @Usuario, Clave = @Clave, Nombre = @Nombre, Apellido = @Apellido, DNI = @DNI, Email = @Email, Telefono = @Telefono, IDRol = @IDRol WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
+                datos.setearParametro("@Usuario", usuario);
+                datos.setearParametro("@Clave", clave);
+                datos.setearParametro("@Nombre", nombre);
+                datos.setearParametro("@Apellido", apellido);
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@Email", email);
+                datos.setearParametro("@Telefono", telefono);
+                datos.setearParametro("@IDRol", idRol);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
         /*
         public List<Libro> listarConSP()
         {
