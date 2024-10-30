@@ -218,19 +218,6 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="dominio\Cargo.cs" />
-    <Compile Include="dominio\MetodoPago.cs" />
-    <Compile Include="dominio\Nacionalidad.cs" />
-    <Compile Include="dominio\Pago.cs" />
-    <Compile Include="dominio\Libro.cs" />
-    <Compile Include="dominio\Categoria.cs" />
-    <Compile Include="dominio\Cliente.cs" />
-    <Compile Include="dominio\Autor.cs" />
-    <Compile Include="dominio\Membresia.cs" />
-    <Compile Include="dominio\Prestamo.cs" />
-    <Compile Include="dominio\Rol.cs" />
-    <Compile Include="dominio\TipoMembresia.cs" />
-    <Compile Include="dominio\Usuario.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -255,11 +242,6 @@
     <Compile Include="MainCliente.aspx.designer.cs">
       <DependentUpon>MainCliente.aspx</DependentUpon>
     </Compile>
-    <Compile Include="negocio\AccesoDatos.cs" />
-    <Compile Include="negocio\ClienteNegocio.cs" />
-    <Compile Include="negocio\RolNegocio.cs" />
-    <Compile Include="negocio\UsuarioNegocio.cs" />
-    <Compile Include="negocio\LibroNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

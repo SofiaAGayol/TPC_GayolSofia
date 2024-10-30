@@ -17,10 +17,10 @@ namespace negocio
         {
             get { return lector; }
         }
-
+        
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=PROMOS_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=BIBLIO_DB; integrated security=true");
             comando = new SqlCommand();
         }
 
@@ -110,5 +110,7 @@ namespace negocio
 
             return resultado;
         }
+        
     }
+
 }
