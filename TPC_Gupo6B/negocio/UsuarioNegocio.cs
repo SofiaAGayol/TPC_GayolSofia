@@ -113,7 +113,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
@@ -156,7 +156,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
@@ -258,7 +258,7 @@ namespace negocio
                 datos.setearConsulta("INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol, estado) VALUES (@Usuario, @Clave, @Nombre, @Apellido, @DNI, @Email, @Telefono, @IDRol, 1);");
 
                 datos.setearParametro("@Usuario", usuario);
-                datos.setearParametro("@Clave", clave); 
+                datos.setearParametro("@Clave", clave);
                 datos.setearParametro("@Nombre", nombre);
                 datos.setearParametro("@Apellido", apellido);
                 datos.setearParametro("@DNI", dni);
@@ -281,7 +281,7 @@ namespace negocio
         }
 
 
-        public bool Modificar(int idUsuario,string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
+        public bool Modificar(int idUsuario, string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -320,6 +320,63 @@ namespace negocio
             try
             {
                 datos.setearConsulta("UPDATE Usuarios SET estado = 0 WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+        public bool estaBaja(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            bool resultado = false;
+
+            try
+            {
+                datos.setearConsulta("SELECT estado FROM Usuarios WHERE IdUsuario = @idUsuario;");
+                datos.setearParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    if (!Convert.IsDBNull(datos.Lector["estado"]))
+                    {
+                        // Convertir el valor a bool
+                        bool estado = (bool)datos.Lector["estado"];                      
+                        resultado = estado; // Devuelve true si estado es 1, false si estado es 0
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex; 
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return resultado; // Retorna true si está activo y false si está inactivo
+        }
+        public bool RestablecerLogica(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET estado = 1 WHERE IdUsuario = @idUsuario;");
 
                 datos.setearParametro("@idUsuario", idUsuario);
 
@@ -384,14 +441,14 @@ namespace negocio
                         // Agregar artículo a la lista
                         lista.Add(articulo);
                     }
-                                        
+
                     if (!(datos.Lector["IdImagen"] is DBNull))
                     {
                         Imagen imagen = new Imagen();
                         imagen.Id = (int)datos.Lector["IdImagen"];
                         imagen.IdArticulo = (int)datos.Lector["Id"];
                         imagen.ImagenUrl = (string)datos.Lector["Imagen"];
-                                                
+
                         articulo.Imagenes.Add(imagen);
                     }
                 }
@@ -677,4 +734,5 @@ namespace negocio
 
     }
 
-}
+    }
+

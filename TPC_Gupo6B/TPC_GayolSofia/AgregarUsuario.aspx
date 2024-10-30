@@ -45,6 +45,9 @@
                 <div class="text-center">
                     <asp:Button ID="btnBaja" OnClick="btnBaja_Click" Text="Dar Baja" runat="server" CssClass="btn btn-danger mt-2" />
                 </div>
+                <div class="text-center">
+                    <asp:Button ID="btnRestablecer" OnClick="btnRestablecer_Click" Text="Restablecer" runat="server" CssClass="btn btn-primary mt-2" />
+                </div>
                  <div class="text-center">
                     <asp:CheckBox ID="CbBajaDef" runat="server" />
                 </div>
@@ -65,6 +68,8 @@
 </asp:Panel>
 
 <style>
+
+
     .mensaje-exito {
         position: fixed;
         top: 50%;

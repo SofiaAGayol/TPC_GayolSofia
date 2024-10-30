@@ -17,6 +17,8 @@ namespace TPC_GayolSofia
         int IDUsuarioActivo;
         protected void Page_Load(object sender, EventArgs e)
         {
+            //HABILITAR ESTO LUEGO (SI NO ESTAS CON LA SESION INICIADA TE REDIRIGE AL LOGIN)
+            /*
             if (Session["UsuarioActivo"] != null)
             {
                 Usuario usuarioActivo = Session["UsuarioActivo"] as Usuario;
@@ -34,6 +36,7 @@ namespace TPC_GayolSofia
             {
                 Response.Redirect("Login.aspx");
             }
+            */
         }
 
 

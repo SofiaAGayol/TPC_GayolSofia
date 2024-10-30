@@ -20,13 +20,15 @@ namespace TPC_GayolSofia
             btnBaja.Visible = false;
             CbBajaDef.Visible = false;
             btnBajaDef.Visible = false;
+            btnRestablecer.Visible = false;
 
-
+            //NORMALMENTE SERIA PARA AGREGAR
             if (!IsPostBack)
             {
                 CargarRoles();
                 btnGuardar.Text = "Agregar";
             }
+            //SI SE LE PASA POR PARAMETRO UN ID VA A HABILITARSE PARA "DAR BAJA"
             if (Request.QueryString["id"] != null)
             {
                 id = int.Parse(Request.QueryString["id"]);
@@ -47,7 +49,17 @@ namespace TPC_GayolSofia
                 btnBaja.Visible = true;
                 CbBajaDef.Visible = false;
                 btnBajaDef.Visible = false;
-            };
+
+                //SI SE LE PASA POR PARAMETRO UN ID Y ADEMÁS ESTA DADO DE BAJA SE ACTIVA EL BOTON "RESTABLECER"
+                if (!usuarioNegocio.estaBaja(id))
+                {
+                    btnBaja.Visible = false;
+                    CbBajaDef.Visible = false;
+                    btnBajaDef.Visible = false;
+                    btnRestablecer.Visible = true;
+                }
+            }
+
         }
 
         private void CargarRoles()
@@ -165,6 +177,14 @@ namespace TPC_GayolSofia
                 negocio.BajaLogica(id);
                 Response.Redirect("Usuarios.aspx");
             }
+        }
+
+        protected void btnRestablecer_Click(object sender, EventArgs e)
+        {
+            UsuarioNegocio negocio = new UsuarioNegocio();
+
+            negocio.RestablecerLogica(id);
+            Response.Redirect("Usuarios.aspx");
         }
     }
 }
