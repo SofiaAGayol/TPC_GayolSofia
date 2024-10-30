@@ -25,3 +25,12 @@ C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_Gayol
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\negocio\obj\Debug\negocio.csproj.Up2Date
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\negocio\obj\Debug\negocio.dll
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\negocio\obj\Debug\negocio.pdb
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\bin\Debug\negocio.dll
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\bin\Debug\negocio.pdb
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\bin\Debug\dominio.dll
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\bin\Debug\dominio.pdb
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\obj\Debug\negocio.csproj.AssemblyReference.cache
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\obj\Debug\negocio.csproj.CoreCompileInputs.cache
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\obj\Debug\negocio.csproj.Up2Date
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\obj\Debug\negocio.dll
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\negocio\obj\Debug\negocio.pdb
