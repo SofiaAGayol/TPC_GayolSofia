@@ -24,7 +24,7 @@
         <asp:BoundField HeaderText="Teléfono" DataField="Telefono" />
 <asp:TemplateField HeaderText="Rol">
     <ItemTemplate>
-        <%# ObtenerNombreRol(Convert.ToInt32(Eval("IDRol"))) %>
+        <%# Eval("Rol.Descripcion")%>
     </ItemTemplate>
 </asp:TemplateField>
         <asp:CommandField HeaderText="Modificar" ShowSelectButton="true" SelectText=" ✍" />

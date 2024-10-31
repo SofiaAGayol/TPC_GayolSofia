@@ -22,7 +22,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios JOIN Roles ON Usuarios.IDRol = Roles.IDRol");
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, u.IDRol, r.Descripcion AS DescripcionRol FROM Usuarios u JOIN Rol r ON u.IDRol = r.IDRol");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

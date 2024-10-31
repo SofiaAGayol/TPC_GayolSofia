@@ -111,6 +111,13 @@ CREATE TABLE Autores (
     FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidad(IdNacionalidad)
 );
 GO
+--ACTUALIZACION DE DB
+-- ALTER TABLE Usuarios
+--     ADD Estado BIT DEFAULT 1;
+-- GO
+-- UPDATE Usuarios
+-- SET Estado = 1;  
+-- GO
 
 -- Tabla Libro
 CREATE TABLE Libro (
@@ -222,6 +229,8 @@ INSERT INTO Libro (Titulo, IDAutor, IDCategoria, FechaPublicacion, Ejemplares, D
 ('Un mundo feliz', 13, 2, '1932-01-01', 6, 6, 1, 'https://losresumenes.com/wp-content/uploads/2023/11/Aldous-Huxley-Un-mundo-feliz.jpg'),
 ('Las aventuras de Tom Sawyer', 14, 4, '1876-01-01', 7, 7, 1, 'https://images.cdn2.buscalibre.com/fit-in/360x360/91/14/9114855ea78255e0e1ff72f287973cb0.jpg');
 
+--para que puedas actualizar las imagenes si ya habias corrido el sql
+
 /*
 UPDATE Libro SET ImagenURL = 
 'https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg'
@@ -267,3 +276,13 @@ UPDATE Libro SET ImagenURL =
 'https://losresumenes.com/wp-content/uploads/2023/11/Aldous-Huxley-Un-mundo-feliz.jpg'
 WHERE Titulo = 'Un mundo feliz';  
 */
+
+/*
+INSERT INTO Rol (Descripcion) VALUES ('Cliente');
+
+INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol) VALUES 
+ ('cliente1', 'cliente123', 'Sofia', 'Lopez', '23456789', 'sofia.lopez@example.com', '987654321', 2),
+ ('bibliotecario1', 'biblio123', 'Carlos', 'Perez', '34567890', 'carlos.perez@example.com', '456123789', 3),
+ ('cliente2', 'cliente456', 'Maria', 'Gomez', '45678901', 'maria.gomez@example.com', '321654987', 2),
+ ('invitado1', 'invitado123', 'Luis', 'Martinez', '56789012', 'luis.martinez@example.com', '789321654', 4);
+ */
