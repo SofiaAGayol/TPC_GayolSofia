@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -21,7 +22,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios");
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios JOIN Roles ON Usuarios.IDRol = Roles.IDRol");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -36,14 +37,18 @@ namespace negocio
                         DNI = datos.Lector["DNI"].ToString(),
                         Email = datos.Lector["Email"].ToString(),
                         Telefono = datos.Lector["Telefono"].ToString(),
-                        IDRol = Convert.ToInt32(datos.Lector["IDRol"])
+                        Rol = new Rol
+                        {
+                            IDRol = Convert.ToInt32(datos.Lector["IDRol"]),
+                            Descripcion = datos.Lector["DescripcionRol"].ToString()
+                        }
                     };
 
-                    usuarios.Add(usuario);
-                }
+                        usuarios.Add(usuario);
+                    }
 
                 return usuarios; // Devuelve la lista de usuarios
-            }
+                }
             catch (Exception ex)
             {
                 throw ex; // Considera registrar el error o manejarlo de manera más específica
@@ -127,7 +132,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios WHERE IDUsuario = @IDUsuario");
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios INNER JOIN Roles ON Usuarios.IDRol = Roles.IDRol WHERE IDUsuario = @IDUsuario");
                 datos.setearParametro("@IDUsuario", idUsuario);
 
                 datos.ejecutarLectura();
@@ -144,7 +149,11 @@ namespace negocio
                         DNI = datos.Lector["DNI"].ToString(),
                         Email = datos.Lector["Email"].ToString(),
                         Telefono = datos.Lector["Telefono"].ToString(),
-                        IDRol = Convert.ToInt32(datos.Lector["IDRol"])
+                        Rol = new Rol
+                        {
+                            IDRol = Convert.ToInt32(datos.Lector["IDRol"]),
+                            Descripcion = datos.Lector["DescripcionRol"].ToString()
+                        }
                     };
 
                     return usuario;
@@ -354,14 +363,14 @@ namespace negocio
                     if (!Convert.IsDBNull(datos.Lector["estado"]))
                     {
                         // Convertir el valor a bool
-                        bool estado = (bool)datos.Lector["estado"];                      
+                        bool estado = (bool)datos.Lector["estado"];
                         resultado = estado; // Devuelve true si estado es 1, false si estado es 0
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
@@ -734,5 +743,5 @@ namespace negocio
 
     }
 
-    }
+}
 

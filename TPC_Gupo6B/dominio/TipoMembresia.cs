@@ -15,5 +15,10 @@ namespace TPC_GayolSofia.dominio
         private float Valor { get; set; }
         private int Duracion { get; set; }
         private bool Estado { get; set; }
+
+        public override string ToString()
+        {
+            return Descripcion;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace negocio
 {
     public class LibroNegocio
     {
-        
+        //listar
         public List<Libro> listar()
         {
             List<Libro> lista = new List<Libro>();
@@ -65,75 +65,37 @@ namespace negocio
                 throw ex;
             }
         }
-        /*
-        public List<Libro> listarConSP()
+
+
+        //contar disponibles
+        public int ContarLibrosDisponibles()
         {
-            List<Libro> lista = new List<Libro>();
+            int cantidadDisponibles = 0;
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
+                datos.setearConsulta("SELECT COUNT(*) FROM Libro WHERE Disponibles > 0 AND Estado = 1;");
 
-                //datos.setearConsulta("SELECT a.Id, a.Codigo, a.Nombre, a.Descripcion, a.Precio, m.Id as IdMarca, m.Descripcion as DescripcionM, c.Id as IdCategoria, c.Descripcion as DescripcionC, i.Id as IdImagen, i.ImagenUrl as Imagen FROM ARTICULOS a LEFT JOIN CATEGORIAS c ON c.Id = a.IdCategoria LEFT JOIN MARCAS m ON m.Id = a.IdMarca LEFT JOIN IMAGENES i ON i.IdArticulo = a.Id ");
-                //datos.ejecutarLectura();
-
-                datos.setearProcedimiento("storedListar");
                 datos.ejecutarLectura();
 
-                while (datos.Lector.Read())
+                if (datos.Lector.Read())
                 {
-                    int idArticulo = (int)datos.Lector["Id"];
-                    string codigoArticulo = (string)datos.Lector["Codigo"];
-
-                    Libro articulo = lista.FirstOrDefault(a => a.Codigo == codigoArticulo);
-
-                    if (articulo == null)
-                    {
-                        articulo = new Libro();
-                        articulo.Id = (int)datos.Lector["Id"];
-                        articulo.Codigo = (string)datos.Lector["Codigo"];
-                        articulo.Nombre = (string)datos.Lector["Nombre"];
-                        articulo.Descripcion = (string)datos.Lector["Descripcion"];
-                        articulo.Precio = (decimal)datos.Lector["Precio"];
-
-                        //Marca
-                        articulo.Marca = new Marca();
-                        articulo.Marca.Id = (int)datos.Lector["IdMarca"];
-                        articulo.Marca.Descripcion = (string)datos.Lector["DescripcionM"];
-
-                        //Categoria
-                        articulo.Categoria = new Categoria();
-                        articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                        articulo.Categoria.Descripcion = (string)datos.Lector["DescripcionC"];
-
-                        // Inicializar la lista de imágenes
-                        articulo.Imagenes = new List<Imagen>();
-
-                        // Agregar artículo a la lista
-                        lista.Add(articulo);
-                    }
-                                        
-                    if (!(datos.Lector["IdImagen"] is DBNull))
-                    {
-                        Imagen imagen = new Imagen();
-                        imagen.Id = (int)datos.Lector["IdImagen"];
-                        imagen.IdArticulo = (int)datos.Lector["Id"];
-                        imagen.ImagenUrl = (string)datos.Lector["Imagen"];
-                                                
-                        articulo.Imagenes.Add(imagen);
-                    }
+                    cantidadDisponibles = (int)datos.Lector[0];
                 }
-
-                datos.cerrarConexion();
-                return lista;
-
+                return cantidadDisponibles;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; 
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
-
+        /*
+        
         public List<Libro> filtrar(string campo, string criterio, string filtro)
         {
             List<Libro> lista = new List<Libro>();

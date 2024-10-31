@@ -15,6 +15,7 @@ namespace TPC_GayolSofia.dominio
         private DateTime? FechaFin { get; set; }
         private Pago Pago { get; set; }
         private bool Estado {  get; set; }
+
         
     }
 }

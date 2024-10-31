@@ -16,3 +16,9 @@ C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_Gayol
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\dominio\obj\Debug\dominio.dll
 C:\Users\Guido\Desktop\UTN\Programacion III\Actividad TPC - Biblioteca\TPC_GayolSofia\TPC_Gupo6B\dominio\obj\Debug\dominio.pdb
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\bin\Debug\dominio.dll
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\bin\Debug\dominio.pdb
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\obj\Debug\dominio.dll
+C:\Users\sofii\Documents\Facu\3er Cuatrimestre\Programacion III\TPC\Proyecto Final\TPC_Gupo6B\dominio\obj\Debug\dominio.pdb

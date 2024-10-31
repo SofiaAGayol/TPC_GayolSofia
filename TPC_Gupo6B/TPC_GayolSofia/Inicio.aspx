@@ -15,7 +15,9 @@
         <div class="row text-white">
             <div class="col-md-3 mb-4">
                 <div class="card bg-primary p-3">
-                    <h4>982</h4>
+                    <h4>
+                        <asp:Label ID="lblCantidadClientesActivos" runat="server" Text="0"></asp:Label>
+                    </h4>
                     <p>Clientes activos</p>
                 </div>
             </div>
@@ -27,7 +29,9 @@
             </div>
             <div class="col-md-3 mb-4">
                 <div class="card bg-success p-3">
-                    <h4>73</h4>
+                    <h4>
+                        <asp:Label ID="lblCantidadLibrosDisponibles" runat="server"></asp:Label>
+                    </h4>
                     <p>Libros disponibles</p>
                 </div>
             </div>

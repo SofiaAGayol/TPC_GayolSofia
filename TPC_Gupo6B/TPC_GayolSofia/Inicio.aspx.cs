@@ -37,6 +37,28 @@ namespace TPC_GayolSofia
                 Response.Redirect("Login.aspx");
             }
             */
+
+            
+            if (!IsPostBack)
+            {
+                //mostrar clientes activos
+                ClienteNegocio clienteNegocio = new ClienteNegocio();
+                int cantidadClientesActivos = clienteNegocio.ContarClientesActivos();
+                lblCantidadClientesActivos.Text = cantidadClientesActivos.ToString();
+
+                //mostrar libros activos
+                LibroNegocio libroNegocio = new LibroNegocio();
+                int cantidadLibrosDisponibles = libroNegocio.ContarLibrosDisponibles();
+
+                if (lblCantidadLibrosDisponibles != null)
+                {
+                    lblCantidadLibrosDisponibles.Text = cantidadLibrosDisponibles.ToString();
+                }
+                else
+                {
+                    throw new Exception("lblCantidadLibrosDisponibles es null.");
+                }
+            }
         }
 
 
