@@ -35,7 +35,7 @@ namespace TPC_GayolSofia
 
                 UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
                 Usuario usuario = new Usuario();
-                usuario= usuarioNegocio.ObtenerUsuarioPorId(id);
+                usuario = usuarioNegocio.ObtenerUsuarioPorId(id);
 
                 txtUsuario.Text = usuario.NombreUsuario;
                 txtClave.Text = usuario.Clave;
@@ -90,7 +90,19 @@ namespace TPC_GayolSofia
             string telefono = txtTelefono.Text;
             int idRol = Convert.ToInt32(ddlRol.SelectedValue);
 
+
+
+
+            //SI ES QUE TIENE UN ID EN LA URL SIGNIFICA QUE SE VÁ A MODIFICAR
+            if (Request.QueryString["id"] != null)
+            {
+                int id = int.Parse(Request.QueryString["id"]);
+                LblPrueba.Text = id.ToString();
+                usuarioNegocio.Modificar(id, nombre);
+            }
             string mensajeError = string.Empty;
+
+
 
             if (string.IsNullOrEmpty(usuario))
             {
@@ -140,18 +152,14 @@ namespace TPC_GayolSofia
                 return;
             }
 
-            if (Request.QueryString["id"] != null)
+            if (Request.QueryString["id"] == null)
             {
-                int id = int.Parse(Request.QueryString["id"]);
-                usuarioNegocio.Modificar(id, usuario, clave, nombre, apellido, dni, email, telefono, idRol);
-            }
-            else
-            {
+                //SI LLEGÓ HASTA ACÁ ES QUE SE VÁ A AGREGAR
                 usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);
                 pnlMensaje.Style["display"] = "block";
-            }
 
-            divAlert.Style["display"] = "none";
+                divAlert.Style["display"] = "none";
+            }
         }
 
 
@@ -185,6 +193,11 @@ namespace TPC_GayolSofia
 
             negocio.RestablecerLogica(id);
             Response.Redirect("Usuarios.aspx");
+        }
+
+        protected void Validaciones()
+        {
+
         }
     }
 }

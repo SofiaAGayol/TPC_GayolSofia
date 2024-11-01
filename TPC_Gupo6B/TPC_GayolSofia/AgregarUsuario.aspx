@@ -57,6 +57,9 @@
             </div>
         </div>
     </div>
+   
+    <asp:Label ID="LblPrueba" runat="server" Text="Label"></asp:Label>
+
     <div class="mx-auto justify-content-center mt-5 alert alert-danger" id="divAlert" style="display: none;" runat="server">
     <span id="alertMessage" runat="server"></span>
 </div>

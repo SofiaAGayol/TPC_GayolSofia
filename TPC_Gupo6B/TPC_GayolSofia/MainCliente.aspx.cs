@@ -77,7 +77,7 @@ namespace TPC_GayolSofia
         private void CargarLibros()
         {
             LibroNegocio negocio = new LibroNegocio();
-            List<Libro> listaLibros = negocio.listar();
+            List<Libro> listaLibros = negocio.Listar();
             RepeaterArticulos.DataSource = listaLibros;
             RepeaterArticulos.DataBind();
         }

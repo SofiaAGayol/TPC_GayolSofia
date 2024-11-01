@@ -131,7 +131,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios INNER JOIN Roles ON Usuarios.IDRol = Roles.IDRol WHERE IDUsuario = @IDUsuario");
+                datos.setearConsulta("SELECT Usuarios.IDUsuario, Usuarios.Usuario, Usuarios.Clave, Usuarios.Nombre, Usuarios.Apellido, Usuarios.DNI, Usuarios.Email, Usuarios.Telefono, Rol.IDRol, Rol.Descripcion AS DescripcionRol FROM Usuarios INNER JOIN Rol ON Usuarios.IDRol = Rol.IDRol WHERE Usuarios.IDUsuario = @IDUsuario");
                 datos.setearParametro("@IDUsuario", idUsuario);
 
                 datos.ejecutarLectura();
@@ -285,7 +285,7 @@ namespace negocio
             return true;
         }
 
-
+        /*
         public bool Modificar(int idUsuario, string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -317,7 +317,32 @@ namespace negocio
 
             return true;
         }
+        */
+        public bool Modificar(int idUsuario, string usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Usuario = @Usuario WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
+                datos.setearParametro("@Usuario", usuario);
+
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
         public bool BajaLogica(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();

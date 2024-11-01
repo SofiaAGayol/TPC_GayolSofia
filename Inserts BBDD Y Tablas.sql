@@ -1,165 +1,3 @@
-USE master;
-
-ALTER DATABASE BIBLIO_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-IF DB_ID('BIBLIO_DB') IS NOT NULL
-BEGIN
-    DROP DATABASE BIBLIO_DB;
-END;
-
-CREATE DATABASE BIBLIO_DB;
-GO
-USE BIBLIO_DB;
-GO
-
--- Tabla Nacionalidad
-CREATE TABLE Nacionalidad (
-    IdNacionalidad INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion NVARCHAR(100)
-);
-GO
-
--- Tabla Usuarios
-CREATE TABLE Usuarios (
-    IDUsuario INT IDENTITY(1,1) PRIMARY KEY,
-    Usuario NVARCHAR(50) NOT NULL,
-    Clave NVARCHAR(50) NOT NULL,
-    Nombre NVARCHAR(50) NOT NULL,
-    Apellido NVARCHAR(50) NOT NULL,
-    DNI CHAR(8) NOT NULL,
-    Email NVARCHAR(100),
-    Telefono NVARCHAR(15),
-    IDRol INT NOT NULL,
-    CONSTRAINT FK_Usuarios_Rol FOREIGN KEY (IDRol) REFERENCES Rol(IDRol)
-);
-GO
-
--- Tabla Roles
-CREATE TABLE Rol (
-    IDRol INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion NVARCHAR(100)
-);
-GO
-
--- Tabla TipoMembresia
-CREATE TABLE TipoMembresia (
-    IDTipoMembresia INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion NVARCHAR(255),
-    Costo DECIMAL(10, 2),
-    LibrosALaVez INT,
-    LibrosXMes INT,
-    DuracionMeses INT,
-    Estado BIT
-);
-GO
-
--- Tabla MetodoDePago
-CREATE TABLE MetodoDePago(
-    IDMetodoPago INT IDENTITY(1,1) PRIMARY KEY,
-    IDUsuario INT,
-    TipoTarjeta NVARCHAR(50),
-    NroTarjeta NVARCHAR(20),
-    Vencimiento DATE,
-    Cod NVARCHAR(10),
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
-);
-GO
-
--- Tabla Pago
-CREATE TABLE Pago (
-    IDPago INT IDENTITY(1,1) PRIMARY KEY,
-    IDUsuario INT,
-    IDTipoMembresia INT,
-    IDMetodoPago INT,
-    FechaPago DATE,
-    Monto DECIMAL(10, 2),
-    Estado BIT,
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
-    FOREIGN KEY (IDTipoMembresia) REFERENCES TipoMembresia(IDTipoMembresia),
-    FOREIGN KEY (IDMetodoPago) REFERENCES MetodoDePago(IDMetodoPago)
-);
-GO
-
--- Tabla Membresias
-CREATE TABLE Membresias (
-    IDMembresia INT IDENTITY(1,1) PRIMARY KEY,
-    IDUsuario INT,
-    IDTipoMembresia INT,
-    FechaInicio DATE,
-    FechaFin DATE,
-    IDPago INT,
-    Estado BIT,
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
-    FOREIGN KEY (IDTipoMembresia) REFERENCES TipoMembresia(IDTipoMembresia),
-    FOREIGN KEY (IDPago) REFERENCES Pago(IDPago)
-);
-GO
-
--- Tabla Categoria
-CREATE TABLE Categoria (
-    IDCategoria INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion NVARCHAR(100)
-);
-GO
-
--- Tabla Autores
-CREATE TABLE Autores (
-    IDAutor INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100),
-    Apellido NVARCHAR(100),
-    IdNacionalidad INT,
-    BestSeller NVARCHAR(100),
-    FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidad(IdNacionalidad)
-);
-GO
---ACTUALIZACION DE DB
--- ALTER TABLE Usuarios
---     ADD Estado BIT DEFAULT 1;
--- GO
--- UPDATE Usuarios
--- SET Estado = 1;  
--- GO
-
--- Tabla Libro
-CREATE TABLE Libro (
-    IDLibro INT IDENTITY(1,1) PRIMARY KEY,
-    Titulo NVARCHAR(255),
-    IDAutor INT,
-    IDCategoria INT,
-    FechaPublicacion DATE,
-    Ejemplares INT,
-    Disponibles INT,
-    Estado BIT,
-    ImagenURL NVARCHAR(255),
-    FOREIGN KEY (IDAutor) REFERENCES Autores(IDAutor),
-    FOREIGN KEY (IDCategoria) REFERENCES Categoria(IDCategoria)
-);
-GO
-
--- Tabla Prestamo
-CREATE TABLE Prestamo (
-    IDPrestamo INT IDENTITY(1,1) PRIMARY KEY,
-    IDLibro INT,
-    IDUsuario INT,
-    FechaInicio DATE,
-    FechaFin DATE,
-    Devuelto BIT,
-    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
-);
-GO
-
--- Registro de ingresos
-CREATE TABLE Ingresos (
-    IDIngreso INT IDENTITY(1,1) PRIMARY KEY,
-    IDUsuario INT,
-    FechaIngreso DATETIME,
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
-);
-GO
-
-
-----------------------------------------------------------INSERTS---------------------
-
 
 INSERT INTO Nacionalidad (Descripcion) VALUES
 ('Argentina'),
@@ -168,27 +6,34 @@ INSERT INTO Nacionalidad (Descripcion) VALUES
 ('Francia'),
 ('Rusia');
 
+-- Insertar Roles
 INSERT INTO Rol (Descripcion) VALUES
 ('Gerente'),
 ('Asistente'),
 ('Vendedor');
 
+-- Insertar Tipos de Membresía
 INSERT INTO TipoMembresia (Descripcion, Costo, LibrosALaVez, LibrosXMes, DuracionMeses, Estado) VALUES
 ('Básica', 100.00, 2, 5, 12, 1),
 ('Premium', 200.00, 5, 15, 12, 1);
 
+-- Insertar Usuarios
 INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol) VALUES
 ('admin', 'admin', 'Guido', 'Serco', '12345678', 'guido.serco@example.com', '123456789', 1);
 
+-- Insertar Método de Pago
 INSERT INTO MetodoDePago (IDUsuario, TipoTarjeta, NroTarjeta, Vencimiento, Cod) VALUES
 (1, 'Visa', '4111111111111111', '2025-12-31', '123');
 
+-- Insertar Pago
 INSERT INTO Pago (IDUsuario, IDTipoMembresia, IDMetodoPago, FechaPago, Monto, Estado) VALUES
 (1, 1, 1, GETDATE(), 100.00, 1);
 
+-- Insertar Membresías
 INSERT INTO Membresias (IDUsuario, IDTipoMembresia, FechaInicio, FechaFin, IDPago, Estado) VALUES
 (1, 1, GETDATE(), DATEADD(MONTH, 12, GETDATE()), 1, 1);
 
+-- Insertar Categorías
 INSERT INTO Categoria (Descripcion) VALUES
 ('Novela'),
 ('Ciencia Ficción'),
@@ -196,8 +41,9 @@ INSERT INTO Categoria (Descripcion) VALUES
 ('Historia'),
 ('Biografía');
 
+-- Insertar Autores
 INSERT INTO Autores (Nombre, Apellido, IdNacionalidad, BestSeller) VALUES
-('Gabriel', 'García Márquez', 2, 'Cien años de soledad'),
+('Gabriel', 'García Márquez', 1, 'Cien años de soledad'),
 ('George', 'Orwell', 3, '1984'),
 ('Julio', 'Cortázar', 1, 'Rayuela'),
 ('Victor', 'Hugo', 4, 'Los Miserables'),
@@ -207,11 +53,12 @@ INSERT INTO Autores (Nombre, Apellido, IdNacionalidad, BestSeller) VALUES
 ('Antonio', 'Serrano', 3, 'Los ojos del perro siberiano'),
 ('J.K.', 'Rowling', 4, 'Harry Potter y la piedra filosofal'),
 ('Fernando', 'Gaitán', 5, 'Crónicas del engaño'),
-('Horacio', 'Quiroga', 6, 'Cuentos de la selva'),
-('Jorge', 'Bucay', 7, 'El camino de la autodependencia'),
-('Aldous', 'Huxley', 8, 'Un mundo feliz'),
-('Mark', 'Twain', 9, 'Las aventuras de Tom Sawyer');
+('Horacio', 'Quiroga', 1, 'Cuentos de la selva'),
+('Jorge', 'Bucay', 1, 'El camino de la autodependencia'),
+('Aldous', 'Huxley', 2, 'Un mundo feliz'),
+('Mark', 'Twain', 1, 'Las aventuras de Tom Sawyer');
 
+-- Insertar Libros
 INSERT INTO Libro (Titulo, IDAutor, IDCategoria, FechaPublicacion, Ejemplares, Disponibles, Estado, ImagenURL) VALUES
 ('Cien años de soledad', 1, 1, '1967-05-30', 10, 10, 1, 'https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg'),
 ('1984', 2, 2, '1949-06-08', 8, 8, 1, 'https://images.cdn2.buscalibre.com/fit-in/360x360/33/f9/33f911d9a7ba713874725a96c341733f.jpg'),

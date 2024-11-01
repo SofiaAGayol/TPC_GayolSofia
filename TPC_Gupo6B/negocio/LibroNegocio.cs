@@ -13,9 +13,8 @@ namespace negocio
 {
     public class LibroNegocio
     {
-        
-        //listar
-        public List<Libro> listar()
+
+        public List<Libro> Listar()
         {
             List<Libro> lista = new List<Libro>();
             AccesoDatos datos = new AccesoDatos();
@@ -23,8 +22,8 @@ namespace negocio
             try
             {
                 datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, " +
-                                     "a.IDAutor, a.Nombre as NombreAutor, a.Apellido as ApellidoAutor, " +
-                                     "c.IDCategoria, c.Descripcion as DescripcionCategoria " +
+                                     "a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, " +
+                                     "c.IDCategoria, c.Descripcion AS DescripcionCategoria " +
                                      "FROM Libro l " +
                                      "LEFT JOIN Autores a ON a.IDAutor = l.IDAutor " +
                                      "LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria " +
@@ -34,36 +33,44 @@ namespace negocio
 
                 while (datos.Lector.Read())
                 {
-                    Libro libro = new Libro();
-                    libro.IdLibro = (int)datos.Lector["IdLibro"];
-                    libro.Titulo = (string)datos.Lector["Titulo"];
-                    libro.AñoPublicacion = ((DateTime)datos.Lector["FechaPublicacion"]).Year;
-                    libro.Ejemplares = (int)datos.Lector["Ejemplares"];
-                    libro.Disponibles = (int)datos.Lector["Disponibles"];
-                    libro.Estado = datos.Lector["Estado"] is DBNull ? false : (bool)datos.Lector["Estado"]; ;
-                    if (!(datos.Lector["ImagenURL"] is DBNull))
-                        libro.Imagen = (string)datos.Lector["ImagenURL"];
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"], // Asegúrate de que esto está correctamente asignado
+                        Ejemplares = (int)datos.Lector["Ejemplares"],
+                        Disponibles = (int)datos.Lector["Disponibles"],
+                        Estado = (bool)datos.Lector["Estado"],
+                        Imagen = datos.Lector["ImagenURL"] != DBNull.Value ? datos.Lector["ImagenURL"].ToString() : null,
 
-                    // Asignar autor
-                    libro.Autor = new Autor();
-                    libro.Autor.IdAutor = (int)datos.Lector["IDAutor"];
-                    libro.Autor.Nombre = (string)datos.Lector["NombreAutor"];
-                    libro.Autor.Apellido = (string)datos.Lector["ApellidoAutor"];
+                        // Asignar autor
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        },
 
-                    // Asignar categoría
-                    libro.Categoria = new Categoria();
-                    libro.Categoria.IdCategoria = (int)datos.Lector["IDCategoria"];
-                    libro.Categoria.Descripcion = (string)datos.Lector["DescripcionCategoria"];
+                        // Asignar categoría
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)datos.Lector["IDCategoria"],
+                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
+                        }
+                    };
 
                     lista.Add(libro);
                 }
 
-                datos.cerrarConexion();
                 return lista;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; // Considera manejar la excepción de manera más adecuada
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
 
@@ -142,7 +149,7 @@ namespace negocio
                         Titulo = datos.Lector["Titulo"].ToString(),
                         Autor = autorNegocio.ObtenerAutorPorId((int)datos.Lector["AutorId"]), 
                         Categoria = categoriaNegocio.ObtenerCategoriaPorId((int)datos.Lector["CategoriaId"]),
-                        AñoPublicacion = (int)datos.Lector["AñoPublicacion"],
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
                         Ejemplares = (int)datos.Lector["Ejemplares"],
                         Disponibles = (int)datos.Lector["Disponibles"],
                         Estado = (bool)datos.Lector["Estado"], 

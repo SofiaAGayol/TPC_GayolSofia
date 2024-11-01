@@ -123,6 +123,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Inicio.aspx" />
+    <Content Include="Libros.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="MainCliente.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -227,6 +228,13 @@
     </Compile>
     <Compile Include="Inicio.aspx.designer.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Libros.aspx.cs">
+      <DependentUpon>Libros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Libros.aspx.designer.cs">
+      <DependentUpon>Libros.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
