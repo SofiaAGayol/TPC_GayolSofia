@@ -41,28 +41,59 @@ namespace TPC_GayolSofia
             
             if (!IsPostBack)
             {
-                //mostrar clientes activos
-                ClienteNegocio clienteNegocio = new ClienteNegocio();
-                int cantidadClientesActivos = clienteNegocio.ContarClientesActivos();
-                lblCantidadClientesActivos.Text = cantidadClientesActivos.ToString();
-
-                //mostrar libros activos
-                LibroNegocio libroNegocio = new LibroNegocio();
-                int cantidadLibrosDisponibles = libroNegocio.ContarLibrosDisponibles();
-
-                if (lblCantidadLibrosDisponibles != null)
-                {
-                    lblCantidadLibrosDisponibles.Text = cantidadLibrosDisponibles.ToString();
-                }
-                else
-                {
-                    throw new Exception("lblCantidadLibrosDisponibles es null.");
-                }
+                CargarClientesActivos();
+                CargarLibrosDisponibles();
+                CargarLibrosEnPrestamo();
+                CargarBalance();
+                CargarCategoriasPrincipales();
             }
         }
 
+        private void CargarClientesActivos()
+        {
+            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            int cantidadClientesActivos = clienteNegocio.ContarClientesActivos();
+            lblCantidadClientesActivos.Text = cantidadClientesActivos.ToString();
+        }
 
+        private void CargarLibrosDisponibles()
+        {
+            LibroNegocio libroNegocio = new LibroNegocio();
+            int cantidadLibrosDisponibles = libroNegocio.ContarLibrosDisponibles();
 
+            if (lblCantidadLibrosDisponibles != null)
+            {
+                lblCantidadLibrosDisponibles.Text = cantidadLibrosDisponibles.ToString();
+            }
+            else
+            {
+                throw new Exception("lblCantidadLibrosDisponibles es null.");
+            }
+        }
+
+        private void CargarLibrosEnPrestamo()
+        {
+            LibroNegocio libroNegocio = new LibroNegocio();
+            int librosEnPrestamo = libroNegocio.ContarLibrosEnPrestamo();
+
+            if (librosEnPrestamo > 0)
+            {
+                gvLibrosEnPrestamo.DataSource = librosEnPrestamo; 
+                gvLibrosEnPrestamo.DataBind();
+            }
+        }
+
+        private void CargarBalance()
+        {
+        }
+
+        private void CalcularBalance()
+        {
+        }
+
+        private void CargarCategoriasPrincipales()
+        {
+        }
 
 
     }

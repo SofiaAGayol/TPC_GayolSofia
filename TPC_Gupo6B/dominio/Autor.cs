@@ -13,7 +13,12 @@ namespace dominio
         public string Apellido { get; set; }
         public string Nacionalidad { get; set; }
         public string BestSeller { get; set; }
-      
+
+        public override string ToString()
+        {
+            string nombreCompleto = Nombre + Apellido;
+            return nombreCompleto;
+        }
 
     }
 }

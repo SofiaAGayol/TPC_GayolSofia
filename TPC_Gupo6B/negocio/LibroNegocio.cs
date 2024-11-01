@@ -13,6 +13,7 @@ namespace negocio
 {
     public class LibroNegocio
     {
+        
         //listar
         public List<Libro> listar()
         {
@@ -66,7 +67,6 @@ namespace negocio
             }
         }
 
-
         //contar disponibles
         public int ContarLibrosDisponibles()
         {
@@ -94,6 +94,78 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        
+        //contar prestados
+        public int ContarLibrosEnPrestamo()
+        {
+            int cantidadEnPrestamo = 0;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Libro WHERE Estado = 0;");
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    cantidadEnPrestamo = (int)datos.Lector[0];
+                }
+                return cantidadEnPrestamo;
+            }
+            catch (Exception ex)
+            {
+                throw ex; 
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Libro> ObtenerLibrosEnPrestamo()
+        {
+            List<Libro> librosEnPrestamo = new List<Libro>();
+            AccesoDatos datos = new AccesoDatos();
+            AutorNegocio autorNegocio = new AutorNegocio(); // Instancia de AutorNegocio
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio(); // Instancia de CategoriaNegocio
+
+            try
+            {
+                datos.setearConsulta("SELECT IdLibro, Titulo, AutorId, CategoriaId, AñoPublicacion, Ejemplares, Disponibles, Estado, Imagen FROM Libro WHERE Estado = 0;");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IdLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Autor = autorNegocio.ObtenerAutorPorId((int)datos.Lector["AutorId"]), 
+                        Categoria = categoriaNegocio.ObtenerCategoriaPorId((int)datos.Lector["CategoriaId"]),
+                        AñoPublicacion = (int)datos.Lector["AñoPublicacion"],
+                        Ejemplares = (int)datos.Lector["Ejemplares"],
+                        Disponibles = (int)datos.Lector["Disponibles"],
+                        Estado = (bool)datos.Lector["Estado"], 
+                        Imagen = datos.Lector["Imagen"].ToString()
+                    };
+
+                    librosEnPrestamo.Add(libro);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener libros en préstamo: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return librosEnPrestamo;
+        }
+
+
+
         /*
         
         public List<Libro> filtrar(string campo, string criterio, string filtro)

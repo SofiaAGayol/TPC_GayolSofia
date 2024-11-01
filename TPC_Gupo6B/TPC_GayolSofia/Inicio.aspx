@@ -12,22 +12,24 @@
 
     <div class="container mt-4">
         <!-- Resumen de informes -->
-        <div class="row text-white">
-            <div class="col-md-3 mb-4">
-                <div class="card bg-primary p-3">
+        <div class="row text-white heigh d-flex align-items-stretch">
+            <div class="col-md-3 mb-4 h-100">
+                <div class="card bg-primary h-100 p-3">
                     <h4>
                         <asp:Label ID="lblCantidadClientesActivos" runat="server" Text="0"></asp:Label>
                     </h4>
-                    <p>Clientes activos</p>
+                    <p>Clientes activos
+                        <br>
+                    </p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-4 h-100">
                 <div class="card bg-danger p-3">
                     <h4>45</h4>
                     <p>Libros en lectura</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-4 h-100">
                 <div class="card bg-success p-3">
                     <h4>
                         <asp:Label ID="lblCantidadLibrosDisponibles" runat="server"></asp:Label>
@@ -35,8 +37,8 @@
                     <p>Libros disponibles</p>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
-                <div class="card bg-warning p-3">
+            <div class="col-md-3 mb-4 h-100">
+                <div class="card bg-warning p-3 h-100">
                     <h4>168</h4>
                     <p>Paquetes activos</p>
                 </div>
@@ -45,14 +47,34 @@
 
         <!-- Balance de interes -->
         <div class="card bg-dark text-white mb-4 p-3">
-            <h5>Balance mensual: total de libros leidos y devueltos</h5>
+            <h5>Balance: libros leidos y devueltos</h5>
             <h3>$1,500.00</h3>
-            <p>Tuesday, February 2nd 2024, 9:24 AM</p>
-            <button class="btn btn-primary">Ver informes completos</button>
+            <p>Fecha desde</p>
+            <p>Fecha hasta</p>
+        </div>
+        <div class="card bg-dark text-white mb-4 p-3">
+            <h5>Categorias principales</h5>
+            <h3>$1,500.00</h3>
+            <p>Total Reservas</p>
         </div>
 
         <!-- Libros en prestamo -->
         <h4>Libros en prestamo</h4>
+        <asp:GridView ID="gvLibrosEnPrestamo" runat="server" CssClass="table table-dark table-bordered">
+            <Columns>
+                <asp:BoundField DataField="Titulo" HeaderText="Libro" />
+                <asp:BoundField DataField="Autor" HeaderText="Autor" />
+                <asp:BoundField DataField="FechaSolicitud" HeaderText="Fecha Solicitud" />
+                <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha Vencimiento" />
+                <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                <asp:TemplateField HeaderText="Notificar">
+                    <ItemTemplate>
+                        <button class="btn btn-outline-light btn-sm">Activo</button>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
+        
         <div class="table-responsive">
             <table class="table table-dark table-bordered">
                 <thead>

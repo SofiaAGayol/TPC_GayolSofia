@@ -96,7 +96,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public int ObtenerIdUsuario(string nombreUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -126,7 +125,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
         public Usuario ObtenerUsuarioPorId(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -173,9 +171,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-
-
-
         public bool ExisteUsuario(string usuario)
         {
             AccesoDatos datos = new AccesoDatos();
