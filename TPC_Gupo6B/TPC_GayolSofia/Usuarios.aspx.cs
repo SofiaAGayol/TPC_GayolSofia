@@ -27,11 +27,6 @@ namespace TPC_GayolSofia
             Dgv_Usuarios.DataBind();
         }
 
-        public string ObtenerNombreRol(int IDRol)
-        {
-            RolNegocio rolNegocio = new RolNegocio();
-            return rolNegocio.NombreRol(IDRol);
-        }
 
         protected void BtnAgregarUsuario_Click(object sender, EventArgs e)
         {

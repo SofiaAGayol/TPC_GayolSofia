@@ -16,9 +16,10 @@ namespace TPC_GayolSofia.dominio
         public string Email { get; set; }
         public string Telefono { get; set; }
         public Rol Rol { get; set; }
+        public bool Estado { get; set; }
 
         public Usuario() { }
-        public Usuario(int idUsuario, string nombreUsuario, string clave, string nombre, string apellido, string dni, string email, string telefono, Rol rol)
+        public Usuario(int idUsuario, string nombreUsuario, string clave, string nombre, string apellido, string dni, string email, string telefono, Rol rol, bool estado)
         {
             IdUsuario = idUsuario;
             NombreUsuario = nombreUsuario;
@@ -29,6 +30,8 @@ namespace TPC_GayolSofia.dominio
             Email = email;
             Telefono = telefono;
             Rol = rol;
+            Estado = estado;
+
         }
     }
 }

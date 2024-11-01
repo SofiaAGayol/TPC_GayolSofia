@@ -22,7 +22,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, u.IDRol, r.Descripcion AS DescripcionRol FROM Usuarios u JOIN Rol r ON u.IDRol = r.IDRol");
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, u.IDRol, Estado, r.Descripcion AS DescripcionRol FROM Usuarios u JOIN Rol r ON u.IDRol = r.IDRol");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -41,7 +41,8 @@ namespace negocio
                         {
                             IDRol = Convert.ToInt32(datos.Lector["IDRol"]),
                             Descripcion = datos.Lector["DescripcionRol"].ToString()
-                        }
+                        },
+                        Estado = Convert.ToBoolean(datos.Lector["Estado"])
                     };
 
                         usuarios.Add(usuario);
