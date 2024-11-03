@@ -102,6 +102,16 @@
 
     </nav>
 
+    <asp:DropDownList ID="ddlSortBy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlSortBy_SelectedIndexChanged" CssClass="form-select form-select-sm my-2">
+        <asp:ListItem Text="Ordenar por Autor Asc" Value="AutorAsc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Autor Desc" Value="AutorDesc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Nombre Asc" Value="NombreAsc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Nombre Desc" Value="NombreDesc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Categoría Asc" Value="CategoriaAsc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Categoría Desc" Value="CategoriaDesc"></asp:ListItem>
+    </asp:DropDownList>
+
+
     <%--No hay libros--%>
     <asp:Panel ID="PanelNoLibros" runat="server" Visible="false" CssClass="alert alert-info text-center mt-3">
         <i class="bi bi-info-circle-fill"></i>

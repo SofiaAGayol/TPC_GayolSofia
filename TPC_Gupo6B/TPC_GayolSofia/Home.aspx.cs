@@ -54,6 +54,49 @@ namespace TPC_GayolSofia
             }
         }
 
+        protected void ddlSortBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LibroNegocio negocio = new LibroNegocio();
+            List<Libro> listaLibros = negocio.Listar();
+
+            string sortBy = ddlSortBy.SelectedValue;
+
+            switch (sortBy)
+            {
+                case "AutorAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Autor.Nombre).ThenBy(l => l.Autor.Apellido).ToList();
+                    break;
+                case "AutorDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Autor.Nombre).ThenByDescending(l => l.Autor.Apellido).ToList();
+                    break;
+                case "NombreAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Titulo).ToList();
+                    break;
+                case "NombreDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Titulo).ToList();
+                    break;
+                case "CategoriaAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Categoria.Descripcion).ToList();
+                    break;
+                case "CategoriaDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Categoria.Descripcion).ToList();
+                    break;
+            }
+
+            if (listaLibros == null || listaLibros.Count == 0)
+            {
+                PanelNoLibros.Visible = true;
+                RepeaterArticulos.DataSource = null;
+                RepeaterArticulos.DataBind();
+            }
+            else
+            {
+                PanelNoLibros.Visible = false;
+                RepeaterArticulos.DataSource = listaLibros;
+                RepeaterArticulos.DataBind();
+            }
+        }
+
         protected void CargarLibros()
         {
             LibroNegocio negocio = new LibroNegocio();
