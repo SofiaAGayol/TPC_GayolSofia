@@ -4,9 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using dominio;
+using static System.Net.Mime.MediaTypeNames;
+using TPC_GayolSofia.dominio;
 using static System.Net.WebRequestMethods;
 
 namespace negocio
@@ -37,13 +40,12 @@ namespace negocio
                     {
                         IdLibro = (int)datos.Lector["IDLibro"],
                         Titulo = datos.Lector["Titulo"].ToString(),
-                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"], // Asegúrate de que esto está correctamente asignado
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
                         Ejemplares = (int)datos.Lector["Ejemplares"],
                         Disponibles = (int)datos.Lector["Disponibles"],
                         Estado = (bool)datos.Lector["Estado"],
                         Imagen = datos.Lector["ImagenURL"] != DBNull.Value ? datos.Lector["ImagenURL"].ToString() : null,
 
-                        // Asignar autor
                         Autor = new Autor
                         {
                             IdAutor = (int)datos.Lector["IDAutor"],
@@ -51,7 +53,6 @@ namespace negocio
                             Apellido = datos.Lector["ApellidoAutor"].ToString()
                         },
 
-                        // Asignar categoría
                         Categoria = new Categoria
                         {
                             IdCategoria = (int)datos.Lector["IDCategoria"],
@@ -66,7 +67,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; // Considera manejar la excepción de manera más adecuada
+                throw ex;
             }
             finally
             {
@@ -74,7 +75,7 @@ namespace negocio
             }
         }
 
-        //contar disponibles
+        //Libros disponibles
         public int ContarLibrosDisponibles()
         {
             int cantidadDisponibles = 0;
@@ -102,7 +103,7 @@ namespace negocio
             }
         }
         
-        //contar prestados
+        //Libros prestados
         public int ContarLibrosEnPrestamo()
         {
             int cantidadEnPrestamo = 0;
@@ -133,8 +134,8 @@ namespace negocio
         {
             List<Libro> librosEnPrestamo = new List<Libro>();
             AccesoDatos datos = new AccesoDatos();
-            AutorNegocio autorNegocio = new AutorNegocio(); // Instancia de AutorNegocio
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio(); // Instancia de CategoriaNegocio
+            AutorNegocio autorNegocio = new AutorNegocio(); 
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio(); 
 
             try
             {
@@ -170,12 +171,10 @@ namespace negocio
 
             return librosEnPrestamo;
         }
-
-
-
-        /*
         
-        public List<Libro> filtrar(string campo, string criterio, string filtro)
+        //Filtros y busqueda
+        /*
+        public List<Libro> Filtrar(string campo, string criterio, string filtro)
         {
             List<Libro> lista = new List<Libro>();
             AccesoDatos datos = new AccesoDatos();
@@ -326,8 +325,7 @@ namespace negocio
                 throw ex;
             }
         }
-
-        public Libro buscarLibro(int articuloID)
+        public Libro BuscarLibro(int articuloID)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -369,9 +367,111 @@ namespace negocio
             }
 
             return articulo;
-        }
+        }*/
+        public List<Libro> LibrosPorAutor(int IdAutor)
+        {
+            List<Libro> lista = new List<Libro>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, c.IDCategoria, c.Descripcion AS DescripcionCategoria FROM Libro l LEFT JOIN Autores a ON a.IDAutor = l.IDAutor  LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria WHERE a.IDAutor = @IdAutor;");
 
-        public void agregar(Libro nuevo)
+                datos.setearParametro("@IdAutor", IdAutor);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
+                        Ejemplares = (int)datos.Lector["Ejemplares"],
+                        Disponibles = (int)datos.Lector["Disponibles"],
+                        Estado = (bool)datos.Lector["Estado"],
+                        Imagen= datos.Lector["ImagenURL"].ToString(),
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        },
+
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)datos.Lector["IDCategoria"],
+                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
+                        }
+                    };
+                    lista.Add(libro);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            return lista;
+        }
+        
+        public List<Libro> LibrosPorCategoria(int IdCategoria)
+        {
+            List<Libro> lista = new List<Libro>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, c.IDCategoria, c.Descripcion AS DescripcionCategoria FROM Libro l LEFT JOIN Autores a ON a.IDAutor = l.IDAutor  LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria WHERE c.IDCategoria = @IdCategoria;");
+
+                datos.setearParametro("@IdCategoria", IdCategoria);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
+                        Ejemplares = (int)datos.Lector["Ejemplares"],
+                        Disponibles = (int)datos.Lector["Disponibles"],
+                        Estado = (bool)datos.Lector["Estado"],
+                        Imagen= datos.Lector["ImagenURL"].ToString(),
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        },
+
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)datos.Lector["IDCategoria"],
+                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
+                        }
+                    };
+                    lista.Add(libro);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            return lista;
+        }
+        
+
+        //ABM
+        /*
+        public void Agregar(Libro nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             //int idGenerado = 0;
@@ -415,7 +515,7 @@ namespace negocio
 
         }
 
-        public void modificar(Libro articulo)
+        public void Modificar(Libro articulo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
@@ -440,9 +540,7 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        }
-
-        */
+        }*/
 
     }
 

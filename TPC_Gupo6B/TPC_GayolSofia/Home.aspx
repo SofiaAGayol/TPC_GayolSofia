@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 
+
     <%--Menu de navecgacion--%>
     <nav class="navbar navbar-dark bg-transparent fixed-top">
         <div class="container-fluid">
@@ -63,7 +64,9 @@
                             <asp:Repeater ID="RepeaterCategorias" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <a class="dropdown-item" href="#"><%# Eval("Descripcion") %></a>
+                                        <asp:LinkButton ID="LinkButtonCategoria" runat="server" CommandArgument='<%# Eval("IdCategoria") %>' OnClick="LinkButtonCategoria_Click" CssClass="dropdown-item">
+                                            <%# Eval("Descripcion") %>
+                                        </asp:LinkButton>
                                     </li>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -75,41 +78,60 @@
                             <asp:Repeater ID="RepeaterAutores" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <a class="dropdown-item" href="#"><%# Eval("Nombre") + " " + Eval("Apellido")%></a>
+                                        <asp:LinkButton ID="LinkButtonAutor" runat="server" CommandArgument='<%# Eval("IdAutor") %>' OnClick="LinkButtonAutor_Click" CssClass="dropdown-item">
+                                            <%# Eval("Nombre") + " " + Eval("Apellido") %>
+                                        </asp:LinkButton>
                                     </li>
                                 </ItemTemplate>
                             </asp:Repeater>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <asp:LinkButton ID="LinkButtonTodos" runat="server" OnClick="LinkButtonTodos_Click" CssClass="nav-link text-white">
+                            Ver Todos
+                        </asp:LinkButton>
+                    </li>
                 </ul>
             </div>
 
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Buscar libro" aria-label="Buscar">
+                <asp:TextBox class="form-control me-2" type="search" placeholder="Buscar libro" aria-label="Buscar" ID="filtro" runat="server" AutoPostBack="true" OnTextChanged="filtro_TextChanged" TextMode="Search" />
                 <button class="btn btn-outline-light" type="submit">Buscar</button>
             </form>
         </div>
+
     </nav>
 
+    <%--No hay libros--%>
+    <asp:Panel ID="PanelNoLibros" runat="server" Visible="false" CssClass="alert alert-info text-center mt-3">
+        <i class="bi bi-info-circle-fill"></i>
+        No hay libros para mostrar
+    </asp:Panel>
 
-    <%--Grid Libros--%>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <%--Libros--%>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
 
-        <asp:Repeater ID="RepeaterArticulos" runat="server">
-            <ItemTemplate>
-                <div class="col">
-                    <div class="card h-100">
-                        <asp:Image ID="Image1" alt="Imagen del libro" runat="server" CssClass="card-img-top" ImageUrl='<%# Eval("Imagen") %>' />
-                        <div class="card-body">
-                            <h5 class="card-title"><%# Eval("Titulo") %></h5>
-                            <p class="card-text"><%# Eval("Autor.Nombre") + " " + Eval("Autor.Apellido")%></p>
-                            <asp:Button ID="botonElegir" class="btn btn-primary" runat="server" Text="¡Ver Mas!" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonElegir_Click" />
+                <asp:Repeater ID="RepeaterArticulos" runat="server">
+                    <ItemTemplate>
+                        <div class="col">
+                            <div class="card h-100">
+                                <asp:Image ID="Image1" alt="Imagen del libro" runat="server" CssClass="card-img-top" ImageUrl='<%# Eval("Imagen") %>' />
+                                <div class="card-body">
+                                    <h5 class="card-title"><%# Eval("Titulo") %></h5>
+                                    <p class="card-text"><%# Eval("Autor.Nombre") + " " + Eval("Autor.Apellido")%></p>
+                                    <h5 class="card-title"><%# Eval("Categoria.Descripcion") %></h5>
+                                    <asp:Button ID="botonElegir" class="btn btn-primary" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonElegir_Click" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </ItemTemplate>
-        </asp:Repeater>
+                    </ItemTemplate>
+                </asp:Repeater>
 
-    </div>
+            </div>
+        </ContentTemplate>
+
+    </asp:UpdatePanel>
 </asp:Content>
 
