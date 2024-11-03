@@ -3,10 +3,17 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="height: 40px;">
         <div class="container">
-            <div class="navbar-nav">
-                <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
-                <a class="nav-link" href="Libros.aspx">Libros</a>
-            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="Usuarios.aspx">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Libros.aspx">Libros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Inicio.aspx">Reportes</a>
+                </li>
+            </ul>
         </div>
     </nav>
 

@@ -3,10 +3,17 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="height: 40px;">
         <div class="container">
-            <div class="navbar-nav">
-                <a class="nav-link" href="Usuarios.aspx">Usuarios</a>
-                <a class="nav-link" href="Libros.aspx">Libros</a>
-            </div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link " href="Usuarios.aspx">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="Libros.aspx">Libros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="Inicio.aspx">Reportes</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -18,7 +25,9 @@
                     <h4>
                         <asp:Label ID="lblCantidadClientesActivos" runat="server" Text="0"></asp:Label>
                     </h4>
-                    <p>Clientes activos
+                    <p>
+                        Clientes activos
+                       
                         <br>
                     </p>
                 </div>
@@ -74,7 +83,7 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
-        
+
         <div class="table-responsive">
             <table class="table table-dark table-bordered">
                 <thead>
