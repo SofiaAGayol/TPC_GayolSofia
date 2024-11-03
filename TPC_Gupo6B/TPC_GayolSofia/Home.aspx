@@ -1,16 +1,16 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MainCliente.aspx.cs" Inherits="TPC_GayolSofia.MainCliente" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="TPC_GayolSofia.MainCliente" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 
     <%--Menu de navecgacion--%>
-    <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar navbar-dark bg-transparent fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Mi cuenta</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Nombre Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -40,9 +40,9 @@
                             <a class="nav-link" href="#">Ayuda</a>
                         </li>
                     </ul>
-                    <form class="d-flex mt-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    <form class="d-flex" role="search">
+                        <input class="form-control my-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
@@ -60,28 +60,25 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">No Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">Infantil</a></li>
-                            <li><a class="dropdown-item" href="#">Ciencia</a></li>
+                            <asp:Repeater ID="RepeaterCategorias" runat="server">
+                                <ItemTemplate>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><%# Eval("Descripcion") %></a>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Autores</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">No Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">Infantil</a></li>
-                            <li><a class="dropdown-item" href="#">Ciencia</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Año</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">No Ficción</a></li>
-                            <li><a class="dropdown-item" href="#">Infantil</a></li>
-                            <li><a class="dropdown-item" href="#">Ciencia</a></li>
+                            <asp:Repeater ID="RepeaterAutores" runat="server">
+                                <ItemTemplate>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><%# Eval("Nombre") + " " + Eval("Apellido")%></a>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </ul>
                     </li>
                 </ul>

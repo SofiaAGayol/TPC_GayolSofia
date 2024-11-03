@@ -14,14 +14,14 @@ namespace negocio
     public class ClienteNegocio
     {
         //Listar
-        public List<Usuario> Listar()
+        public List<Usuario> ListarClientes()
         {
             AccesoDatos datos = new AccesoDatos();
             List<Usuario> clientes = new List<Usuario>();
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios");
+                datos.setearConsulta("SELECT IDUsuario, Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol FROM Usuarios WHERE IDRol = 4");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -46,17 +46,18 @@ namespace negocio
                     clientes.Add(cliente);
                 }
 
-                return clientes; 
+                return clientes;
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
+
         //Informes
 
         public List<Usuario> ClientesActivos()

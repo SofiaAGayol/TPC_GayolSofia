@@ -7,8 +7,43 @@ using System.Threading.Tasks;
 
 namespace negocio
 {
-    internal class AutorNegocio
+    public class AutorNegocio
     {
+        public List<Autor> Listar()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Autor> autores = new List<Autor>();
+
+            try
+            {
+                datos.setearConsulta("SELECT IDAutor, Nombre, Apellido FROM Autores ORDER BY Apellido ASC");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Autor autor = new Autor
+                    {
+                        IdAutor = Convert.ToInt32(datos.Lector["IDAutor"]),
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString()
+                    };
+
+                    autores.Add(autor);
+                }
+
+                return autores;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
         public Autor ObtenerAutorPorId(int autorId)
         {
             Autor autor = null;

@@ -19,6 +19,13 @@ namespace dominio
             string nombreCompleto = Nombre + Apellido;
             return nombreCompleto;
         }
+        public Autor() { }
+        public Autor(int idAutor, string nombre, string apellido)
+        {
+            IdAutor = idAutor;
+            Nombre = nombre;
+            Apellido = apellido;
+        }
 
     }
 }

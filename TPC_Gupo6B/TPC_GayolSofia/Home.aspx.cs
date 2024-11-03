@@ -11,34 +11,7 @@ namespace TPC_GayolSofia
 {
     public partial class MainCliente : System.Web.UI.Page
     {
-        /*
-        public List<Libro> ListaArticulos { get; set; }
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            //Mostrar los art en las tarjetas
-            LibroNegocio articuloNegocio = new LibroNegocio();
-            ListaArticulos = articuloNegocio.listarConSP();
-
-            if (!IsPostBack)
-            {
-                RepeaterArticulos.DataSource = ListaArticulos;
-                RepeaterArticulos.DataBind();
-            }
-
-            //Obtengo el vocher ingresado antes
-            Prestamo voucher = (Prestamo)Session["voucherActual"];
-
-            if (voucher == null)
-            {
-                //redirijo si no hay nada en la sesion
-                string script = "alert('No hay ningun voucher ingresado.');" +
-                         "window.location.href='Default.aspx';";
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-            }
-
-        }
-
+        /* VOY A USARLO PARA PASAR LOS ID DE LOS LIBROS Y VER EL DETALLE DE CADA UNO
         protected void botonElegir_Click(object sender, EventArgs e)
         {
             Prestamo voucher = (Prestamo)Session["voucherActual"];
@@ -71,6 +44,8 @@ namespace TPC_GayolSofia
             if (!IsPostBack)
             {
                 CargarLibros();
+                CargarCategorias();
+                CargarAutores();
             }
         }
 
@@ -80,6 +55,20 @@ namespace TPC_GayolSofia
             List<Libro> listaLibros = negocio.Listar();
             RepeaterArticulos.DataSource = listaLibros;
             RepeaterArticulos.DataBind();
+        }
+        private void CargarCategorias()
+        {
+            CategoriaNegocio categorias = new CategoriaNegocio();
+            List<Categoria> listaCategorias = categorias.Listar();
+            RepeaterCategorias.DataSource = listaCategorias;
+            RepeaterCategorias.DataBind();
+        }
+        private void CargarAutores()
+        {
+            AutorNegocio autores = new AutorNegocio();
+            List<Autor> listaAutores = autores.Listar();
+            RepeaterAutores.DataSource = listaAutores;
+            RepeaterAutores.DataBind();
         }
 
         protected void botonElegir_Click(object sender, EventArgs e)

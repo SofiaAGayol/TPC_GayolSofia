@@ -11,7 +11,7 @@
                     <a class="nav-link active"  aria-current="page" href="Libros.aspx">Libros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Inicio.aspx">Reportes</a>
+                    <a class="nav-link" href="Informes.aspx">Reportes</a>
                 </li>
             </ul>
         </div>

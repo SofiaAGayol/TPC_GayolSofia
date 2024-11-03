@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Inicio.aspx.cs" Inherits="TPC_GayolSofia.Inicio" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Informes.aspx.cs" Inherits="TPC_GayolSofia.Inicio" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="height: 40px;">
@@ -11,7 +11,7 @@
                     <a class="nav-link " href="Libros.aspx">Libros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Inicio.aspx">Reportes</a>
+                    <a class="nav-link active" aria-current="page" href="Informes.aspx">Reportes</a>
                 </li>
             </ul>
         </div>

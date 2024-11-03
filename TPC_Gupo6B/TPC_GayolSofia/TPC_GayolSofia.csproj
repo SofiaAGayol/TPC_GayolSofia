@@ -122,10 +122,10 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Inicio.aspx" />
+    <Content Include="Informes.aspx" />
     <Content Include="Libros.aspx" />
     <Content Include="Login.aspx" />
-    <Content Include="MainCliente.aspx" />
+    <Content Include="Home.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -222,12 +222,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Inicio.aspx.cs">
-      <DependentUpon>Inicio.aspx</DependentUpon>
+    <Compile Include="Informes.aspx.cs">
+      <DependentUpon>Informes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Inicio.aspx.designer.cs">
-      <DependentUpon>Inicio.aspx</DependentUpon>
+    <Compile Include="Informes.aspx.designer.cs">
+      <DependentUpon>Informes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Libros.aspx.cs">
       <DependentUpon>Libros.aspx</DependentUpon>
@@ -243,12 +243,12 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MainCliente.aspx.cs">
-      <DependentUpon>MainCliente.aspx</DependentUpon>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MainCliente.aspx.designer.cs">
-      <DependentUpon>MainCliente.aspx</DependentUpon>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

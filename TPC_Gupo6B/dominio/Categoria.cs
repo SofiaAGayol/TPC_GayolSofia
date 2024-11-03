@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TPC_GayolSofia.dominio;
 
 namespace dominio
 {
@@ -14,6 +17,12 @@ namespace dominio
         public override string ToString()
         {
             return Descripcion;
+        }
+        public Categoria() { }
+        public Categoria(int idCategoria, string descripcion)
+        {
+            IdCategoria = idCategoria;
+            Descripcion = descripcion;
         }
     }
 }
