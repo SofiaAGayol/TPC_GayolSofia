@@ -1,4 +1,6 @@
-﻿using System;
+﻿using dominio;
+using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,22 +15,43 @@ namespace TPC_GayolSofia
         {
             if (!IsPostBack)
             {
-                CargarDetallesLibro();
-                CargarProductosSimilares();
+                int idLibro;
+                if (int.TryParse(Request.QueryString["id"], out idLibro))
+                {
+                    CargarDetallesLibro(idLibro);
+                }
+                else
+                {
+                    string script = "alert('ID de libro no válido.');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
             }
         }
 
-        private void CargarDetallesLibro()
+        private void CargarDetallesLibro(int idLibro)
         {
-            // Cargar detalles del libro desde la base de datos o API
-            lblTitulo.Text = "Palabras Semilla - Magela Demarco / Caru Grossi";
-            lblPrecio.Text = "$9,300";
-            lblCuotas.Text = "en 6 cuotas de $2,154.34";
-            lblEnvio.Text = "Llega mañana";
-            lblRetiro.Text = "Retirá a partir de mañana en correos y otros puntos";
+            LibroNegocio negocio = new LibroNegocio();
+            Libro libroSeleccionado = negocio.LibroPorID(idLibro);
+
+            if (libroSeleccionado != null)
+            {
+                Session["libroSeleccionado"] = libroSeleccionado;
+
+                lblTitulo.Text = libroSeleccionado.Titulo;
+                lblAutor.Text = libroSeleccionado.Autor.ToString();
+                lblCat.Text = libroSeleccionado.Categoria.ToString();
+                lblFecha.Text = libroSeleccionado.FechaPublicacion.ToString("yyyy");
+                imgPrincipal.ImageUrl = libroSeleccionado.Imagen;
+            }
+            else
+            {
+                // Muestra alerta si el libro no existe en la base de datos
+                string script = "alert('El libro seleccionado no existe.');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+            }
         }
 
-        
+
 
         private void CargarProductosSimilares()
         {

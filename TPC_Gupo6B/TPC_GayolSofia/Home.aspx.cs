@@ -169,7 +169,6 @@ namespace TPC_GayolSofia
 
             if (libroSeleccionado != null)
             {
-                Session["libroSeleccionado"] = libroSeleccionado;
                 Response.Redirect("DetalleLibro.aspx?id="+idLibroSeleccionado,false);
             }
             else

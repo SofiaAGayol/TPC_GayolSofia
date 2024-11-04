@@ -16,7 +16,7 @@ namespace dominio
 
         public override string ToString()
         {
-            string nombreCompleto = Nombre + Apellido;
+            string nombreCompleto = Nombre+" " + Apellido;
             return nombreCompleto;
         }
         public Autor() { }
