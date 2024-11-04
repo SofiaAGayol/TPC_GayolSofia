@@ -19,10 +19,13 @@ namespace TPC_GayolSofia
                 if (int.TryParse(Request.QueryString["id"], out idLibro))
                 {
                     CargarDetallesLibro(idLibro);
+                    CargarProductosSimilares(idLibro);
+                    CargarMismoAutor(idLibro);
                 }
                 else
                 {
-                    string script = "alert('ID de libro no válido.');";
+                    string script = "alert('ID de libro no válido.');" +
+                         "window.location.href='Home.aspx';"; 
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
             }
@@ -45,42 +48,70 @@ namespace TPC_GayolSofia
             }
             else
             {
-                // Muestra alerta si el libro no existe en la base de datos
-                string script = "alert('El libro seleccionado no existe.');";
+                string script = "alert('El libro seleccionado no existe.');" +
+                         "window.location.href='Home.aspx';";
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
             }
         }
 
+        private void CargarProductosSimilares(int idLibro)
+        { 
+            LibroNegocio negocio = new LibroNegocio();
+            Libro libro = negocio.LibroPorID(idLibro);           
+            List<Libro> todosLosLibrosDeLaCategoria = negocio.LibrosPorCategoria(libro.Categoria.IdCategoria);
 
+            todosLosLibrosDeLaCategoria = todosLosLibrosDeLaCategoria
+                .Where(l => l.IdLibro != idLibro)
+                .ToList();
 
-        private void CargarProductosSimilares()
-        {
-            // Llenar el Repeater con productos similares
-            var productosSimilares = new List<dynamic>
-    {
-        new { ImagenUrl = "~/images/producto1.jpg", Titulo = "Oficina Para Cambiar El Mundo", Precio = "$17,500" },
-        new { ImagenUrl = "~/images/producto2.jpg", Titulo = "El Poder De Las Palabras", Precio = "$30,499" }
-    };
-            rptProductosSimilares.DataSource = productosSimilares;
+            var random = new Random();
+            todosLosLibrosDeLaCategoria = todosLosLibrosDeLaCategoria
+                .OrderBy(x => random.Next())
+                .ToList();
+
+            var librosSimilares = todosLosLibrosDeLaCategoria.Take(4).ToList();
+
+            rptProductosSimilares.DataSource = librosSimilares;
             rptProductosSimilares.DataBind();
         }
+        
+        private void CargarMismoAutor(int idLibro)
+        { 
+            LibroNegocio negocio = new LibroNegocio();
+            Libro libro = negocio.LibroPorID(idLibro);           
+            List<Libro> todosLosLibrosDelAutor = negocio.LibrosPorAutor(libro.Autor.IdAutor);
 
-        // Manejo de eventos de los botones
+            todosLosLibrosDelAutor = todosLosLibrosDelAutor
+                .Where(l => l.IdLibro != idLibro)
+                .ToList();
+
+            if (todosLosLibrosDelAutor != null && todosLosLibrosDelAutor.Count > 0)
+            {
+                var random = new Random();
+                todosLosLibrosDelAutor = todosLosLibrosDelAutor
+                    .OrderBy(x => random.Next())
+                    .ToList();
+
+                var librosAutor = todosLosLibrosDelAutor.Take(4).ToList();
+
+                rptMismoAutor.DataSource = librosAutor;
+                rptMismoAutor.DataBind();
+            }
+            else
+            {
+
+                lblMismoAutor.Text = "";
+            }
+        }
+
         protected void ComprarAhora_Click(object sender, EventArgs e)
         {
-            // Lógica para compra inmediata
+            // Lógica para prestamo inmediato
         }
 
         protected void AgregarCarrito_Click(object sender, EventArgs e)
         {
             // Lógica para agregar al carrito
-        }
-
-        protected void Thumbnail_Click(object sender, ImageClickEventArgs e)
-        {
-            // Cambia la imagen principal según la miniatura seleccionada
-            ImageButton thumbnail = (ImageButton)sender;
-            imgPrincipal.ImageUrl = thumbnail.ImageUrl;
         }
 
     }

@@ -73,55 +73,7 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        }
-        public Libro LibroPorID(int IdLibro)
-        {
-            Libro libro = null;
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, c.IDCategoria, c.Descripcion AS DescripcionCategoria FROM Libro l LEFT JOIN Autores a ON a.IDAutor = l.IDAutor LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria WHERE l.IDLibro = @IdLibro;");
-                datos.setearParametro("@IdLibro", IdLibro);
-                datos.ejecutarLectura();
-                
-                if (datos.Lector.Read())
-                {
-                    libro = new Libro
-                    {
-                        IdLibro = (int)datos.Lector["IDLibro"],
-                        Titulo = datos.Lector["Titulo"].ToString(),
-                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
-                        Ejemplares = (int)datos.Lector["Ejemplares"],
-                        Disponibles = (int)datos.Lector["Disponibles"],
-                        Estado = (bool)datos.Lector["Estado"],
-                        Imagen = datos.Lector["ImagenURL"].ToString(),
-                        Autor = new Autor
-                        {
-                            IdAutor = (int)datos.Lector["IDAutor"],
-                            Nombre = datos.Lector["NombreAutor"].ToString(),
-                            Apellido = datos.Lector["ApellidoAutor"].ToString()
-                        },
-
-                        Categoria = new Categoria
-                        {
-                            IdCategoria = (int)datos.Lector["IDCategoria"],
-                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
-                        }
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener libro: " + ex.Message, ex);
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return libro;
-        }
+        }        
 
         //Libros disponibles
         public int ContarLibrosDisponibles()
@@ -219,203 +171,56 @@ namespace negocio
 
             return librosEnPrestamo;
         }
-        
+
         //Filtros y busqueda
-        /*
-        public List<Libro> Filtrar(string campo, string criterio, string filtro)
+        public Libro LibroPorID(int IdLibro)
         {
-            List<Libro> lista = new List<Libro>();
+            Libro libro = null;
             AccesoDatos datos = new AccesoDatos();
+
             try
             {
-                string consulta = "SELECT a.Id, a.Codigo, a.Nombre, a.Descripcion, a.Precio, a.IdMarca, a.IdCategoria, " +
-                             "m.Id as IdMarca, m.Descripcion as DescripcionM, " +
-                             "c.Id as IdCategoria, c.Descripcion as DescripcionC, " +
-                             "i.Id as IdIm, i.IdArticulo, i.ImagenUrl as Imagen " +
-                             "FROM ARTICULOS a " +
-                             "LEFT JOIN CATEGORIAS c ON c.Id = a.IdCategoria " +
-                             "LEFT JOIN MARCAS m ON m.Id = a.IdMarca " +
-                             "LEFT JOIN IMAGENES i ON i.IdArticulo = a.Id " +
-                             "ORDER BY a.Id ASC;";
-
-                if (campo == "Id")
-                {
-                    switch (criterio)
-                    {
-                        case "Mayor a":
-                            consulta += "a.Id > " + filtro;
-                            break;
-                        case "Menor a":
-                            consulta += "a.Id < " + filtro;
-                            break;
-                        default:
-                            consulta += "a.Id = " + filtro;
-                            break;
-                    }
-                }
-                else if (campo == "Codigo")
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += "a.Codigo like '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += "a.Codigo like '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += "a.Codigo like '%" + filtro + "%'";
-                            break;
-                    }
-                }
-                else if (campo == "Nombre")
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += "a.Nombre like '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += "a.Nombre like '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += "a.Nombre like '%" + filtro + "%'";
-                            break;
-                    }
-                }
-                else if (campo == "Marca")
-                {
-                    consulta += "m.Descripcion = '" + filtro + "'";
-                }
-                else if (campo == "Categoria")
-                {
-                    consulta += "c.Descripcion = '" + filtro + "'";
-                }
-                else if (campo == "a.Precio")
-                {
-                    switch (criterio)
-                    {
-                        case "Mayor a":
-                            consulta += "a.Precio > " + filtro;
-                            break;
-                        case "Menor a":
-                            consulta += "a.Precio < " + filtro;
-                            break;
-                        default:
-                            consulta += "a.Precio = " + filtro;
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += "a.Descripcion like '" + filtro + "%' ";
-                            break;
-                        case "Termina con":
-                            consulta += "a.Descripcion like '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += "a.Descripcion like '%" + filtro + "%'";
-                            break;
-                    }
-                }
-
-                datos.setearConsulta(consulta);
+                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, c.IDCategoria, c.Descripcion AS DescripcionCategoria FROM Libro l LEFT JOIN Autores a ON a.IDAutor = l.IDAutor LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria WHERE l.IDLibro = @IdLibro;");
+                datos.setearParametro("@IdLibro", IdLibro);
                 datos.ejecutarLectura();
-                while (datos.Lector.Read())
+
+                if (datos.Lector.Read())
                 {
-                    int idArticulo = (int)datos.Lector["Id"];
-
-                    Libro articulo = lista.FirstOrDefault(a => a.Id == idArticulo);
-
-                    if (articulo == null)
+                    libro = new Libro
                     {
-                        articulo = new Libro();
-                        articulo.Id = (int)datos.Lector["Id"];
-                        articulo.Codigo = (string)datos.Lector["Codigo"];
-                        articulo.Nombre = (string)datos.Lector["Nombre"];
-                        articulo.Descripcion = (string)datos.Lector["Descripcion"];
-                        articulo.Precio = (decimal)datos.Lector["Precio"];
-
-                        //Marca
-                        articulo.Marca = new Marca();
-                        articulo.Marca.Id = (int)datos.Lector["IdM"];
-                        articulo.Marca.Descripcion = (string)datos.Lector["DescripcionM"];
-
-                        //Categoria
-                        articulo.Categoria = new Categoria();
-                        articulo.Categoria.Id = (int)datos.Lector["IdC"];
-                        articulo.Categoria.Descripcion = (string)datos.Lector["DescripcionC"];
-
-                        //Imagenes
-                        if (!(datos.Lector["IdIm"] is DBNull))
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
+                        Ejemplares = (int)datos.Lector["Ejemplares"],
+                        Disponibles = (int)datos.Lector["Disponibles"],
+                        Estado = (bool)datos.Lector["Estado"],
+                        Imagen = datos.Lector["ImagenURL"].ToString(),
+                        Autor = new Autor
                         {
-                            articulo.Imagenes = new List<Imagen>();
-                            Imagen imagen = new Imagen();
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        },
 
-                            imagen.Id = (int)datos.Lector["IdIm"];
-                            imagen.IdArticulo = (int)datos.Lector["IdArticulo"];
-                            imagen.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-
-                            articulo.Imagenes.Add(imagen);
+                        Categoria = new Categoria
+                        {
+                            IdCategoria = (int)datos.Lector["IDCategoria"],
+                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
                         }
-
-                        lista.Add(articulo);
-                    }
+                    };
                 }
-
-                return lista;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error al obtener libro: " + ex.Message, ex);
             }
-        }
-        public Libro BuscarLibro(int articuloID)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-
-            datos.setearConsulta("SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.Precio Precio, M.Descripcion AS NombreMarca, M.Id AS MarcaId, I.ImagenUrl AS ImagenUrl, I.Id AS imgId, C.Descripcion AS categoriaDescripcion, C.Id AS CatID FROM ARTICULOS A, MARCAS M, IMAGENES I, CATEGORIAS C where A.Id = @ArtId and A.IdMarca = M.Id and C.Id = A.Id;");
-
-            datos.setearParametro("@ArtId", articuloID);
-
-            datos.ejecutarLectura();
-
-            Libro articulo = new Libro();
-
-            if (datos.Lector.Read())
+            finally
             {
-                articulo.Id = (int)datos.Lector["Id"];
-                articulo.Codigo = (string)datos.Lector["Codigo"];
-                articulo.Nombre = (string)datos.Lector["Nombre"];
-                articulo.Precio = (decimal)datos.Lector["Precio"];
-                articulo.Descripcion = (string)datos.Lector["Descripcion"];
-
-                //Agrego la categoria
-                articulo.Categoria = new Categoria();
-                articulo.Categoria.Id = (int)datos.Lector["CatID"];
-                articulo.Categoria.Descripcion = (string)datos.Lector["categoriaDescripcion"];
-
-                //Agrego la marca
-                articulo.Marca = new Marca();
-                articulo.Marca.Id = (int)datos.Lector["MarcaId"];
-                articulo.Marca.Descripcion = (string)datos.Lector["NombreMarca"];
-
-                //Agrego la imagen
-                articulo.Imagenes = new List<Imagen>();
-                Imagen img = new Imagen();
-
-                img.Id = (int)datos.Lector["imgId"];
-                img.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-
-                articulo.Imagenes.Add(img);
+                datos.cerrarConexion();
             }
 
-            return articulo;
-        }*/
+            return libro;
+        }
         public List<Libro> LibrosPorAutor(int IdAutor)
         {
             List<Libro> lista = new List<Libro>();
@@ -464,8 +269,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
             return lista;
-        }
-        
+        }        
         public List<Libro> LibrosPorCategoria(int IdCategoria)
         {
             List<Libro> lista = new List<Libro>();
@@ -515,6 +319,8 @@ namespace negocio
             }
             return lista;
         }
+        
+
         
 
         //ABM

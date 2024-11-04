@@ -132,8 +132,8 @@
                                 <asp:Image ID="Image1" alt="Imagen del libro" runat="server" CssClass="card-img-top" ImageUrl='<%# Eval("Imagen") %>' />
                                 <div class="card-body h-50  justify-content-end">
                                     <h5 class="card-title"><%# Eval("Titulo") %></h5>
-                                    <p class="card-text"><%# Eval("Autor.Nombre") + " " + Eval("Autor.Apellido")%></p>
-                                    <h5 class="card-title"><%# Eval("Categoria.Descripcion") %></h5>
+                                    <h6 class="card-text"><%# Eval("Autor.Nombre") + " " + Eval("Autor.Apellido")%></h6>
+                                    <p class="card-title"><%# Eval("Categoria.Descripcion") %></p>
                                 </div>
                                 <div class="d-grid gap-1 d-flex justify-content-evenly mb-3 mx-3">
                                     <asp:Button ID="botonDetalles" class="btn btn-primary flex-fill" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonDetalles_Click" />
