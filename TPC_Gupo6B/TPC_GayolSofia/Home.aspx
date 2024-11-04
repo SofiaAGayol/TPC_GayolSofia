@@ -51,7 +51,7 @@
     </nav>
 
     <%-- Busqueda y filtros --%>
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary my-2" data-bs-theme="dark">
+    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary mb-2" data-bs-theme="dark">
         <div class="container-fluid">
             <button class="navbar-toggler btn-close-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -109,6 +109,8 @@
         <asp:ListItem Text="Ordenar por Nombre Desc" Value="NombreDesc"></asp:ListItem>
         <asp:ListItem Text="Ordenar por Categoría Asc" Value="CategoriaAsc"></asp:ListItem>
         <asp:ListItem Text="Ordenar por Categoría Desc" Value="CategoriaDesc"></asp:ListItem>
+        <%--<asp:ListItem Text="Ordenar por Relevancia Asc" Value="RelevanciaAsc"></asp:ListItem>
+        <asp:ListItem Text="Ordenar por Relevancia Desc" Value="RelevanciaDesc"></asp:ListItem>--%>
     </asp:DropDownList>
 
 
@@ -121,18 +123,21 @@
     <%--Libros--%>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
-            <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="row row-cols-1 row-cols-md-4 g-3">
 
                 <asp:Repeater ID="RepeaterArticulos" runat="server">
                     <ItemTemplate>
                         <div class="col">
                             <div class="card h-100">
                                 <asp:Image ID="Image1" alt="Imagen del libro" runat="server" CssClass="card-img-top" ImageUrl='<%# Eval("Imagen") %>' />
-                                <div class="card-body">
+                                <div class="card-body h-50  justify-content-end">
                                     <h5 class="card-title"><%# Eval("Titulo") %></h5>
                                     <p class="card-text"><%# Eval("Autor.Nombre") + " " + Eval("Autor.Apellido")%></p>
                                     <h5 class="card-title"><%# Eval("Categoria.Descripcion") %></h5>
-                                    <asp:Button ID="botonElegir" class="btn btn-primary" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonElegir_Click" />
+                                </div>
+                                <div class="d-grid gap-1 d-flex justify-content-evenly mb-3 mx-3">
+                                    <asp:Button ID="botonDetalles" class="btn btn-primary flex-fill" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonDetalles_Click" />
+                                    <asp:Button ID="botonModificar" class="btn btn-secondary flex-fill" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' />
                                 </div>
                             </div>
                         </div>

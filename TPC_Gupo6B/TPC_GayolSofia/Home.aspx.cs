@@ -11,34 +11,6 @@ namespace TPC_GayolSofia
 {
     public partial class MainCliente : System.Web.UI.Page
     {
-        /* VOY A USARLO PARA PASAR LOS ID DE LOS LIBROS Y VER EL DETALLE DE CADA UNO
-        protected void botonElegir_Click(object sender, EventArgs e)
-        {
-            Prestamo voucher = (Prestamo)Session["voucherActual"];
-
-            Button button = (Button)sender;
-            int idArticuloSeleccionado = Convert.ToInt32(button.CommandArgument);
-
-            if (voucher != null)
-            {
-                voucher.IdArticulo = idArticuloSeleccionado;
-                Session["voucherActual"] = voucher;
-
-                Libro articuloSeleccionado = ListaArticulos.FirstOrDefault(a => a.Id == idArticuloSeleccionado);
-
-                if (articuloSeleccionado != null)
-                {
-                    //confirmacion para redirigir
-                    string script = $"alert('Usted eligió el artículo: {articuloSeleccionado.Nombre}.');" +
-                                "window.location.href='Login.aspx';";
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-
-            }
-
-
-        }
-        */
         protected void Page_Load(object sender, EventArgs e)
         {
             string Filtro = filtro.Text;
@@ -51,49 +23,6 @@ namespace TPC_GayolSofia
 
                 //Libros
                 CargarLibros();
-            }
-        }
-
-        protected void ddlSortBy_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LibroNegocio negocio = new LibroNegocio();
-            List<Libro> listaLibros = negocio.Listar();
-
-            string sortBy = ddlSortBy.SelectedValue;
-
-            switch (sortBy)
-            {
-                case "AutorAsc":
-                    listaLibros = listaLibros.OrderBy(l => l.Autor.Nombre).ThenBy(l => l.Autor.Apellido).ToList();
-                    break;
-                case "AutorDesc":
-                    listaLibros = listaLibros.OrderByDescending(l => l.Autor.Nombre).ThenByDescending(l => l.Autor.Apellido).ToList();
-                    break;
-                case "NombreAsc":
-                    listaLibros = listaLibros.OrderBy(l => l.Titulo).ToList();
-                    break;
-                case "NombreDesc":
-                    listaLibros = listaLibros.OrderByDescending(l => l.Titulo).ToList();
-                    break;
-                case "CategoriaAsc":
-                    listaLibros = listaLibros.OrderBy(l => l.Categoria.Descripcion).ToList();
-                    break;
-                case "CategoriaDesc":
-                    listaLibros = listaLibros.OrderByDescending(l => l.Categoria.Descripcion).ToList();
-                    break;
-            }
-
-            if (listaLibros == null || listaLibros.Count == 0)
-            {
-                PanelNoLibros.Visible = true;
-                RepeaterArticulos.DataSource = null;
-                RepeaterArticulos.DataBind();
-            }
-            else
-            {
-                PanelNoLibros.Visible = false;
-                RepeaterArticulos.DataSource = listaLibros;
-                RepeaterArticulos.DataBind();
             }
         }
 
@@ -182,10 +111,73 @@ namespace TPC_GayolSofia
             }
         }
 
-        protected void botonElegir_Click(object sender, EventArgs e)
+        protected void ddlSortBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var boton = (Button)sender;
-            int idLibro = Convert.ToInt32(boton.CommandArgument);
+            LibroNegocio negocio = new LibroNegocio();
+            List<Libro> listaLibros = negocio.Listar();
+
+            string sortBy = ddlSortBy.SelectedValue;
+
+            switch (sortBy)
+            {
+                case "AutorAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Autor.Nombre).ThenBy(l => l.Autor.Apellido).ToList();
+                    break;
+                case "AutorDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Autor.Nombre).ThenByDescending(l => l.Autor.Apellido).ToList();
+                    break;
+                case "NombreAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Titulo).ToList();
+                    break;
+                case "NombreDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Titulo).ToList();
+                    break;
+                case "CategoriaAsc":
+                    listaLibros = listaLibros.OrderBy(l => l.Categoria.Descripcion).ToList();
+                    break;
+                case "CategoriaDesc":
+                    listaLibros = listaLibros.OrderByDescending(l => l.Categoria.Descripcion).ToList();
+                    break;
+            }
+
+            if (listaLibros == null || listaLibros.Count == 0)
+            {
+                PanelNoLibros.Visible = true;
+                RepeaterArticulos.DataSource = null;
+                RepeaterArticulos.DataBind();
+            }
+            else
+            {
+                PanelNoLibros.Visible = false;
+                RepeaterArticulos.DataSource = listaLibros;
+                RepeaterArticulos.DataBind();
+            }
         }
+
+        //Detalle libros
+
+        protected void botonDetalles_Click(object sender, EventArgs e)
+        {
+            LibroNegocio negocio = new LibroNegocio();
+
+            Button button = (Button)sender;
+            int idLibroSeleccionado = Convert.ToInt32(button.CommandArgument);
+
+            List<Libro> listaLibros = negocio.Listar();
+
+            Libro libroSeleccionado = listaLibros.FirstOrDefault(l => l.IdLibro == idLibroSeleccionado);
+
+            if (libroSeleccionado != null)
+            {
+                Session["libroSeleccionado"] = libroSeleccionado;
+                Response.Redirect("DetalleLibro.aspx?id="+idLibroSeleccionado,false);
+            }
+            else
+            {
+                string script = $"alert('El libro seleccionado no existe.');";
+            }
+            
+        }
+
     }
 }

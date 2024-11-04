@@ -42,13 +42,13 @@
 
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container d-flex justify-content-center">
-                <a class="navbar-brand d-flex align-items-center" runat="server" href="Inicio.aspx">
+                <a class="navbar-brand d-flex align-items-center" runat="server" href="Home.aspx">
                     <asp:Image ID="Image1" runat="server" ImageUrl="../imagenes/logo.png" CssClass="logo-img" style="width: 100px;" />
                 </a>
             </div>
         </nav>
 
-        <div class="container body-content" style="padding-top: 0; margin-top: 0;">
+        <div class="container body-content" style="padding-top: 3rem; margin-top: 0;">
     <asp:ContentPlaceHolder ID="MainContent" runat="server">
     </asp:ContentPlaceHolder>
     <hr style="margin-top: 10; margin-bottom: 0;" />
