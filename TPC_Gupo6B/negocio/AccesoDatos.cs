@@ -96,20 +96,6 @@ namespace negocio
             conexion.Close();
         }
 
-        //Devuelve el ID de Articulo
-        public object devolverIDArticulo()
-        {
-            object resultado;
-            using (SqlCommand comando = new SqlCommand("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) " +
-                             "VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria  )", conexion))
-            {
-                conexion.Open();
-                resultado = comando.ExecuteScalar();
-                conexion.Close();
-            }
-
-            return resultado;
-        }
         
     }
 

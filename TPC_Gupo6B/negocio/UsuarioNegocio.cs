@@ -59,43 +59,8 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-        public int VerificarEmailYContrasena(string usuario, string contrasenia)
-        {
-            AccesoDatos datos = new AccesoDatos();
 
-            try
-            {
-                datos.setearConsulta("SELECT CASE " +
-                                     "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
-                                     "WHEN Usuario = @Usuario THEN 1 " +
-                                     "ELSE 0 " +
-                                     "END " +
-                                     "FROM Usuarios " +
-                                     "WHERE Usuario = @Usuario;");
-
-                datos.setearParametro("@Usuario", usuario);
-                datos.setearParametro("@Contrasenia", contrasenia);
-
-                object resultObj = datos.ejecutarAccion();
-
-                if (resultObj != null)
-                {
-                    return Convert.ToInt32(resultObj);
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
+        // ACCIONES
         public int ObtenerIdUsuario(string nombreUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -160,6 +125,101 @@ namespace negocio
                 else
                 {
                     return null; // Usuario no encontrado
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public bool estaBaja(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            bool resultado = false;
+
+            try
+            {
+                datos.setearConsulta("SELECT estado FROM Usuarios WHERE IdUsuario = @idUsuario;");
+                datos.setearParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    if (!Convert.IsDBNull(datos.Lector["estado"]))
+                    {
+                        // Convertir el valor a bool
+                        bool estado = (bool)datos.Lector["estado"];
+                        resultado = estado; // Devuelve true si estado es 1, false si estado es 0
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return resultado; // Retorna true si está activo y false si está inactivo
+        }
+        public bool RestablecerLogica(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET estado = 1 WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+        // VALIDACIONES DE USUARIO
+        public int VerificarEmailYContrasena(string usuario, string contrasenia)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT CASE " +
+                                     "WHEN Usuario = @Usuario AND Clave = @Contrasenia THEN 2 " +
+                                     "WHEN Usuario = @Usuario THEN 1 " +
+                                     "ELSE 0 " +
+                                     "END " +
+                                     "FROM Usuarios " +
+                                     "WHERE Usuario = @Usuario;");
+
+                datos.setearParametro("@Usuario", usuario);
+                datos.setearParametro("@Contrasenia", contrasenia);
+
+                object resultObj = datos.ejecutarAccion();
+
+                if (resultObj != null)
+                {
+                    return Convert.ToInt32(resultObj);
+                }
+                else
+                {
+                    return 0;
                 }
             }
             catch (Exception ex)
@@ -253,7 +313,7 @@ namespace negocio
             return (contador > 0) ? true : false;
         }
 
-
+        // ABM
         public bool Agregar(string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -284,8 +344,6 @@ namespace negocio
 
             return true;
         }
-
-        /*
         public bool Modificar(int idUsuario, string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -317,7 +375,6 @@ namespace negocio
 
             return true;
         }
-        */
         public bool Modificar(int idUsuario, string usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -367,132 +424,9 @@ namespace negocio
             return true;
         }
 
-        public bool estaBaja(int idUsuario)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            bool resultado = false;
 
-            try
-            {
-                datos.setearConsulta("SELECT estado FROM Usuarios WHERE IdUsuario = @idUsuario;");
-                datos.setearParametro("@idUsuario", idUsuario);
-
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    if (!Convert.IsDBNull(datos.Lector["estado"]))
-                    {
-                        // Convertir el valor a bool
-                        bool estado = (bool)datos.Lector["estado"];
-                        resultado = estado; // Devuelve true si estado es 1, false si estado es 0
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return resultado; // Retorna true si está activo y false si está inactivo
-        }
-        public bool RestablecerLogica(int idUsuario)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("UPDATE Usuarios SET estado = 1 WHERE IdUsuario = @idUsuario;");
-
-                datos.setearParametro("@idUsuario", idUsuario);
-
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return true;
-        }
 
         /*
-        public List<Libro> listarConSP()
-        {
-            List<Libro> lista = new List<Libro>();
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-
-                //datos.setearConsulta("SELECT a.Id, a.Codigo, a.Nombre, a.Descripcion, a.Precio, m.Id as IdMarca, m.Descripcion as DescripcionM, c.Id as IdCategoria, c.Descripcion as DescripcionC, i.Id as IdImagen, i.ImagenUrl as Imagen FROM ARTICULOS a LEFT JOIN CATEGORIAS c ON c.Id = a.IdCategoria LEFT JOIN MARCAS m ON m.Id = a.IdMarca LEFT JOIN IMAGENES i ON i.IdArticulo = a.Id ");
-                //datos.ejecutarLectura();
-
-                datos.setearProcedimiento("storedListar");
-                datos.ejecutarLectura();
-
-                while (datos.Lector.Read())
-                {
-                    int idArticulo = (int)datos.Lector["Id"];
-                    string codigoArticulo = (string)datos.Lector["Codigo"];
-
-                    Libro articulo = lista.FirstOrDefault(a => a.Codigo == codigoArticulo);
-
-                    if (articulo == null)
-                    {
-                        articulo = new Libro();
-                        articulo.Id = (int)datos.Lector["Id"];
-                        articulo.Codigo = (string)datos.Lector["Codigo"];
-                        articulo.Nombre = (string)datos.Lector["Nombre"];
-                        articulo.Descripcion = (string)datos.Lector["Descripcion"];
-                        articulo.Precio = (decimal)datos.Lector["Precio"];
-
-                        //Marca
-                        articulo.Marca = new Marca();
-                        articulo.Marca.Id = (int)datos.Lector["IdMarca"];
-                        articulo.Marca.Descripcion = (string)datos.Lector["DescripcionM"];
-
-                        //Categoria
-                        articulo.Categoria = new Categoria();
-                        articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                        articulo.Categoria.Descripcion = (string)datos.Lector["DescripcionC"];
-
-                        // Inicializar la lista de imágenes
-                        articulo.Imagenes = new List<Imagen>();
-
-                        // Agregar artículo a la lista
-                        lista.Add(articulo);
-                    }
-
-                    if (!(datos.Lector["IdImagen"] is DBNull))
-                    {
-                        Imagen imagen = new Imagen();
-                        imagen.Id = (int)datos.Lector["IdImagen"];
-                        imagen.IdArticulo = (int)datos.Lector["Id"];
-                        imagen.ImagenUrl = (string)datos.Lector["Imagen"];
-
-                        articulo.Imagenes.Add(imagen);
-                    }
-                }
-
-                datos.cerrarConexion();
-                return lista;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public List<Libro> filtrar(string campo, string criterio, string filtro)
         {
             List<Libro> lista = new List<Libro>();

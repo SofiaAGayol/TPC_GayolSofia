@@ -104,7 +104,7 @@ namespace TPC_GayolSofia
             }
         }
 
-        protected void ComprarAhora_Click(object sender, EventArgs e)
+        protected void Solicitar_Click(object sender, EventArgs e)
         {
             // Lógica para prestamo inmediato
         }

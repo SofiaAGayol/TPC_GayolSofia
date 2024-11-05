@@ -47,8 +47,18 @@ namespace TPC_GayolSofia
 
                     Session.Add("UsuarioActivo", usuarioActivo);
 
-                    Response.Redirect("Inicio.aspx");
-                    break;
+                    if (usuarioActivo.Rol.IDRol == 4)
+                    {
+                        Response.Redirect("Home.aspx");
+                        break;
+                    }
+                    else
+                    {
+                        Response.Redirect("Informes.aspx");
+                        break;
+                    }
+
+                    
             }
         }
     }

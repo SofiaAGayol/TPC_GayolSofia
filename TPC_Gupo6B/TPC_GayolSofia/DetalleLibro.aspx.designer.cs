@@ -60,13 +60,13 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.Label lblFecha;
 
         /// <summary>
-        /// Control btnComprarAhora.
+        /// Control btnPedirAhora.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnComprarAhora;
+        protected global::System.Web.UI.WebControls.Button btnPedirAhora;
 
         /// <summary>
         /// Control btnAgregarCarrito.

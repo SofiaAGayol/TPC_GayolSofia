@@ -5,12 +5,12 @@
     <div class="container m-2">
         <!-- Imagen Principal -->
         <div class="row">
-            <div class="col-7">
+            <div class="col-6 px-5">
                 <asp:Image ID="imgPrincipal" alt="Imagen del libro" runat="server" CssClass="img-large w-100" ImageUrl='<%# Eval("Imagen") %>' />
             </div>
 
             <!-- Info del Libro -->
-            <div class="card col-md-5 h-75">
+            <div class="card col-md-6 h-75">
                 <div class="card-body">
                     <h3>
                         <asp:Label ID="lblTitulo" runat="server" Text="Palabras Semilla - Magela Demarco / Caru Grossi" CssClass="fw-bold" /></h3>
@@ -27,7 +27,7 @@
 
                     <!-- Botones de Compra -->
                     <div class="mt-3">
-                        <asp:Button ID="btnComprarAhora" runat="server" Text="Comprar ahora" CssClass="btn btn-primary btn-lg mb-2" OnClick="ComprarAhora_Click" />
+                        <asp:Button ID="btnPedirAhora" runat="server" Text="Solicitar libro" CssClass="btn btn-primary btn-lg" OnClick="Solicitar_Click" />
                         <asp:Button ID="btnAgregarCarrito" runat="server" Text="Agregar al carrito" CssClass="btn btn-outline-primary btn-lg" OnClick="AgregarCarrito_Click" />
                     </div>
 
