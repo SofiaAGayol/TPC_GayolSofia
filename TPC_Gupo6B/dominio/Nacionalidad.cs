@@ -14,5 +14,8 @@ namespace TPC_GayolSofia.dominio
         {
             return Descripcion;
         }
+
+
+
     }
 }

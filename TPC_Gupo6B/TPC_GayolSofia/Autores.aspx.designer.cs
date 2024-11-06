@@ -11,43 +11,25 @@ namespace TPC_GayolSofia
 {
 
 
-    public partial class SiteMaster
+    public partial class Autores
     {
 
         /// <summary>
-        /// Control LogoLink.
+        /// Control Dgv_Autores.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor LogoLink;
+        protected global::System.Web.UI.WebControls.GridView Dgv_Autores;
 
         /// <summary>
-        /// Control Image1.
+        /// Control BtnAgregarAutor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
-        /// Control btnLogout.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogout;
-
-        /// <summary>
-        /// Control MainContent.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Button BtnAgregarAutor;
     }
 }

@@ -42,10 +42,12 @@
 
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container d-flex justify-content-center">
-                <a class="navbar-brand d-flex align-items-center" runat="server" href="Home.aspx">
+                <a id="LogoLink" class="navbar-brand d-flex align-items-center" runat="server" href="">
                     <asp:Image ID="Image1" runat="server" ImageUrl="../imagenes/logo.png" CssClass="logo-img" style="width: 100px;" />
                 </a>
             </div>
+
+            <asp:Button ID="btnLogout" runat="server" CssClass="btn btn-outline-light" Text="Logout" OnClick="btnLogout_Click" />
         </nav>
 
         <div class="container body-content" style="padding-top: 3rem; margin-top: 0;">

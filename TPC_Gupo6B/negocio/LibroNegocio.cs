@@ -73,7 +73,7 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-        }        
+        }
 
         //Libros disponibles
         public int ContarLibrosDisponibles()
@@ -95,14 +95,14 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
-        
+
         //Libros prestados
         public int ContarLibrosEnPrestamo()
         {
@@ -123,7 +123,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
             finally
             {
@@ -134,8 +134,8 @@ namespace negocio
         {
             List<Libro> librosEnPrestamo = new List<Libro>();
             AccesoDatos datos = new AccesoDatos();
-            AutorNegocio autorNegocio = new AutorNegocio(); 
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio(); 
+            AutorNegocio autorNegocio = new AutorNegocio();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
             try
             {
@@ -148,12 +148,12 @@ namespace negocio
                     {
                         IdLibro = (int)datos.Lector["IdLibro"],
                         Titulo = datos.Lector["Titulo"].ToString(),
-                        Autor = autorNegocio.ObtenerAutorPorId((int)datos.Lector["AutorId"]), 
+                        Autor = autorNegocio.ObtenerAutorPorId((int)datos.Lector["AutorId"]),
                         Categoria = categoriaNegocio.ObtenerCategoriaPorId((int)datos.Lector["CategoriaId"]),
                         FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
                         Ejemplares = (int)datos.Lector["Ejemplares"],
                         Disponibles = (int)datos.Lector["Disponibles"],
-                        Estado = (bool)datos.Lector["Estado"], 
+                        Estado = (bool)datos.Lector["Estado"],
                         Imagen = datos.Lector["Imagen"].ToString()
                     };
 
@@ -243,7 +243,7 @@ namespace negocio
                         Ejemplares = (int)datos.Lector["Ejemplares"],
                         Disponibles = (int)datos.Lector["Disponibles"],
                         Estado = (bool)datos.Lector["Estado"],
-                        Imagen= datos.Lector["ImagenURL"].ToString(),
+                        Imagen = datos.Lector["ImagenURL"].ToString(),
                         Autor = new Autor
                         {
                             IdAutor = (int)datos.Lector["IDAutor"],
@@ -269,7 +269,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
             return lista;
-        }        
+        }
         public List<Libro> LibrosPorCategoria(int IdCategoria)
         {
             List<Libro> lista = new List<Libro>();
@@ -292,7 +292,7 @@ namespace negocio
                         Ejemplares = (int)datos.Lector["Ejemplares"],
                         Disponibles = (int)datos.Lector["Disponibles"],
                         Estado = (bool)datos.Lector["Estado"],
-                        Imagen= datos.Lector["ImagenURL"].ToString(),
+                        Imagen = datos.Lector["ImagenURL"].ToString(),
                         Autor = new Autor
                         {
                             IdAutor = (int)datos.Lector["IDAutor"],
@@ -319,40 +319,6 @@ namespace negocio
             }
             return lista;
         }
-
-
-        public bool Agregar(string titulo, DateTime fechaPublicacion, int ejemplares, bool estado, string imagen, int idAutor, int idCategoria)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("INSERT INTO Libro (Titulo, FechaPublicacion, Ejemplares, Disponibles, Estado, ImagenURL, IdAutor, IdCategoria) " +
-                                     "VALUES (@Titulo, @FechaPublicacion, @Ejemplares, @Disponibles, @Estado, @Imagen, @IdAutor, @IdCategoria);");
-
-                datos.setearParametro("@Titulo", titulo);
-                datos.setearParametro("@FechaPublicacion", fechaPublicacion);
-                datos.setearParametro("@Ejemplares", ejemplares);
-                datos.setearParametro("@Disponibles", ejemplares);
-                datos.setearParametro("@Estado", estado);
-                datos.setearParametro("@Imagen", imagen);
-                datos.setearParametro("@IdAutor", idAutor);
-                datos.setearParametro("@IdCategoria", idCategoria);
-
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;  
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return true; 
-        }
-
         public bool ExisteTitulo(string titulo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -381,6 +347,38 @@ namespace negocio
             return (contador > 0) ? true : false;
         }
 
+        //ABM
+        public bool Agregar(string titulo, DateTime fechaPublicacion, int ejemplares, bool estado, string imagen, int idAutor, int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Libro (Titulo, FechaPublicacion, Ejemplares, Disponibles, Estado, ImagenURL, IdAutor, IdCategoria) " +
+                                     "VALUES (@Titulo, @FechaPublicacion, @Ejemplares, @Disponibles, @Estado, @Imagen, @IdAutor, @IdCategoria);");
+
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@FechaPublicacion", fechaPublicacion);
+                datos.setearParametro("@Ejemplares", ejemplares);
+                datos.setearParametro("@Disponibles", ejemplares);
+                datos.setearParametro("@Estado", estado);
+                datos.setearParametro("@Imagen", imagen);
+                datos.setearParametro("@IdAutor", idAutor);
+                datos.setearParametro("@IdCategoria", idCategoria);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
         public bool BajaLogica(int idLibro)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -404,7 +402,6 @@ namespace negocio
 
             return true;
         }
-
         public bool RestablecerLogica(int idLibro)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -429,8 +426,6 @@ namespace negocio
 
             return true;
         }
-
-
         public bool EstaBaja(int idLibro)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -448,7 +443,7 @@ namespace negocio
                     if (!Convert.IsDBNull(datos.Lector["Estado"]))
                     {
                         bool estado = (bool)datos.Lector["Estado"];
-                        resultado = !estado;  
+                        resultado = !estado;
                     }
                 }
             }
@@ -462,11 +457,10 @@ namespace negocio
                 datos.cerrarConexion();
             }
 
-            return resultado;  
+            return resultado;
         }
 
 
-        //ABM
         /*
         public void Agregar(Libro nuevo)
         {

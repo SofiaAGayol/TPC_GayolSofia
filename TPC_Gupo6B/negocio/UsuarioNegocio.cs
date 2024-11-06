@@ -170,29 +170,7 @@ namespace negocio
 
             return resultado; // Retorna true si está activo y false si está inactivo
         }
-        public bool RestablecerLogica(int idUsuario)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.setearConsulta("UPDATE Usuarios SET estado = 1 WHERE IdUsuario = @idUsuario;");
-
-                datos.setearParametro("@idUsuario", idUsuario);
-
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return true;
-        }
+       
 
         // VALIDACIONES DE USUARIO
         public int VerificarEmailYContrasena(string usuario, string contrasenia)
@@ -401,17 +379,6 @@ namespace negocio
             return (contador > 0) ? true : false;
         }
 
-
-
-
-
-
-
-
-
-
-
-
         // ABM
         public bool Agregar(string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)
         {
@@ -506,6 +473,29 @@ namespace negocio
             try
             {
                 datos.setearConsulta("UPDATE Usuarios SET estado = 0 WHERE IdUsuario = @idUsuario;");
+
+                datos.setearParametro("@idUsuario", idUsuario);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+        public bool RestablecerLogica(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET estado = 1 WHERE IdUsuario = @idUsuario;");
 
                 datos.setearParametro("@idUsuario", idUsuario);
 

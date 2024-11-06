@@ -100,8 +100,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AgregarAutor.aspx" />
     <Content Include="AgregarLibro.aspx" />
     <Content Include="AgregarUsuario.aspx" />
+    <Content Include="Autores.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -191,6 +193,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgregarAutor.aspx.cs">
+      <DependentUpon>AgregarAutor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AgregarAutor.aspx.designer.cs">
+      <DependentUpon>AgregarAutor.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AgregarLibro.aspx.cs">
       <DependentUpon>AgregarLibro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -214,6 +223,13 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Autores.aspx.cs">
+      <DependentUpon>Autores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Autores.aspx.designer.cs">
+      <DependentUpon>Autores.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

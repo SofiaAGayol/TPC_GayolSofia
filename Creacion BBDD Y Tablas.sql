@@ -112,7 +112,8 @@ CREATE TABLE Autores (
     Nombre NVARCHAR(100),
     Apellido NVARCHAR(100),
     IdNacionalidad INT,
-    BestSeller NVARCHAR(100),
+    BestSeller NVARCHAR(100),    
+    Estado BIT DEFAULT 1,
     FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidad(IdNacionalidad)
 );
 GO
