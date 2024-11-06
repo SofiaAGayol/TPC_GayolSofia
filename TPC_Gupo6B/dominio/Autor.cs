@@ -19,6 +19,10 @@ namespace dominio
             string nombreCompleto = Nombre+" " + Apellido;
             return nombreCompleto;
         }
+
+        // Propiedad calculada que devuelve el nombre completo
+        public string NombreCompleto => $"{Nombre} {Apellido}";
+
         public Autor() { }
         public Autor(int idAutor, string nombre, string apellido)
         {

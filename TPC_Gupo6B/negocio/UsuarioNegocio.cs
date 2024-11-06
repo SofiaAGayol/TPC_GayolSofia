@@ -379,7 +379,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE DNI = @email   AND IDUsuario <> @IDUsuario;");
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE Email = @email   AND IDUsuario <> @IDUsuario;");
                 datos.setearParametro("@email", email);
                 datos.setearParametro("@IDUsuario", id);
                 datos.ejecutarLectura();

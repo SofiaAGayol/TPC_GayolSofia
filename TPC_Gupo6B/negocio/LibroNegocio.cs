@@ -319,9 +319,40 @@ namespace negocio
             }
             return lista;
         }
-        
 
-        
+
+        public bool Agregar(string titulo, DateTime fechaPublicacion, int ejemplares, bool estado, string imagen, int idAutor, int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Libro (Titulo, FechaPublicacion, Ejemplares, Disponibles, Estado, ImagenURL, IdAutor, IdCategoria) " +
+                                     "VALUES (@Titulo, @FechaPublicacion, @Ejemplares, @Disponibles, @Estado, @Imagen, @IdAutor, @IdCategoria);");
+
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@FechaPublicacion", fechaPublicacion);
+                datos.setearParametro("@Ejemplares", ejemplares);
+                datos.setearParametro("@Disponibles", ejemplares);
+                datos.setearParametro("@Estado", estado);
+                datos.setearParametro("@Imagen", imagen);
+                datos.setearParametro("@IdAutor", idAutor);
+                datos.setearParametro("@IdCategoria", idCategoria);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;  
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true; 
+        }
+
 
         //ABM
         /*

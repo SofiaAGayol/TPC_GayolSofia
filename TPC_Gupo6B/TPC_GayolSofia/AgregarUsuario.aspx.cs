@@ -148,8 +148,8 @@ namespace TPC_GayolSofia
             }
 
                 usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, idRol);
+                
                 pnlMensaje.Style["display"] = "block";
-
                 divAlert.Style["display"] = "none";
             
         }
@@ -211,6 +211,8 @@ namespace TPC_GayolSofia
             {
                 mensajeError = "Usuario no válido.";
             }
+            //ESTAS FUNCIONES CON "NUEVO" SON DISTINTAS YA QUE VERIFICA QUE NO EXISTA EL USUARIO, PERO AL MISMO TIEMPO 
+            //QUE NO TENGA EL CUENTA EL USUARIO ACTUAL (POR SI NO QUIERE MODIFICARSE)
             else if (usuarioNegocio.ExisteUsuarioNuevo(usuario,id))
             {
                 mensajeError = "Usuario ya registrado.";
@@ -256,6 +258,8 @@ namespace TPC_GayolSofia
             }
             usuarioNegocio.Modificar(id,usuario, clave, nombre, apellido, dni, email, telefono, idRol);
 
+            pnlMensajeModificacion.Style["display"] = "block";
+            divAlert.Style["display"] = "none";
 
 
         }
