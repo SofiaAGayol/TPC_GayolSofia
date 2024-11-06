@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Text;
@@ -312,6 +313,104 @@ namespace negocio
 
             return (contador > 0) ? true : false;
         }
+
+        public bool ExisteUsuarioNuevo(string usuario, int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE Usuario = @Usuario AND idUsuario <> @IDUsuario;");
+                datos.setearParametro("@Usuario", usuario);
+                datos.setearParametro("@IDUsuario", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+        public bool ExisteDNINuevo(string dni, int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE DNI = @dni   AND IDUsuario <> @IDUsuario;");
+                datos.setearParametro("@dni", dni);
+                datos.setearParametro("@IDUsuario", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+
+
+        public bool ExisteEmailNuevo(string email, int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Usuarios WHERE DNI = @email   AND IDUsuario <> @IDUsuario;");
+                datos.setearParametro("@email", email);
+                datos.setearParametro("@IDUsuario", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         // ABM
         public bool Agregar(string usuario, string clave, string nombre, string apellido, string dni, string email, string telefono, int idRol)

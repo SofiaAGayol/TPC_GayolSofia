@@ -40,7 +40,10 @@
                     <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control w-75 mx-auto" />
                 </div>
                 <div class="text-center">
-                    <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="" CssClass="btn btn-success mt-2" />
+                    <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="Agregar" CssClass="btn btn-success mt-2" />
+                </div>
+                <div class="text-center">
+                    <asp:Button ID="btnModificar" OnClick="btnModificar_Click" runat="server" Text="Modificar" CssClass="btn btn-success mt-2" />
                 </div>
                 <div class="text-center">
                     <asp:Button ID="btnBaja" OnClick="btnBaja_Click" Text="Dar Baja" runat="server" CssClass="btn btn-danger mt-2" />
@@ -59,6 +62,7 @@
     </div>
    
     <asp:Label ID="LblPrueba" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="LblPrueba2" runat="server" Text="Label2"></asp:Label>
 
     <div class="mx-auto justify-content-center mt-5 alert alert-danger" id="divAlert" style="display: none;" runat="server">
     <span id="alertMessage" runat="server"></span>
