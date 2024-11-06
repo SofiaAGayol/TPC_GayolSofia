@@ -35,11 +35,12 @@ namespace TPC_GayolSofia
         protected void Dgv_Libros_SelectedIndexChanged(object sender, EventArgs e)
         {
             string id = Dgv_Libros.SelectedDataKey.Value.ToString();
-            Response.Redirect("AgregarUsuario.aspx?id=" + id);
+            Response.Redirect("AgregarLibro.aspx?id=" + id);
         }
 
         protected void BtnAgregarLibro_Click(object sender, EventArgs e)
         {
+            Response.Redirect("AgregarLibro.aspx");
 
         }
     }

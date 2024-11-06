@@ -15,9 +15,10 @@
                         <asp:DropDownList ID="ddlAutor" runat="server" CssClass="form-control w-75 mx-auto">
                         </asp:DropDownList>
                 </div>
-                <div class="form-group text-center mt-2">
-                    <label for="txtIDCategoria">Categoría</label>
-                    <asp:TextBox ID="txtIDCategoria" runat="server" CssClass="form-control w-75 mx-auto" />
+                <div class="form-group text-center">
+                     <label for="ddlCategoria">Categoría</label>
+                    <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-control w-75 mx-auto">
+                    </asp:DropDownList>
                 </div>
                 <div class="form-group text-center mt-2">
                     <label for="txtFechaPublicacion">Fecha de Publicación</label>
@@ -62,12 +63,12 @@
 
 
     <asp:Panel ID="pnlMensaje" runat="server" CssClass="mensaje-exito" style="display:none;">
-    <h2>Usuario agregado correctamente !</h2>
+    <h2>Libro agregado correctamente !</h2>
     <asp:Button ID="btnCerrarMensaje" runat="server" Text="Cerrar"  CssClass="btn btn-primary mt-3" />
     </asp:Panel>
 
     <asp:Panel ID="pnlMensajeModificacion" runat="server" CssClass="mensaje-exito" style="display:none;">
-    <h2>Usuario modificado correctamente !</h2>
+    <h2>Libro modificado correctamente !</h2>
     <asp:Button ID="Button1" runat="server" Text="Cerrar" CssClass="btn btn-primary mt-3" />
     </asp:Panel>
 

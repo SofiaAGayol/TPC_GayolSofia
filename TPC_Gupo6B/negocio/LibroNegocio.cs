@@ -353,6 +353,34 @@ namespace negocio
             return true; 
         }
 
+        public bool ExisteTitulo(string titulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Libro WHERE Titulo = @titulo");
+                datos.setearParametro("@Titulo", titulo);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0) ? true : false;
+        }
+
 
         //ABM
         /*

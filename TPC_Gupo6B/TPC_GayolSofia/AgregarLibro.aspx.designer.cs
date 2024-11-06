@@ -33,13 +33,13 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.DropDownList ddlAutor;
 
         /// <summary>
-        /// Control txtIDCategoria.
+        /// Control ddlCategoria.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtIDCategoria;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategoria;
 
         /// <summary>
         /// Control txtFechaPublicacion.
