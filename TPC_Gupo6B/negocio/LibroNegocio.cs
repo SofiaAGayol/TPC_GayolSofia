@@ -381,6 +381,90 @@ namespace negocio
             return (contador > 0) ? true : false;
         }
 
+        public bool BajaLogica(int idLibro)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Libro SET Estado = 0 WHERE IdLibro = @idLibro;");
+
+                datos.setearParametro("@idLibro", idLibro);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+        public bool RestablecerLogica(int idLibro)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Libros SET Estado = 1 WHERE IdLibro = @idLibro;");
+
+
+                datos.setearParametro("@idLibro", idLibro);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+
+        public bool EstaBaja(int idLibro)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            bool resultado = false;
+
+            try
+            {
+                datos.setearConsulta("SELECT Estado FROM Libro WHERE IdLibro = @idLibro;");
+                datos.setearParametro("@idLibro", idLibro);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    if (!Convert.IsDBNull(datos.Lector["Estado"]))
+                    {
+                        bool estado = (bool)datos.Lector["Estado"];
+                        resultado = !estado;  
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+
+                datos.cerrarConexion();
+            }
+
+            return resultado;  
+        }
+
 
         //ABM
         /*

@@ -53,8 +53,8 @@ namespace TPC_GayolSofia
                     btnBajaDef.Visible = false;
 
                     //SI SE LE PASA POR PARAMETRO UN ID Y ADEMÁS ESTA DADO DE BAJA SE ACTIVA EL BOTON "RESTABLECER"
-                    /*
-                    if (!usuarioNegocio.estaBaja(id))
+                    
+                    if (!libroNegocio.EstaBaja(id))
                     {
                         btnModificar.Visible = true;
                         btnBaja.Visible = false;
@@ -62,7 +62,7 @@ namespace TPC_GayolSofia
                         btnBajaDef.Visible = false;
                         btnRestablecer.Visible = true;
                     }
-                    */
+                    
                 }
             }
 
@@ -159,17 +159,35 @@ namespace TPC_GayolSofia
 
         protected void btnBaja_Click(object sender, EventArgs e)
         {
-
+            btnBaja.Visible = false;
+            CbBajaDef.Visible = true;
+            btnBajaDef.Visible = true;
         }
 
         protected void btnRestablecer_Click(object sender, EventArgs e)
         {
+            id = int.Parse(Request.QueryString["id"]);
+            LibroNegocio negocio = new LibroNegocio();
 
+            negocio.RestablecerLogica(id);
+            Response.Redirect("Libros.aspx");
         }
 
         protected void btnBajaDef_Click(object sender, EventArgs e)
         {
+            id = int.Parse(Request.QueryString["id"]);
+            LibroNegocio negocio = new LibroNegocio();
 
+            if (CbBajaDef.Checked)
+            {
+                negocio.BajaLogica(id);
+                Response.Redirect("Libros.aspx");
+            }
+        }
+        protected void btnCerrarMensaje_Click1(object sender, EventArgs e)
+        {
+            pnlMensaje.Style["display"] = "none";
+            Response.Redirect("Libros.aspx");
         }
     }
 }
