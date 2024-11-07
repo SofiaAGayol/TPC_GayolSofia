@@ -155,7 +155,7 @@ namespace negocio
                     {
                         // Convertir el valor a bool
                         bool estado = (bool)datos.Lector["estado"];
-                        resultado = estado; // Devuelve true si estado es 1, false si estado es 0
+                        resultado = estado; 
                     }
                 }
             }

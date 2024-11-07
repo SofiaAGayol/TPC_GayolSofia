@@ -408,7 +408,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("UPDATE Libros SET Estado = 1 WHERE IdLibro = @idLibro;");
+                datos.setearConsulta("UPDATE Libro SET Estado = 1 WHERE IdLibro = @idLibro;");
 
 
                 datos.setearParametro("@idLibro", idLibro);
@@ -443,7 +443,7 @@ namespace negocio
                     if (!Convert.IsDBNull(datos.Lector["Estado"]))
                     {
                         bool estado = (bool)datos.Lector["Estado"];
-                        resultado = !estado;
+                        resultado = estado;
                     }
                 }
             }

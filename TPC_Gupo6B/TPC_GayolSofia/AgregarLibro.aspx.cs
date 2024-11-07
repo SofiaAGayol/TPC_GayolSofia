@@ -37,10 +37,9 @@ namespace TPC_GayolSofia
                     LibroNegocio libroNegocio = new LibroNegocio();
                     Libro libro = libroNegocio.LibroPorID(id);
 
-                    // Precargar los valores en los controles del formulario
                     txtTitulo.Text = libro.Titulo;
-                    ddlAutor.SelectedValue = libro.Autor.IdAutor.ToString();  // Asumiendo que Autor es un objeto con una propiedad IdAutor
-                    ddlCategoria.SelectedValue = libro.Categoria.IdCategoria.ToString();  // Asumiendo que Categoria es un objeto con una propiedad IdCategoria
+                    ddlAutor.SelectedValue = libro.Autor.IdAutor.ToString(); 
+                    ddlCategoria.SelectedValue = libro.Categoria.IdCategoria.ToString(); 
                     txtFechaPublicacion.Text = libro.FechaPublicacion.ToString("yyyy-MM-dd");  // Formateamos la fecha en formato compatible con un TextBox
                     txtEjemplares.Text = libro.Ejemplares.ToString();
                     txtImagenURL.Text = libro.Imagen;

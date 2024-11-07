@@ -70,7 +70,6 @@ namespace TPC_GayolSofia
                 throw new Exception("lblCantidadLibrosDisponibles es null.");
             }
         }
-
         private void CargarLibrosEnPrestamo()
         {
             LibroNegocio libroNegocio = new LibroNegocio();
@@ -82,7 +81,6 @@ namespace TPC_GayolSofia
                 gvLibrosEnPrestamo.DataBind();
             }
         }
-
         private void CargarBalance()
         {
         }

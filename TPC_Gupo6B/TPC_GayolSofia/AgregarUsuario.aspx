@@ -68,7 +68,7 @@
 
 
     <asp:Panel ID="pnlMensaje" runat="server" CssClass="mensaje-exito" style="display:none;">
-    <h2>Libro agregado correctamente !</h2>
+    <h2>Usuario agregado correctamente !</h2>
     <asp:Button ID="btnCerrarMensaje" runat="server" Text="Cerrar" OnClick="btnCerrarMensaje_Click" CssClass="btn btn-primary mt-3" />
     </asp:Panel>
 
