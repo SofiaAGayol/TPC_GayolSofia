@@ -28,24 +28,24 @@
                     <asp:TextBox ID="txtBestSellerAutor" runat="server" CssClass="form-control w-75 mx-auto" />
                 </div>
 
-                <div class="text-center">
-                    <asp:Button ID="btnGuardarAutor" OnClick="btnGuardarAutor_Click" runat="server" Text="Agregar" CssClass="btn btn-success mt-2" />
-                </div>
-                <div class="text-center">
-                    <asp:Button ID="btnModificarAutor" OnClick="btnModificarAutor_Click" runat="server" Text="Modificar" CssClass="btn btn-success mt-2" />
-                </div>
-                <div class="text-center">
-                    <asp:Button ID="btnEliminarAutor" OnClick="btnEliminarAutor_Click" Text="Eliminar" runat="server" CssClass="btn btn-danger mt-2" />
-                </div>
-                <div class="text-center">
-                    <asp:Button ID="btnRestablecerAutor" OnClick="btnRestablecerAutor_Click" Text="Restablecer" runat="server" CssClass="btn btn-primary mt-2" />
-                </div>
-                <div class="text-center">
-                    <asp:CheckBox ID="CbBajaDef" runat="server" />
-                </div>
-                <div class="text-center">
-                    <asp:Button ID="btnBajaDef" OnClick="btnBajaDef_Click" runat="server" Text="Confirmar Baja" CssClass="btn btn-danger mt-2" />
-                </div>
+ <div class="text-center">
+     <asp:Button ID="btnGuardar" OnClick="btnGuardar_Click" runat="server" Text="Agregar" CssClass="btn btn-success mt-2" />
+ </div>
+ <div class="text-center">
+     <asp:Button ID="btnModificar" OnClick="btnModificar_Click" runat="server" Text="Modificar" CssClass="btn btn-success mt-2" />
+ </div>
+ <div class="text-center">
+     <asp:Button ID="btnBaja" OnClick="btnBaja_Click" Text="Dar Baja" runat="server" CssClass="btn btn-danger mt-2" />
+ </div>
+ <div class="text-center">
+     <asp:Button ID="btnRestablecer" OnClick="btnRestablecer_Click" Text="Restablecer" runat="server" CssClass="btn btn-primary mt-2" />
+ </div>
+  <div class="text-center">
+     <asp:CheckBox ID="CbBajaDef" runat="server" />
+ </div>
+ <div class="text-center">
+      <asp:Button ID="btnBajaDef" OnClick="btnBajaDef_Click1" runat="server" Text="Confirmar Baja" CssClass="btn btn-danger mt-2" />
+ </div> 
             </div>
         </div>
     </div>
@@ -56,12 +56,12 @@
     </div>
 
 
-    <asp:Panel ID="pnlMensajeAutor" runat="server" CssClass="mensaje-exito" Style="display: none;">
+    <asp:Panel ID="pnlMensaje" runat="server" CssClass="mensaje-exito" Style="display: none;">
         <h2>Autor agregado correctamente!</h2>
         <asp:Button ID="btnCerrarMensajeAutor" runat="server" Text="Cerrar" OnClick="btnCerrarMensajeAutor_Click" CssClass="btn btn-primary mt-3" />
     </asp:Panel>
 
-    <asp:Panel ID="pnlMensajeModificacionAutor" runat="server" CssClass="mensaje-exito" Style="display: none;">
+    <asp:Panel ID="pnlMensajeModificacion" runat="server" CssClass="mensaje-exito" Style="display: none;">
         <h2>Autor modificado correctamente!</h2>
         <asp:Button ID="btnCerrarMensajeModAutor" runat="server" Text="Cerrar" OnClick="btnCerrarMensajeAutor_Click" CssClass="btn btn-primary mt-3" />
     </asp:Panel>

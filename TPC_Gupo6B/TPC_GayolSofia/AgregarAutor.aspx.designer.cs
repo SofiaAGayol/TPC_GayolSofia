@@ -51,40 +51,40 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.TextBox txtBestSellerAutor;
 
         /// <summary>
-        /// Control btnGuardarAutor.
+        /// Control btnGuardar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardarAutor;
+        protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// Control btnModificarAutor.
+        /// Control btnModificar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModificarAutor;
+        protected global::System.Web.UI.WebControls.Button btnModificar;
 
         /// <summary>
-        /// Control btnEliminarAutor.
+        /// Control btnBaja.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEliminarAutor;
+        protected global::System.Web.UI.WebControls.Button btnBaja;
 
         /// <summary>
-        /// Control btnRestablecerAutor.
+        /// Control btnRestablecer.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRestablecerAutor;
+        protected global::System.Web.UI.WebControls.Button btnRestablecer;
 
         /// <summary>
         /// Control CbBajaDef.
@@ -123,13 +123,13 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl alertMessage;
 
         /// <summary>
-        /// Control pnlMensajeAutor.
+        /// Control pnlMensaje.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMensajeAutor;
+        protected global::System.Web.UI.WebControls.Panel pnlMensaje;
 
         /// <summary>
         /// Control btnCerrarMensajeAutor.
@@ -141,13 +141,13 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.Button btnCerrarMensajeAutor;
 
         /// <summary>
-        /// Control pnlMensajeModificacionAutor.
+        /// Control pnlMensajeModificacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMensajeModificacionAutor;
+        protected global::System.Web.UI.WebControls.Panel pnlMensajeModificacion;
 
         /// <summary>
         /// Control btnCerrarMensajeModAutor.

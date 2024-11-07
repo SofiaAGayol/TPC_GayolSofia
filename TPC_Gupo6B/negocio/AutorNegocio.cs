@@ -57,7 +57,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IdAutor, Nombre, Apellido, IdNacionalidad, BestSeller FROM Autor WHERE IdAutor = @IdAutor;");
+                datos.setearConsulta("SELECT IdAutor, Nombre, Apellido, IdNacionalidad, BestSeller FROM Autores WHERE IdAutor = @IdAutor;");
                 datos.setearParametro("@IdAutor", autorId);
                 datos.ejecutarLectura();
 
@@ -72,7 +72,6 @@ namespace negocio
                         Nacionalidad = new Nacionalidad
                         {
                             IdNacionalidad = Convert.ToInt32(datos.Lector["IdNacionalidad"]),
-                            Descripcion = datos.Lector["Descripcion"].ToString()
                         }
                     };
                 }
@@ -95,15 +94,16 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT estado FROM Autor WHERE IdAutor = @idAutor;");
+                datos.setearConsulta("SELECT estado FROM Autores WHERE IdAutor = @idAutor;");
                 datos.setearParametro("@idAutor", idAutor);
 
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
-                    if (!Convert.IsDBNull(datos.Lector["estado"]))                    {
-                        bool estado = (bool)datos.Lector["estado"];
+                    if (!Convert.IsDBNull(datos.Lector["Estado"]))
+                    {
+                        bool estado = (bool)datos.Lector["Estado"];
                         resultado = estado;
                     }
                 }
@@ -148,14 +148,15 @@ namespace negocio
 
             return true;
         }
-        public bool Modificar(string nombre, string apellido, int idNacionalidad, string bestSeller)
+        public bool Modificar(int IDAutor, string nombre, string apellido, int idNacionalidad, string bestSeller)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("UPDATE  Autores set @Nombre=Nombre, @Apellido=Apellido, @IdNacionalidad=IdNacionalidad, @BestSeller=BestSeller;");
+                datos.setearConsulta("UPDATE Autores SET Nombre = @Nombre, Apellido = @Apellido, IdNacionalidad = @IdNacionalidad, BestSeller = @BestSeller WHERE IDAutor = @IDAutor;");
 
+                datos.setearParametro("@IDAutor", IDAutor);
                 datos.setearParametro("@Nombre", nombre);
                 datos.setearParametro("@Apellido", apellido);
                 datos.setearParametro("@IdNacionalidad", idNacionalidad);

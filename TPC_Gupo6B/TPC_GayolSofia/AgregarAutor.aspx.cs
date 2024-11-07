@@ -18,14 +18,16 @@ namespace TPC_GayolSofia
         {
             CargarNacionalidad();
 
-            btnEliminarAutor.Visible = false;
-            btnRestablecerAutor.Visible = false;
-            btnGuardarAutor.Visible = false;
-            btnModificarAutor.Visible = false;
+            btnBaja.Visible = false;
+            CbBajaDef.Visible = false;
+            btnBajaDef.Visible = false;
+            btnRestablecer.Visible = false;
+            btnGuardar.Visible = false;
+            btnModificar.Visible = false;
 
             if (!IsPostBack)
             {
-                btnGuardarAutor.Visible = true;
+                btnGuardar.Visible = true;
 
                 if (Request.QueryString["id"] != null)
                 {
@@ -39,15 +41,19 @@ namespace TPC_GayolSofia
                     ddlNacionalidadAutor.SelectedValue = autor.Nacionalidad.ToString();
                     txtBestSellerAutor.Text = autor.BestSeller;
 
-                    btnModificarAutor.Visible = true;
-                    btnGuardarAutor.Visible = false;
-                    btnEliminarAutor.Visible = true;
+                    btnModificar.Visible = true;
+                    btnGuardar.Visible = false;
+                    btnBaja.Visible = true;
+                    CbBajaDef.Visible = false;
+                    btnBajaDef.Visible = false;
 
-                    if (autorNegocio.estaBaja(id))
+                    if (!autorNegocio.estaBaja(id))
                     {
-                        btnModificarAutor.Visible = false;
-                        btnEliminarAutor.Visible = false;
-                        btnRestablecerAutor.Visible = true;
+                        btnModificar.Visible = true;
+                        btnBaja.Visible = false;
+                        CbBajaDef.Visible = false;
+                        btnBajaDef.Visible = false;
+                        btnRestablecer.Visible = true;
                     }
                 }
 
@@ -90,60 +96,45 @@ namespace TPC_GayolSofia
 
             autorNegocio.Agregar(nombre,apellido,idNacionalidad,bestSeller);
 
-            pnlMensajeAutor.Style["display"] = "block";
+            pnlMensaje.Style["display"] = "block";
             divAlert.Style["display"] = "none";
 
         }
 
-
+        
         protected void btnCerrarMensajeAutor_Click(object sender, EventArgs e)
         {
-            pnlMensajeAutor.Style["display"] = "none";
-            Response.Redirect("Usuarios.aspx");
-        }
-
-
-        protected void btnEliminarAutor_Click(object sender, EventArgs e)
-        {
-            btnEliminarAutor.Visible = false;
-            CbBajaDef.Visible = true;
-            btnBajaDef.Visible = true;
-        }
-
-        protected void btnBajaDef_Click(object sender, EventArgs e)
-        {
-            id = int.Parse(Request.QueryString["id"]);
-            AutorNegocio autorNegocio = new AutorNegocio();
-
-            if (CbBajaDef.Checked)
-            {
-                autorNegocio.BajaLogica(id);
-                Response.Redirect("Autores.aspx");
-            }
-        }
-
-        protected void btnRestablecerAutor_Click(object sender, EventArgs e)
-        {
-            id = int.Parse(Request.QueryString["id"]);
-            AutorNegocio autorNegocio = new AutorNegocio();
-
-            autorNegocio.RestablecerLogica(id);
+            pnlMensaje.Style["display"] = "none";
             Response.Redirect("Autores.aspx");
         }
 
-
-        protected void btnModificarAutor_Click(object sender, EventArgs e)
+        protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            id = int.Parse(Request.QueryString["id"]);
-            btnModificarAutor.Visible = true;
-
             AutorNegocio autorNegocio = new AutorNegocio();
             string nombre = txtNombreAutor.Text;
             string apellido = txtApellidoAutor.Text;
             int idNacionalidad = Convert.ToInt32(ddlNacionalidadAutor.SelectedValue);
             string bestSeller = txtBestSellerAutor.Text;
 
-            string mensajeError = autorNegocio.ValidarCampos(nombre, apellido);
+            string mensajeError = string.Empty;
+
+            // Validaciones
+            if (string.IsNullOrEmpty(nombre))
+            {
+                mensajeError = "Nombre no válido.";
+            }
+            else if (string.IsNullOrEmpty(apellido))
+            {
+                mensajeError = "Apellido no válido.";
+            }
+            else if (idNacionalidad <= 0)
+            {
+                mensajeError = "Nacionalidad no válida.";
+            }
+            else if (string.IsNullOrEmpty(bestSeller))
+            {
+                mensajeError = "Best seller no válido.";
+            }
 
             if (!string.IsNullOrEmpty(mensajeError))
             {
@@ -152,11 +143,90 @@ namespace TPC_GayolSofia
                 return;
             }
 
-            autorNegocio.Modificar(nombre, apellido, idNacionalidad, bestSeller);
+            autorNegocio.Agregar(nombre, apellido, idNacionalidad, bestSeller);
 
-            pnlMensajeAutor.Style["display"] = "block";
+            pnlMensaje.Style["display"] = "block";
             divAlert.Style["display"] = "none";
+        }
 
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            int idAutor = int.Parse(Request.QueryString["id"]);
+            btnModificar.Visible = true;
+
+            AutorNegocio autorNegocio = new AutorNegocio();
+            string nombre = txtNombreAutor.Text;
+            string apellido = txtApellidoAutor.Text;
+            int idNacionalidad = Convert.ToInt32(ddlNacionalidadAutor.SelectedValue);
+            string bestSeller = txtBestSellerAutor.Text;
+
+            string mensajeError = string.Empty;
+
+            // Validaciones
+            if (string.IsNullOrEmpty(nombre))
+            {
+                mensajeError = "Nombre no válido.";
+            }
+            else if (string.IsNullOrEmpty(apellido))
+            {
+                mensajeError = "Apellido no válido.";
+            }
+            else if (idNacionalidad <= 0)
+            {
+                mensajeError = "Nacionalidad no válida.";
+            }
+            else if (string.IsNullOrEmpty(bestSeller))
+            {
+                mensajeError = "Best seller no válido.";
+            }
+
+            if (!string.IsNullOrEmpty(mensajeError))
+            {
+                alertMessage.InnerText = mensajeError;
+                divAlert.Style["display"] = "block";
+                return;
+            }
+
+            // Mostrar mensaje de error si hay
+            if (!string.IsNullOrEmpty(mensajeError))
+            {
+                alertMessage.InnerText = mensajeError;
+                divAlert.Style["display"] = "block";
+                return;
+            }
+
+            autorNegocio.Modificar(idAutor, nombre, apellido, idNacionalidad, bestSeller);
+
+            pnlMensajeModificacion.Style["display"] = "block";
+            divAlert.Style["display"] = "none";
+        }
+
+        protected void btnBaja_Click(object sender, EventArgs e)
+        {
+            btnBaja.Visible = false;
+            CbBajaDef.Visible = true;
+            btnBajaDef.Visible = true;
+        }
+
+        protected void btnRestablecer_Click(object sender, EventArgs e)
+        {
+            id = int.Parse(Request.QueryString["id"]);
+            AutorNegocio autor = new AutorNegocio();
+
+            autor.RestablecerLogica(id);
+            Response.Redirect("Autores.aspx");
+        }
+
+        protected void btnBajaDef_Click1(object sender, EventArgs e)
+        {
+            id = int.Parse(Request.QueryString["id"]);
+            AutorNegocio autor = new AutorNegocio();
+
+            if (CbBajaDef.Checked)
+            {
+                autor.BajaLogica(id);
+                Response.Redirect("Autores.aspx");
+            }
         }
     }
 }
