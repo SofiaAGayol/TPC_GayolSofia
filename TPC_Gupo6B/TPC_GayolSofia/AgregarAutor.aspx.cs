@@ -77,29 +77,6 @@ namespace TPC_GayolSofia
             }
         }
 
-        protected void btnGuardarAutor_Click(object sender, EventArgs e)
-        {
-            AutorNegocio autorNegocio = new AutorNegocio();
-            string nombre = txtNombreAutor.Text;
-            string apellido = txtApellidoAutor.Text;
-            int idNacionalidad = Convert.ToInt32(ddlNacionalidadAutor.SelectedValue);
-            string bestSeller = txtBestSellerAutor.Text;
-
-            string mensajeError = autorNegocio.ValidarCampos(nombre, apellido);
-
-            if (!string.IsNullOrEmpty(mensajeError))
-            {
-                alertMessage.InnerText = mensajeError;
-                divAlert.Style["display"] = "block";
-                return;
-            }
-
-            autorNegocio.Agregar(nombre,apellido,idNacionalidad,bestSeller);
-
-            pnlMensaje.Style["display"] = "block";
-            divAlert.Style["display"] = "none";
-
-        }
 
         
         protected void btnCerrarMensajeAutor_Click(object sender, EventArgs e)
@@ -119,7 +96,11 @@ namespace TPC_GayolSofia
             string mensajeError = string.Empty;
 
             // Validaciones
-            if (string.IsNullOrEmpty(nombre))
+            if (autorNegocio.ExisteAutor(nombre, apellido))
+            {
+                mensajeError = "Autor ya registrado.";
+            }
+            else if (string.IsNullOrEmpty(nombre))
             {
                 mensajeError = "Nombre no válido.";
             }
@@ -140,6 +121,7 @@ namespace TPC_GayolSofia
             {
                 alertMessage.InnerText = mensajeError;
                 divAlert.Style["display"] = "block";
+                btnGuardar.Visible = true;
                 return;
             }
 
@@ -163,7 +145,11 @@ namespace TPC_GayolSofia
             string mensajeError = string.Empty;
 
             // Validaciones
-            if (string.IsNullOrEmpty(nombre))
+            if (autorNegocio.ExisteAutorNuevo(nombre,apellido, idAutor))
+            {
+                mensajeError = "Autor ya registrado.";
+            }
+            else if (string.IsNullOrEmpty(nombre))
             {
                 mensajeError = "Nombre no válido.";
             }

@@ -221,6 +221,63 @@ namespace negocio
 
             return true;
         }
+        public bool ExisteAutor(string nombre, string apellido)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Autores WHERE Nombre = @Nombre AND Apellido = @Apellido");
+                datos.setearParametro("@Nombre", nombre);
+                datos.setearParametro("@Apellido", apellido);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0);
+        }
+        public bool ExisteAutorNuevo(string nombre, string apellido, int idAutor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Autores WHERE Nombre = @Nombre AND Apellido = @Apellido AND IDAutor <> @IDAutor;");
+                datos.setearParametro("@Nombre", nombre);
+                datos.setearParametro("@Apellido", apellido);
+                datos.setearParametro("@IDAutor", idAutor);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0);
+        }
 
         //Validacin
         public string ValidarCampos(string nombre, string apellido)

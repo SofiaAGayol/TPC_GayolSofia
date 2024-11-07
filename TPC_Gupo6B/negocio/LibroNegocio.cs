@@ -346,6 +346,34 @@ namespace negocio
 
             return (contador > 0) ? true : false;
         }
+        public bool ExisteTituloNuevo(string titulo, int idLibro)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Libro WHERE Titulo = @Titulo AND IdLibro <> @IdLibro;");
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@IdLibro", idLibro);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0);
+        }
 
         //ABM
         public bool Agregar(string titulo, DateTime fechaPublicacion, int ejemplares, bool estado, string imagen, int idAutor, int idCategoria)
@@ -489,7 +517,62 @@ namespace negocio
 
             return true;
         }
+        public bool ExisteLibro(string titulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
 
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Libro WHERE Titulo = @Titulo");
+                datos.setearParametro("@Titulo", titulo);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0);
+        }
+
+        public bool ExisteLibroNuevo(string titulo, int idLibro)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            int contador = 0;
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) AS Contador FROM Libro WHERE Titulo = @Titulo AND IdLibro <> @IdLibro;");
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@IdLibro", idLibro);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    contador = Convert.ToInt32(datos.Lector["Contador"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return (contador > 0);
+        }
 
 
 

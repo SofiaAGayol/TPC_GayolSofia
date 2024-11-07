@@ -141,6 +141,7 @@ namespace TPC_GayolSofia
             {
                 alertMessage.InnerText = mensajeError;
                 divAlert.Style["display"] = "block";
+                btnGuardar.Visible = true;
                 return;
             }
 
@@ -171,7 +172,7 @@ namespace TPC_GayolSofia
             {
                 mensajeError = "Título no válido.";
             }
-            else if (libroNegocio.ExisteTitulo(titulo)) 
+            else if (libroNegocio.ExisteTituloNuevo(titulo,id)) 
             {
                 mensajeError = "Título ya registrado.";
             }

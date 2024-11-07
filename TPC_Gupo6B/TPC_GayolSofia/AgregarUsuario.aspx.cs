@@ -31,6 +31,7 @@ namespace TPC_GayolSofia
                 CargarRoles();
                 btnGuardar.Visible = true;
 
+
                 //SI SE LE PASA POR PARAMETRO UN ID VA A HABILITARSE PARA "DAR BAJA"
                 if (Request.QueryString["id"] != null)
                 {
@@ -144,6 +145,7 @@ namespace TPC_GayolSofia
             {
                 alertMessage.InnerText = mensajeError;
                 divAlert.Style["display"] = "block";
+                btnGuardar.Visible = true;
                 return;
             }
 
@@ -151,7 +153,7 @@ namespace TPC_GayolSofia
                 
                 pnlMensaje.Style["display"] = "block";
                 divAlert.Style["display"] = "none";
-            
+
         }
 
 
