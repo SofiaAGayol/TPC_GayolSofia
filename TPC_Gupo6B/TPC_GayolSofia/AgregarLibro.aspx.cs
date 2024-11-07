@@ -153,7 +153,55 @@ namespace TPC_GayolSofia
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
+            id = int.Parse(Request.QueryString["id"]);
+            btnModificar.Visible = true;
 
+            LibroNegocio libroNegocio = new LibroNegocio();
+            string titulo = txtTitulo.Text;
+            string autor = ddlAutor.SelectedValue;
+            string categoria = ddlCategoria.SelectedValue;
+            string fechaPublicacion = txtFechaPublicacion.Text;
+            string ejemplares = txtEjemplares.Text;
+            string imagenURL = txtImagenURL.Text;
+
+            string mensajeError = string.Empty;
+
+            // Validaciones
+            if (string.IsNullOrEmpty(titulo))
+            {
+                mensajeError = "Título no válido.";
+            }
+            else if (libroNegocio.ExisteTitulo(titulo)) 
+            {
+                mensajeError = "Título ya registrado.";
+            }
+            else if (string.IsNullOrEmpty(autor))
+            {
+                mensajeError = "Autor no válido.";
+            }
+            else if (string.IsNullOrEmpty(categoria))
+            {
+                mensajeError = "Categoría no válida.";
+            }
+            else if (string.IsNullOrEmpty(ejemplares) || !int.TryParse(ejemplares, out _))
+            {
+                mensajeError = "Número de ejemplares no válido.";
+            }
+            else if (string.IsNullOrEmpty(imagenURL))
+            {
+                mensajeError = "URL de la imagen no válida.";
+            }
+
+            if (!string.IsNullOrEmpty(mensajeError))
+            {
+                alertMessage.InnerText = mensajeError;
+                divAlert.Style["display"] = "block";
+                return;
+            }
+            libroNegocio.Modificar(id,titulo, Convert.ToDateTime(fechaPublicacion), Convert.ToInt32(ejemplares), imagenURL, Convert.ToInt32(autor), Convert.ToInt32(categoria));
+
+            pnlMensajeModificacion.Style["display"] = "block";
+            divAlert.Style["display"] = "none";
         }
 
         protected void btnBaja_Click(object sender, EventArgs e)

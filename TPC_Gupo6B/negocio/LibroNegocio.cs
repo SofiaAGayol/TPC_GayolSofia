@@ -460,6 +460,38 @@ namespace negocio
             return resultado;
         }
 
+        public bool Modificar(int idLibro, string titulo, DateTime fechaPublicacion, int ejemplares, string imagen, int idAutor, int idCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Libro SET Titulo = @Titulo, FechaPublicacion = @FechaPublicacion, Ejemplares = @Ejemplares, Disponibles = @Ejemplares, ImagenURL = @Imagen, IdAutor = @IdAutor, IdCategoria = @IdCategoria WHERE IdLibro = @IdLibro;");
+
+                datos.setearParametro("@IdLibro", idLibro);
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@FechaPublicacion", fechaPublicacion);
+                datos.setearParametro("@Ejemplares", ejemplares);
+                datos.setearParametro("@Imagen", imagen);
+                datos.setearParametro("@IdAutor", idAutor);
+                datos.setearParametro("@IdCategoria", idCategoria);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return true;
+        }
+
+
+
 
         /*
         public void Agregar(Libro nuevo)

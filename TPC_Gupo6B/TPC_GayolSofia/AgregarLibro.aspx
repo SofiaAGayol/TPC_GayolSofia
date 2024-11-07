@@ -69,7 +69,7 @@
 
     <asp:Panel ID="pnlMensajeModificacion" runat="server" CssClass="mensaje-exito" style="display:none;">
     <h2>Libro modificado correctamente !</h2>
-    <asp:Button ID="Button1" runat="server" Text="Cerrar" CssClass="btn btn-primary mt-3" />
+    <asp:Button ID="Button1" runat="server" Text="Cerrar" OnClick="btnCerrarMensaje_Click1" CssClass="btn btn-primary mt-3" />
     </asp:Panel>
 
 <style>
