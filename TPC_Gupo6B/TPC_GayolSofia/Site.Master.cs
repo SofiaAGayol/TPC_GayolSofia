@@ -21,10 +21,13 @@ namespace TPC_GayolSofia
                     if (usuarioActivo.Rol.IDRol == 4)
                     {
                         LogoLink.HRef = "Home.aspx";
+                        pnlCartIcon.Visible = true;
+                        Session["ItemCount"] = 1;// contarLibros(); aca tengo que hacer la funcion para contar libros del carrito
                     }
                     else
                     {
                         LogoLink.HRef = "Informes.aspx";
+                        pnlCartIcon.Visible = false;
                     }
                 }
                 else

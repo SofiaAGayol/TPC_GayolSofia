@@ -6,26 +6,39 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPC_GayolSofia.dominio;
 
 namespace TPC_GayolSofia
 {
     public partial class DetalleLibro : System.Web.UI.Page
     {
+        Usuario usuarioActivo;
+        Libro libroActivo;
         protected void Page_Load(object sender, EventArgs e)
         {
+            LibroNegocio negocio = new LibroNegocio();
+
+            if (Session["UsuarioActivo"] == null)
+            {
+                usuarioActivo = (Usuario)Session["UsuarioActivo"];
+            }
+
             if (!IsPostBack)
             {
                 int idLibro;
+
                 if (int.TryParse(Request.QueryString["id"], out idLibro))
                 {
                     CargarDetallesLibro(idLibro);
                     CargarProductosSimilares(idLibro);
                     CargarMismoAutor(idLibro);
+                    libroActivo = negocio.LibroPorID(idLibro);
+                    Session.Add("LibroActivo", libroActivo);
                 }
                 else
                 {
                     string script = "alert('ID de libro no válido.');" +
-                         "window.location.href='Home.aspx';"; 
+                         "window.location.href='Home.aspx';";
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
             }
@@ -55,9 +68,9 @@ namespace TPC_GayolSofia
         }
 
         private void CargarProductosSimilares(int idLibro)
-        { 
+        {
             LibroNegocio negocio = new LibroNegocio();
-            Libro libro = negocio.LibroPorID(idLibro);           
+            Libro libro = negocio.LibroPorID(idLibro);
             List<Libro> todosLosLibrosDeLaCategoria = negocio.LibrosPorCategoria(libro.Categoria.IdCategoria);
 
             todosLosLibrosDeLaCategoria = todosLosLibrosDeLaCategoria
@@ -74,11 +87,11 @@ namespace TPC_GayolSofia
             rptProductosSimilares.DataSource = librosSimilares;
             rptProductosSimilares.DataBind();
         }
-        
+
         private void CargarMismoAutor(int idLibro)
-        { 
+        {
             LibroNegocio negocio = new LibroNegocio();
-            Libro libro = negocio.LibroPorID(idLibro);           
+            Libro libro = negocio.LibroPorID(idLibro);
             List<Libro> todosLosLibrosDelAutor = negocio.LibrosPorAutor(libro.Autor.IdAutor);
 
             todosLosLibrosDelAutor = todosLosLibrosDelAutor
@@ -111,7 +124,32 @@ namespace TPC_GayolSofia
 
         protected void AgregarCarrito_Click(object sender, EventArgs e)
         {
-            // Lógica para agregar al carrito
+            CarritoNegocio negocio = new CarritoNegocio();
+
+            if (usuarioActivo == null)
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
+
+            if (Session["LibroActivo"] != null)
+            {
+                libroActivo = (Libro)Session["LibroActivo"];
+
+                if (libroActivo.Estado)
+                {
+                    negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
+                    alertMessage.InnerText = "Libro agregado al carrito con éxito.";
+                    divAlert.Style["display"] = "block";
+                }
+                else
+                {
+                    alertMessage.InnerText = "El libro seleccionado no está disponible para agregar al carrito.";
+                    divAlert.Style["display"] = "block";
+                }
+            }
+
+
         }
 
     }

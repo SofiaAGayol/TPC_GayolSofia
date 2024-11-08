@@ -30,6 +30,9 @@
                         <asp:Button ID="btnPedirAhora" runat="server" Text="Solicitar libro" CssClass="btn btn-primary btn-lg" OnClick="Solicitar_Click" />
                         <asp:Button ID="btnAgregarCarrito" runat="server" Text="Agregar al carrito" CssClass="btn btn-outline-primary btn-lg" OnClick="AgregarCarrito_Click" />
                     </div>
+                    <div id="divAlert" runat="server" style="display: none; border: 1px solid #d1e7dd; background-color: #d4edda; color: #155724; padding: 10px; margin-top: 20px; border-radius: 5px;">
+                        <span id="alertMessage" runat="server"></span>
+                    </div>
 
                     <!-- Condiciones de Envío Gratis -->
                     <div class="mt-3">
@@ -63,7 +66,8 @@
 
         <!-- Mismo autor -->
         <div class="row mt-5">
-            <h4><asp:Label ID="lblMismoAutor" runat="server" Text="Otros titulos del autor" CssClass="fw-bold"/></h4>
+            <h4>
+                <asp:Label ID="lblMismoAutor" runat="server" Text="Otros titulos del autor" CssClass="fw-bold" /></h4>
             <asp:Repeater ID="rptMismoAutor" runat="server">
                 <ItemTemplate>
                     <div class="col-md-3">

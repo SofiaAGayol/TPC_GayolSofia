@@ -29,9 +29,9 @@ namespace TPC_GayolSofia
         protected void CargarLibros()
         {
             LibroNegocio negocio = new LibroNegocio();
-            List<Libro> listaLibros = negocio.Listar();
+            List<Libro> listaLibros = negocio.ListarDisponibles();
 
-            Session.Add("listaLibros", negocio.Listar());
+            Session.Add("listaLibros", negocio.ListarDisponibles());
 
             RepeaterArticulos.DataSource = Session["listaLibros"];
             RepeaterArticulos.DataBind();

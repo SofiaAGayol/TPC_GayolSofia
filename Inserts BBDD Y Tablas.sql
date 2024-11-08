@@ -136,10 +136,58 @@ INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, ID
  */
 
 --AGREGO EL CAMPO DE ESTADO 06/11 16:50HS
-ALTER TABLE Autores
-ADD Estado BIT DEFAULT 1;
-GO
+-- ALTER TABLE Autores
+-- ADD Estado BIT DEFAULT 1;
+-- GO
 
-UPDATE Autores
-SET Estado = 1;
-GO
+-- UPDATE Autores
+-- SET Estado = 1;
+-- GO
+
+--CAMBIO BIT POT TINYINT EN ESTADO PRESTAMO 07/11
+ALTER TABLE Membresias
+ALTER COLUMN Estado TINYINT;
+
+--ACTUALIZAR LAS MEMBRESIAS 07/11 
+UPDATE TipoMembresia
+SET Costo = 10000.00, LibrosALaVez = 1, LibrosXMes = 3, DuracionMeses = 1, Estado = 1
+WHERE Descripcion = 'Básica';
+
+UPDATE TipoMembresia
+SET Costo = 20000.00, LibrosALaVez = 2, LibrosXMes = 5, DuracionMeses = 2, Estado = 1
+WHERE Descripcion = 'Premium';
+
+--AGREGAR NUEVAS TABLAS 7/11
+CREATE TABLE Direccion (
+    IDDireccion INT IDENTITY(1,1) PRIMARY KEY,
+    IDUsuario INT,
+    Calle NVARCHAR(100),
+    Altura INT,
+    CodigoPostal NVARCHAR(10),
+    Aclaracion NVARCHAR(200) NULL,
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
+);
+
+CREATE TABLE Envios (
+    IDEnvio INT IDENTITY(1,1) PRIMARY KEY,
+    IDUsuario INT,
+    IDLibro INT,
+    IDDireccion INT,
+    FechaPedido DATE,
+    FechaEnvio DATE,
+    Estado INT,
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
+    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
+    FOREIGN KEY (IDDireccion) REFERENCES Direccion(IDDireccion)
+);
+
+CREATE TABLE Deudas (
+    IDDeuda INT IDENTITY(1,1) PRIMARY KEY,
+    IDUsuario INT,
+    Monto DECIMAL(10, 2),
+    FechaCreacion DATE DEFAULT GETDATE(),
+    FechaPago DATE,
+    Estado INT,
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
+);
+

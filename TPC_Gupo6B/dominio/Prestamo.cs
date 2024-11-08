@@ -13,7 +13,7 @@ namespace dominio
         public DateTime? FechaPrestamo { get; set; }
         public DateTime? FechaDevolucion { get; set; }
         public Libro Libro { get; set; }
-        public bool estado {  get; set; }
+        public int estado {  get; set; }
 
 
     }
