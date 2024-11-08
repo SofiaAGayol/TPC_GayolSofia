@@ -36,6 +36,11 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField HeaderText="Best Seller" DataField="BestSeller" />
+                    <asp:TemplateField HeaderText="Estado">
+                    <ItemTemplate>
+                        <%# Convert.ToBoolean(Eval("Estado")) ? "✓" : "✖" %>
+                    </ItemTemplate>
+                </asp:TemplateField>
                     <asp:CommandField HeaderText="Modificar" ShowSelectButton="true" SelectText=" ✍" />
                 </Columns>
             </asp:GridView>

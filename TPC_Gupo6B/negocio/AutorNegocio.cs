@@ -10,14 +10,14 @@ namespace negocio
 {
     public class AutorNegocio
     {
-        public List<Autor> Listar()
+        public List<Autor> Listar() //LISTA SOLO AUTORES ACTIVOS (ESTADO = 1)
         {
             AccesoDatos datos = new AccesoDatos();
             List<Autor> autores = new List<Autor>();
 
             try
             {
-                datos.setearConsulta("SELECT IDAutor, Nombre, Apellido, a.IdNacionalidad, n.Descripcion, BestSeller FROM Autores a JOIN Nacionalidad n ON a.IdNacionalidad = n.IdNacionalidad ORDER BY Apellido ASC;");
+                datos.setearConsulta("SELECT IDAutor, Nombre, Apellido, a.IdNacionalidad, n.Descripcion, BestSeller, Estado FROM Autores a JOIN Nacionalidad n ON a.IdNacionalidad = n.IdNacionalidad WHERE a.Estado = 1 ORDER BY Apellido ASC;\r\n");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -28,6 +28,7 @@ namespace negocio
                         Nombre = datos.Lector["Nombre"].ToString(),
                         Apellido = datos.Lector["Apellido"].ToString(),
                         BestSeller = datos.Lector["BestSeller"].ToString(),
+                        Estado = (bool)datos.Lector["Estado"],
                         Nacionalidad = new Nacionalidad
                         {
                             IdNacionalidad = (int)datos.Lector["IdNacionalidad"],
