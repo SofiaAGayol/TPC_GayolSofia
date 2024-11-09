@@ -2,54 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-
-
-    <%--Menu de navecgacion--%>
-    <nav class="navbar navbar-dark bg-transparent fixed-top">
-        <div class="container-fluid">
-            <%--<a class="navbar-brand" href="#">Mi cuenta</a>--%>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Nombre Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Mi estanteria</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mi Perfil
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Historial</a></li>
-                                <li><a class="dropdown-item" href="#">Ajustes</a></li>
-                                <li><a class="dropdown-item" href="#">Cuenta</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Mi Membresia</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Ayuda</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control my-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <%-- Busqueda y filtros --%>
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary mb-2" data-bs-theme="dark">
         <div class="container-fluid">
@@ -94,10 +46,10 @@
                 </ul>
             </div>
 
-            <form class="d-flex" role="search">
+            <div class="d-flex" role="search">
                 <asp:TextBox class="form-control me-2" type="search" placeholder="Buscar libro" aria-label="Buscar" ID="filtro" runat="server" AutoPostBack="true" OnTextChanged="filtro_TextChanged" TextMode="Search" />
                 <button class="btn btn-outline-light" type="submit">Buscar</button>
-            </form>
+            </div>
         </div>
 
     </nav>
@@ -138,7 +90,7 @@
                                 </div>
                                 <div class="d-grid gap-1 d-flex justify-content-evenly mb-3 mx-3">
                                     <asp:Button ID="botonDetalles" class="btn btn-primary flex-fill" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' OnClick="botonDetalles_Click" />
-                                    <asp:Button ID="botonModificar" class="btn btn-secondary flex-fill" runat="server" Text="Detalles" CommandArgument='<%# Eval("IDLibro") %>' />
+                                    <asp:Button ID="botonAgregarCarrito" class="btn btn-secondary flex-fill" runat="server" Text="Agregar al carrito" CommandArgument='<%# Eval("IDLibro") %>' OnClick="btnAgregarCarrito_Click" />
                                 </div>
                             </div>
                         </div>

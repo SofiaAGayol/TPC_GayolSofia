@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPC_GayolSofia.dominio;
 
 namespace TPC_GayolSofia
 {
@@ -176,6 +177,36 @@ namespace TPC_GayolSofia
                 string script = $"alert('El libro seleccionado no existe.');";
             }
             
+        }
+
+        protected void btnAgregarCarrito_Click(object sender, EventArgs e)
+        {
+            CarritoNegocio negocio = new CarritoNegocio();
+
+            Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
+            Libro libroActivo = (Libro)Session["LibroActivo"];
+
+            if (usuarioActivo == null)
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
+
+            if (Session["LibroActivo"] != null && libroActivo.Estado)
+            {
+                negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
+                string script = "alert('Libro agregado al carrito con éxito.');" +
+                         "window.location.href='Home.aspx';";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+            }
+            else
+            {
+                string script = "alert('El libro seleccionado no está disponible para agregar al carrito.');" +
+                         "window.location.href='Home.aspx';";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+            }
+
+
         }
 
     }

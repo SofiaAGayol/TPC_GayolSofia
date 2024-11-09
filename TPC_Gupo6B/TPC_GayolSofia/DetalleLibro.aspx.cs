@@ -126,27 +126,25 @@ namespace TPC_GayolSofia
         {
             CarritoNegocio negocio = new CarritoNegocio();
 
+            usuarioActivo = (Usuario)Session["UsuarioActivo"];
+            libroActivo = (Libro)Session["LibroActivo"];
+
             if (usuarioActivo == null)
             {
                 Response.Redirect("Login.aspx");
                 return;
             }
 
-            if (Session["LibroActivo"] != null)
+            if (Session["LibroActivo"] != null && libroActivo.Estado)
             {
-                libroActivo = (Libro)Session["LibroActivo"];
-
-                if (libroActivo.Estado)
-                {
-                    negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
-                    alertMessage.InnerText = "Libro agregado al carrito con éxito.";
-                    divAlert.Style["display"] = "block";
-                }
-                else
-                {
-                    alertMessage.InnerText = "El libro seleccionado no está disponible para agregar al carrito.";
-                    divAlert.Style["display"] = "block";
-                }
+                negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
+                alertMessage.InnerText = "Libro agregado al carrito con éxito.";
+                divAlert.Style["display"] = "block";
+            }
+            else
+            {
+                alertMessage.InnerText = "El libro seleccionado no está disponible para agregar al carrito.";
+                divAlert.Style["display"] = "block";
             }
 
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using dominio;
+using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,23 +20,50 @@ namespace TPC_GayolSofia
                 Response.Redirect("Login.aspx");
                 return;
             }
-
             usuarioActivo = (Usuario)Session["UsuarioActivo"];
-            int idUsuario = usuarioActivo.IdUsuario;
+            if (!IsPostBack)
+            {
+                CargarCarrito();
+            }
         }
-        protected void btnMenos_Click(object sender, EventArgs e)
+        private void CargarCarrito()
         {
-            // Lógica para prestamo inmediato
-        }
-        protected void btnMas_Click(object sender, EventArgs e)
-        {
-            // Lógica para prestamo inmediato
+            CarritoNegocio carritoNegocio = new CarritoNegocio();
+            List<Libro> librosEnCarrito = carritoNegocio.CargarCarrito(usuarioActivo.IdUsuario);
+
+            if (librosEnCarrito.Count > 0)
+            {
+                PanelNoLibros.Visible = false;
+                RepeaterCarrito.DataSource = librosEnCarrito;
+                RepeaterCarrito.DataBind();
+            }
+            else
+            {
+                PanelNoLibros.Visible = true;
+                RepeaterCarrito.DataSource = null;
+                RepeaterCarrito.DataBind();
+            }
+
+            lblTotalLibros.Text = librosEnCarrito.Count.ToString();
         }
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            // Lógica para prestamo inmediato
-        }
+            Button btnEliminar = (Button)sender;
+            int idLibro = Convert.ToInt32(btnEliminar.CommandArgument);
 
+            CarritoNegocio carritoNegocio = new CarritoNegocio();
+            carritoNegocio.EliminarLibroDelCarrito(usuarioActivo.IdUsuario, idLibro);
+
+            CargarCarrito();
+        }
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            CargarCarrito();
+        }
+        protected void btnCheckout_Click(object sender, EventArgs e)
+        {
+            // Lógica para solicitar préstamo
+        }
 
     }
 }

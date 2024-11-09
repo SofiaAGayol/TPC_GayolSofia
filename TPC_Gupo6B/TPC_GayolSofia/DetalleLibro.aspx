@@ -36,7 +36,7 @@
 
                     <!-- Condiciones de Envío Gratis -->
                     <div class="mt-3">
-                        <asp:Label ID="lblEnvioGratis" runat="server" Text="Envío gratis en compras a partir de $30,000" CssClass="text-muted" />
+                        <asp:Label ID="lblEnvioGratis" runat="server" Text="Envío gratis reservando 3 libros o mas" CssClass="text-muted" />
                     </div>
                 </div>
             </div>

@@ -15,13 +15,13 @@ namespace TPC_GayolSofia
     {
 
         /// <summary>
-        /// Control form1.
+        /// Control PanelNoLibros.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Panel PanelNoLibros;
 
         /// <summary>
         /// Control RepeaterCarrito.
@@ -33,30 +33,30 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.Repeater RepeaterCarrito;
 
         /// <summary>
-        /// Control lblSubtotal.
+        /// Control lblTotalLibros.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSubtotal;
+        protected global::System.Web.UI.WebControls.Label lblTotalLibros;
 
         /// <summary>
-        /// Control lblShipping.
+        /// Control btnActualizar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblShipping;
+        protected global::System.Web.UI.WebControls.Button btnActualizar;
 
         /// <summary>
-        /// Control lblTotal.
+        /// Control btnCheckout.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotal;
+        protected global::System.Web.UI.WebControls.Button btnCheckout;
     }
 }

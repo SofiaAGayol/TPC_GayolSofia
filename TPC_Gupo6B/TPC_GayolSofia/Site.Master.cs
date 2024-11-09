@@ -1,4 +1,5 @@
-﻿using System;
+﻿using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,21 +18,29 @@ namespace TPC_GayolSofia
                 if (Session["UsuarioActivo"] != null)
                 {
                     Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
+                    CarritoNegocio carritoNegocio = new CarritoNegocio();
+
+                    menu.Visible = true;
+                    lblNombreUsuario.Text = $"{usuarioActivo.Nombre} {usuarioActivo.Apellido}";
 
                     if (usuarioActivo.Rol.IDRol == 4)
                     {
+                        pnlClientNav.Visible = true;
                         LogoLink.HRef = "Home.aspx";
                         pnlCartIcon.Visible = true;
-                        Session["ItemCount"] = 1;// contarLibros(); aca tengo que hacer la funcion para contar libros del carrito
+                        int cantCarrito = carritoNegocio.ContarLibrosEnCarrito(usuarioActivo.IdUsuario);
+                        Session["ItemCount"] = cantCarrito;
                     }
                     else
                     {
+                        pnlClientNav.Visible = false;
                         LogoLink.HRef = "Informes.aspx";
                         pnlCartIcon.Visible = false;
                     }
                 }
                 else
                 {
+                    menu.Visible = false;
                     LogoLink.HRef = "Login.aspx";
                 }
             }
