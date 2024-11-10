@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="Autor.cs" />
     <Compile Include="Cargo.cs" />
-    <Compile Include="CarritoItem.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
+    <Compile Include="Direccion.cs" />
     <Compile Include="Libro.cs" />
     <Compile Include="Membresia.cs" />
+    <Compile Include="MetodoDeRetiro.cs" />
+    <Compile Include="MetodoDeEnvio.cs" />
     <Compile Include="MetodoPago.cs" />
     <Compile Include="Nacionalidad.cs" />
     <Compile Include="Pago.cs" />

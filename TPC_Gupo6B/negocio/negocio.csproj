@@ -46,7 +46,11 @@
     <Compile Include="CarritoNegocio.cs" />
     <Compile Include="CategoriaNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
+    <Compile Include="DireccionNegocio.cs" />
     <Compile Include="LibroNegocio.cs" />
+    <Compile Include="MetodoDeEnvioNegocio.cs" />
+    <Compile Include="MetodoDeRetiroNegocio.cs" />
+    <Compile Include="MetodoPagoNegocio.cs" />
     <Compile Include="NacionalidadNegocio.cs" />
     <Compile Include="PrestamoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,7 +13,7 @@ namespace negocio
         {
             AccesoDatos datos = new AccesoDatos();
             List<Prestamo> listaPrestamos = new List<Prestamo>();
-
+            /*
             try
             {
                 datos.setearConsulta(
@@ -29,11 +29,11 @@ namespace negocio
                 {
                     Prestamo prestamo = new Prestamo
                     {
-                        IdPrestamo = (int)datos.Lector["IdPrestamo"],
-                        IdCliente = (int)datos.Lector["IdCliente"],
-                        FechaPrestamo = datos.Lector["FechaPrestamo"] as DateTime?,
-                        FechaDevolucion = datos.Lector["FechaDevolucion"] as DateTime?,
-                        estado = (int)datos.Lector["Estado"],
+                        IDPrestamo = (int)datos.Lector["IdPrestamo"],
+                        IDUsuario = (int)datos.Lector["IdUsuario"],
+                        FechaInicio = (DateTime)datos.Lector["FechaPrestamo"],
+                        FechaFin = (DateTime)datos.Lector["FechaDevolucion"],
+                        Estado = (int)datos.Lector["Estado"],
 
                         Libro = new Libro
                         {
@@ -58,10 +58,40 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-
+            */
             return listaPrestamos;
         }
 
+        public void GuardarPrestamo(Prestamo prestamo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Prestamo (IDLibro, IDUsuario, FechaInicio, FechaFin, Devuelto, MetodoEnvio, CostoEnvio, MetodoRetiro, Estado) " +
+                                     "VALUES (@IDLibro, @IDUsuario, @FechaInicio, @FechaFin, @Devuelto, @MetodoEnvio, @CostoEnvio, @MetodoRetiro, @Estado)");
+
+                datos.setearParametro("@IDLibro", prestamo.Libro.IdLibro);
+                datos.setearParametro("@IDUsuario", prestamo.Usuario.IdUsuario);
+                datos.setearParametro("@FechaInicio", prestamo.FechaInicio);
+                datos.setearParametro("@FechaFin", prestamo.FechaFin);
+                datos.setearParametro("@Devuelto", prestamo.Devuelto);
+                datos.setearParametro("@MetodoEnvio", prestamo.MetodoEnvio.IdMetodoEnvio); 
+                datos.setearParametro("@CostoEnvio", prestamo.CostoEnvio);
+                datos.setearParametro("@MetodoRetiro", prestamo.MetodoRetiro.IdMetodoRetiro);
+                datos.setearParametro("@Estado", prestamo.Estado);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar el préstamo: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

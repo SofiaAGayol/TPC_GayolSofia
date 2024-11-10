@@ -62,7 +62,26 @@ namespace TPC_GayolSofia
         }
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
-            // Lógica para solicitar préstamo
+            if (Session["UsuarioActivo"] == null)
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
+
+            Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
+            CarritoNegocio carritoNegocio = new CarritoNegocio();
+            List<Libro> carrito = carritoNegocio.ListarLibrosEnCarrito(usuarioActivo.IdUsuario);
+
+            if (carrito.Count > 0)
+            {
+                Session["Carrito"] = carrito;
+                Response.Redirect("Checkout.aspx");
+            }
+            else
+            {
+                string script = "alert('El carrito está vacío. Agregue libros antes de proceder al checkout.');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+            }
         }
 
     }

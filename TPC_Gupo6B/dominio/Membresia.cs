@@ -9,7 +9,7 @@ namespace TPC_GayolSofia.dominio
     public class Membresia
     {
         private int IdMembresia {  get; set; }
-        private Cliente Cliente { get; set; }
+        public Usuario Usuario { get; set; }
         private TipoMembresia TipoMembresia { get; set; }
         private DateTime? FechaInicio { get; set; }
         private DateTime? FechaFin { get; set; }

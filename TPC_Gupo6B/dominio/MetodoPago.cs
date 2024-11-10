@@ -8,12 +8,12 @@ namespace TPC_GayolSofia.dominio
 {
     public class MetodoPago
     {
-        private int IdMetodoPago { get; set; }
-        private Cliente Cliente { get; set; }
-        private string TipoTarjeta { get; set; }
-        private int NumeroTarjeta { get; set; }
-        private DateTime? Vencimiento { get; set; }
-        private int CodigoSeguridad { get; set; }
-        
+        public int IdMetodoPago { get; set; }
+        public Usuario Usuario { get; set; }
+        public string TipoTarjeta { get; set; }
+        public string NroTarjeta { get; set; }
+        public DateTime Vencimiento { get; set; }
+        public string Cod { get; set; }
+
     }
 }
