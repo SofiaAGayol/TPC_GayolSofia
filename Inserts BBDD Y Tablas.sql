@@ -144,6 +144,8 @@ INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, ID
 -- SET Estado = 1;
 -- GO
 
+---------------------------- CUANDO HAGAS LAS MODIFICACIONES COMENTALO ASI YA SABEMSO QUE ESTA OK-------------------------------------------
+
 --CAMBIO BIT POT TINYINT EN ESTADO PRESTAMO 07/11
 ALTER TABLE Membresias
 ALTER COLUMN Estado TINYINT;
@@ -158,6 +160,7 @@ SET Costo = 20000.00, LibrosALaVez = 2, LibrosXMes = 5, DuracionMeses = 2, Estad
 WHERE Descripcion = 'Premium';
 
 --AGREGAR NUEVAS TABLAS 7/11
+
 CREATE TABLE Direccion (
     IDDireccion INT IDENTITY(1,1) PRIMARY KEY,
     IDUsuario INT,
@@ -191,3 +194,76 @@ CREATE TABLE Deudas (
     FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
 );
 
+CREATE TABLE Carrito (
+    IDCarrito INT IDENTITY(1,1) PRIMARY KEY,
+    IDUsuario INT NOT NULL,
+    IDLibro INT NOT NULL,
+    FechaAgregado DATE NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
+    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro)
+);
+
+----------------------------------- MOD 10/11 - COMENTAR UNA VEZ USADAS --------------------------------------------------------
+
+--modificaciones para funcionalidades del checkout
+
+-- Actualizaciones a la tabla MetodoDePago
+ALTER TABLE MetodoDePago
+ADD Predeterminado BIT DEFAULT 0;
+GO
+
+-- Actualizaciones a la tabla Direccion
+ALTER TABLE Direccion
+ADD Predeterminada BIT DEFAULT 0;
+GO
+
+CREATE TABLE MetodosDeEnvio (
+    IDMetodoEnvio INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(255),
+    CostoAMBA DECIMAL(10, 2),
+    CostoExterior DECIMAL(10, 2)
+);
+GO
+
+-- Tabla MetodosDeRetiro
+CREATE TABLE MetodosDeRetiro (
+    IDMetodoRetiro INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(255),
+    CostoAMBA DECIMAL(10, 2),
+    CostoExterior DECIMAL(10, 2)
+);
+GO
+
+-- Modificación Tabla Prestamo
+DROP TABLE Prestamo;
+GO
+
+CREATE TABLE Prestamo (
+    IDPrestamo INT IDENTITY(1,1) PRIMARY KEY,
+    IDLibro INT,
+    IDUsuario INT,
+    FechaInicio DATE,
+    FechaFin DATE,
+    Devuelto BIT,
+    IDMetodoEnvio INT,
+    IDMetodoRetiro INT,
+    Estado NVARCHAR(50) DEFAULT 'Pendiente',
+    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
+    FOREIGN KEY (IDMetodoEnvio) REFERENCES MetodosDeEnvio(IDMetodoEnvio),
+    FOREIGN KEY (IDMetodoRetiro) REFERENCES MetodosDeRetiro(IDMetodoRetiro)
+);
+GO
+ALTER TABLE Prestamo
+ADD CostoEnvio DECIMAL(10, 2);
+GO
+
+-- Insertar datos en MetodosDeEnvio y MetodosDeRetiro
+INSERT INTO MetodosDeEnvio (Descripcion, CostoAMBA, CostoExterior)
+VALUES ('Envio a Domicilio', 5000, 10000),
+       ('Retiro en Sucursal', 0, 0);
+GO
+
+INSERT INTO MetodosDeRetiro (Descripcion, CostoAMBA, CostoExterior)
+VALUES ('Retiro por Domicilio en 15 días', 3000, 5000);
+GO

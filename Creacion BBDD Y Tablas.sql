@@ -65,6 +65,7 @@ CREATE TABLE MetodoDePago (
     NroTarjeta NVARCHAR(20),
     Vencimiento DATE,
     Cod NVARCHAR(10),
+    Predeterminado BIT DEFAULT 0,
     FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
 );
 GO
@@ -142,8 +143,14 @@ CREATE TABLE Prestamo (
     FechaInicio DATE,
     FechaFin DATE,
     Devuelto BIT,
+    IDMetodoEnvio INT,
+    IDMetodoRetiro INT,
+    CostoEnvio DECIMAL(10, 2),
+    Estado NVARCHAR(50) DEFAULT 'Pendiente',
     FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
-    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
+    FOREIGN KEY (IDMetodoEnvio) REFERENCES MetodosDeEnvio(IDMetodoEnvio),
+    FOREIGN KEY (IDMetodoRetiro) REFERENCES MetodosDeRetiro(IDMetodoRetiro)
 );
 GO
 
@@ -163,6 +170,7 @@ CREATE TABLE Direccion (
     Altura INT,
     CodigoPostal NVARCHAR(10),
     Aclaracion NVARCHAR(200) NULL,
+    Predeterminada BIT DEFAULT 0
     FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
 );
 
@@ -188,6 +196,32 @@ CREATE TABLE Deudas (
     Estado INT,
     FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario)
 );
+
+CREATE TABLE Carrito (
+    IDCarrito INT IDENTITY(1,1) PRIMARY KEY,
+    IDUsuario INT NOT NULL,
+    IDLibro INT NOT NULL,
+    FechaAgregado DATE NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
+    FOREIGN KEY (IDLibro) REFERENCES Libros(IDLibro)
+);
+
+CREATE TABLE MetodosDeEnvio (
+    IDMetodoEnvio INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(255),
+    CostoAMBA DECIMAL(10, 2),
+    CostoExterior DECIMAL(10, 2)
+);
+GO
+
+-- Tabla MetodosDeRetiro
+CREATE TABLE MetodosDeRetiro (
+    IDMetodoRetiro INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(255),
+    CostoAMBA DECIMAL(10, 2),
+    CostoExterior DECIMAL(10, 2)
+);
+GO
 
 
 --INSERTS BASICOS NECESARIOS--
