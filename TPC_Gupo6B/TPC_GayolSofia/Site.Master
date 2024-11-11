@@ -126,7 +126,6 @@
             </asp:ContentPlaceHolder>
             <hr style="margin-top: 5rem; margin-bottom: 0;" />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Miaplicación ASP.NET</p>
             </footer>
         </div>
 

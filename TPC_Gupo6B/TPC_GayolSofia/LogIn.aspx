@@ -22,7 +22,7 @@
                             <a href="#" class="text-decoration-none">¿Has olvidado tu contraseña?</a>
                         </div>
                         <div class="text-center mt-2">
-                            <span>¿No eres miembro todavía? <br /> Elige un plan <a href="#" class="text-decoration-none">¡Y empieza ahora!</a></span>
+                            <span>¿No eres miembro todavía? <br /> Elige un plan <a href="CrearUsuario.aspx" class="text-decoration-none">¡Y empieza ahora!</a></span>
                         </div>
                     </form>
                 </asp:Panel>

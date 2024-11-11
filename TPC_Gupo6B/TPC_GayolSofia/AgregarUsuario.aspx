@@ -64,7 +64,7 @@
 
     <div class="mx-auto justify-content-center mt-5 alert alert-danger" id="divAlert" style="display: none;" runat="server">
     <span id="alertMessage" runat="server"></span>
-</div>
+    </div>
 
 
     <asp:Panel ID="pnlMensaje" runat="server" CssClass="mensaje-exito" style="display:none;">
