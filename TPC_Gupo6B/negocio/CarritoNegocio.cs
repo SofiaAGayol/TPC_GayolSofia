@@ -30,6 +30,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
+                return;
                 throw ex;
             }
             finally

@@ -69,14 +69,18 @@
     <%--No hay libros--%>
     <asp:Panel ID="PanelNoLibros" runat="server" Visible="false" CssClass="alert alert-info text-center mt-3">
         <i class="bi bi-info-circle-fill"></i>
-        No hay libros para mostrar
-   
+        No hay libros para mostrar 
     </asp:Panel>
+
+    <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-success d-none" Text="" />
+
 
     <%--Libros--%>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <div class="row row-cols-1 row-cols-md-4 g-3">
+
+
 
                 <asp:Repeater ID="RepeaterArticulos" runat="server">
                     <ItemTemplate>

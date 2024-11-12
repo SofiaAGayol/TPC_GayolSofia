@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Optimization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TPC_GayolSofia.dominio;
@@ -12,6 +13,8 @@ namespace TPC_GayolSofia
 {
     public partial class MainCliente : System.Web.UI.Page
     {
+        Usuario usuarioActivo;
+        Libro libroActivo;
         protected void Page_Load(object sender, EventArgs e)
         {
             string Filtro = filtro.Text;
@@ -170,21 +173,22 @@ namespace TPC_GayolSofia
 
             if (libroSeleccionado != null)
             {
-                Response.Redirect("DetalleLibro.aspx?id="+idLibroSeleccionado,false);
+                Response.Redirect("DetalleLibro.aspx?id=" + idLibroSeleccionado, false);
             }
             else
             {
                 string script = $"alert('El libro seleccionado no existe.');";
             }
-            
+
         }
 
         protected void btnAgregarCarrito_Click(object sender, EventArgs e)
         {
-            CarritoNegocio negocio = new CarritoNegocio();
+            CarritoNegocio carritoNegocio = new CarritoNegocio();
+            LibroNegocio libroNegocio = new LibroNegocio();
+            Button button = (Button)sender;
 
-            Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
-            Libro libroActivo = (Libro)Session["LibroActivo"];
+            usuarioActivo = (Usuario)Session["UsuarioActivo"];
 
             if (usuarioActivo == null)
             {
@@ -192,21 +196,37 @@ namespace TPC_GayolSofia
                 return;
             }
 
-            if (Session["LibroActivo"] != null && libroActivo.Estado)
+            int idLibroSeleccionado = Convert.ToInt32(button.CommandArgument);
+            List<Libro> listaLibros = libroNegocio.Listar();
+            Libro libroSeleccionado = listaLibros.FirstOrDefault(l => l.IdLibro == idLibroSeleccionado);
+
+            if (libroSeleccionado != null && libroSeleccionado.Estado)
             {
-                negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
-                string script = "alert('Libro agregado al carrito con éxito.');" +
-                         "window.location.href='Home.aspx';";
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                string script;
+                try
+                {
+                    if (!carritoNegocio.ExisteEnCarrito(usuarioActivo.IdUsuario, libroSeleccionado.IdLibro))
+                    {
+                        carritoNegocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroSeleccionado.IdLibro);
+                        script = "alert('Libro agregado al carrito con éxito.');";
+                    }
+                    else
+                    {
+                        script = "alert('Este libro ya se encuentra en el carrito.');";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    script = "alert('Ocurrió un error al intentar agregar el libro al carrito.');";
+                }
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
             }
             else
             {
-                string script = "alert('El libro seleccionado no está disponible para agregar al carrito.');" +
-                         "window.location.href='Home.aspx';";
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                // Si el libro no está disponible
+                string script = "alert('El libro seleccionado no está disponible.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
             }
-
-
         }
 
     }

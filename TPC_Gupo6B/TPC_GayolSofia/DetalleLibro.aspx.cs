@@ -119,7 +119,23 @@ namespace TPC_GayolSofia
 
         protected void Solicitar_Click(object sender, EventArgs e)
         {
-            // Lógica para prestamo inmediato
+            CarritoNegocio negocio = new CarritoNegocio();
+
+            usuarioActivo = (Usuario)Session["UsuarioActivo"];
+            libroActivo = (Libro)Session["LibroActivo"];
+
+            if (Session["LibroActivo"] != null && libroActivo.Estado)
+            {
+                negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
+                Response.Redirect("Carrito.aspx");
+            }
+            else
+            {
+                alertMessage.InnerText = "El libro seleccionado no está disponible para agregar al carrito.";
+                divAlert.Style["display"] = "block";
+            }
+
+
         }
 
         protected void AgregarCarrito_Click(object sender, EventArgs e)
@@ -137,9 +153,25 @@ namespace TPC_GayolSofia
 
             if (Session["LibroActivo"] != null && libroActivo.Estado)
             {
-                negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
-                alertMessage.InnerText = "Libro agregado al carrito con éxito.";
-                divAlert.Style["display"] = "block";
+                try
+                {
+                    negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
+                    alertMessage.InnerText = "Libro agregado al carrito con éxito.";
+                    divAlert.Style["display"] = "block";
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("El libro ya está en el carrito"))
+                    {
+                        alertMessage.InnerText = "Este libro ya se encuentra en el carrito.";
+                        divAlert.Style["display"] = "block";
+                    }
+                    else
+                    {
+                        alertMessage.InnerText = "Ocurrió un error al intentar agregar el libro al carrito.";
+                        divAlert.Style["display"] = "block";
+                    }
+                }
             }
             else
             {

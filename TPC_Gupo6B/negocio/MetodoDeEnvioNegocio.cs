@@ -11,57 +11,70 @@ namespace negocio
     {
         public List<MetodoDeEnvio> ListarTodos()
         {
-            // Lógica para obtener todos los métodos de envío desde la base de datos
-            return new List<MetodoDeEnvio>();
-        }
-
-        public Libro ObtenerMetodoEnvioPorID(int IdLibro)
-        {
-            Libro libro = null;
+            List<MetodoDeEnvio> listaMetodos = new List<MetodoDeEnvio>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, l.FechaPublicacion, l.Ejemplares, l.Disponibles, l.Estado, l.ImagenURL, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, c.IDCategoria, c.Descripcion AS DescripcionCategoria FROM Libro l LEFT JOIN Autores a ON a.IDAutor = l.IDAutor LEFT JOIN Categoria c ON c.IDCategoria = l.IDCategoria WHERE l.IDLibro = @IdLibro;");
-                datos.setearParametro("@IdLibro", IdLibro);
+                datos.setearConsulta("SELECT IDMetodoEnvio, Descripcion, CostoAMBA, CostoExterior FROM MetodosDeEnvio");
                 datos.ejecutarLectura();
 
-                if (datos.Lector.Read())
+                while (datos.Lector.Read())
                 {
-                    libro = new Libro
+                    MetodoDeEnvio metodo = new MetodoDeEnvio
                     {
-                        IdLibro = (int)datos.Lector["IDLibro"],
-                        Titulo = datos.Lector["Titulo"].ToString(),
-                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
-                        Ejemplares = (int)datos.Lector["Ejemplares"],
-                        Disponibles = (int)datos.Lector["Disponibles"],
-                        Estado = (bool)datos.Lector["Estado"],
-                        Imagen = datos.Lector["ImagenURL"].ToString(),
-                        Autor = new Autor
-                        {
-                            IdAutor = (int)datos.Lector["IDAutor"],
-                            Nombre = datos.Lector["NombreAutor"].ToString(),
-                            Apellido = datos.Lector["ApellidoAutor"].ToString()
-                        },
-
-                        Categoria = new Categoria
-                        {
-                            IdCategoria = (int)datos.Lector["IDCategoria"],
-                            Descripcion = datos.Lector["DescripcionCategoria"].ToString()
-                        }
+                        IdMetodoEnvio = (int)datos.Lector["IDMetodoEnvio"],
+                        Descripcion = datos.Lector["Descripcion"].ToString(),
+                        CostoAMBA = (decimal)datos.Lector["CostoAMBA"],
+                        CostoExterior = (decimal)datos.Lector["CostoExterior"]
                     };
+                    listaMetodos.Add(metodo);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener libro: " + ex.Message, ex);
+                throw new Exception("Error al listar los métodos de envío: " + ex.Message, ex);
             }
             finally
             {
                 datos.cerrarConexion();
             }
 
-            return libro;
+            return listaMetodos;
         }
+        public MetodoDeEnvio ObtenerMetodoEnvioPorID(int IdMetodoDeEnvio)
+        {
+            MetodoDeEnvio metodoDeEnvio = null;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IDMetodoEnvio, Descripcion, CostoAMBA, CostoExterior FROM MetodosDeEnvio WHERE IDMetodoEnvio = @IdMetodoEnvio;");
+                datos.setearParametro("@IdMetodoEnvio", IdMetodoDeEnvio);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    metodoDeEnvio = new MetodoDeEnvio
+                    {
+                        IdMetodoEnvio = (int)datos.Lector["IDMetodoEnvio"],
+                        Descripcion = datos.Lector["Descripcion"].ToString(),
+                        CostoAMBA = (decimal)datos.Lector["CostoAMBA"],
+                        CostoExterior = (decimal)datos.Lector["CostoExterior"]
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el método de envío: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return metodoDeEnvio;
+        }
+
     }
 }

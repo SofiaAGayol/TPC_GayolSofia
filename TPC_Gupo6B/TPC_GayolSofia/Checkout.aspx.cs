@@ -24,86 +24,115 @@ namespace TPC_GayolSofia
                 }
 
                 CargarDatosUsuario(usuarioActivo);
+                CargarLibrosCarrito(usuarioActivo);
+                CargarMetodosDeEnvio();
             }
         }
 
         private void CargarDatosUsuario(Usuario usuarioActivo)
         {
-            txtFirstName.Text = usuarioActivo.Nombre;
-            txtLastName.Text = usuarioActivo.Apellido;
-            txtPhone.Text = usuarioActivo.Telefono;
-            txtEmail.Text = usuarioActivo.Email;
+            txtNombre.Text = usuarioActivo.Nombre;
+            txtApellido.Text = usuarioActivo.Apellido;
+            txtTelefono.Text = usuarioActivo.Telefono;
+            txtCorreoElectronico.Text = usuarioActivo.Email;
 
             DireccionNegocio direccionNegocio = new DireccionNegocio();
             List<Direccion> direcciones = direccionNegocio.ListarPorUsuario(usuarioActivo.IdUsuario);
             if (direcciones.Any(d => d.Predeterminada))
             {
                 Direccion predeterminada = direcciones.First(d => d.Predeterminada);
-                txtStreetAddress.Text = $"{predeterminada.Calle} {predeterminada.Altura}";
-                ddlCountry.SelectedValue = "Argentina";
-                txtCity.Text = predeterminada.Aclaracion;
+                txtDireccion.Text = $"{predeterminada.Calle} {predeterminada.Altura}";
+                ddlPais.SelectedValue = "Argentina";
+                txtCiudad.Text = predeterminada.Aclaracion;
             }
         }
 
-        protected void btnPlaceOrder_Click(object sender, EventArgs e)
+        private void CargarLibrosCarrito(Usuario usuarioActivo)
         {
-            //Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
-            //if (usuarioActivo == null)
-            //{
-            //    Response.Redirect("Login.aspx");
-            //    return;
-            //}
+            CarritoNegocio carritoNegocio = new CarritoNegocio();
+            List<Libro> librosCarrito = carritoNegocio.ListarLibrosEnCarrito(usuarioActivo.IdUsuario);
 
-            //try
-            //{
-            //    Prestamo prestamo = new Prestamo
-            //    {
-            //        Usuario = usuarioActivo,
-            //        FechaInicio = DateTime.Now,
-            //        FechaFin = DateTime.Now.AddMonths(1),
-            //        MetodoEnvio = ObtenerMetodoEnvioSeleccionado(),
-            //        MetodoRetiro = ObtenerMetodoRetiroSeleccionado(),
-            //        CostoEnvio = ObtenerCostoEnvio(),
-            //        Estado = "Pendiente",
-            //        Devuelto = false
-            //    };
+            if (librosCarrito != null && librosCarrito.Count > 0)
+            {
+                rptLibrosCarrito.DataSource = librosCarrito.Select(libro => new
+                {
+                    Titulo = libro.Titulo,
+                    Autor = $"{libro.Autor.Nombre} {libro.Autor.Apellido}"
+                });
+                rptLibrosCarrito.DataBind();
+            }
 
-            //    PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
-            //    prestamoNegocio.Crear(prestamo);
-
-            //    // Si la dirección no existe, guardarla en la base de datos
-            //    if (chkSaveForNextPayment.Checked)
-            //    {
-            //        GuardarDireccion(usuarioActivo);
-            //    }
-
-            //    Response.Redirect("OrderConfirmation.aspx");
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Mostrar error
-            //    lblTotal.Text = "Error al procesar el pedido: " + ex.Message;
-            //}
+            lblTotalLibros.Text = librosCarrito.Count.ToString();
         }
 
-        private void ObtenerMetodoEnvioSeleccionado()
+        private void CargarMetodosDeEnvio()
         {
-            //int idMetodoEnvio = 0;
+            MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
+            List<MetodoDeEnvio> metodosDeEnvio = metodoDeEnvioNegocio.ListarTodos();
 
-            //if (rdoFreeShipping.Checked) idMetodoEnvio = 2;
-            //if (rdoLocalShipping.Checked) idMetodoEnvio = 1;
-            //if (rdoFlatRate.Checked) idMetodoEnvio = 1;
-
-            //MetodoDeEnvioNegocio metodoEnvioNegocio = new MetodoDeEnvioNegocio();
-            //return metodoEnvioNegocio.ObtenerPorId(idMetodoEnvio);
+            rblOpcionesEnvio.DataSource = metodosDeEnvio;
+            rblOpcionesEnvio.DataTextField = "Descripcion";
+            rblOpcionesEnvio.DataValueField = "IdMetodoEnvio";
+            rblOpcionesEnvio.DataBind();
         }
+
+        protected void btnRealizarPedido_Click(object sender, EventArgs e)
+        {
+            Usuario usuarioActivo = (Usuario)Session["UsuarioActivo"];
+
+            if (usuarioActivo == null)
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
+
+            try
+            {
+                int idMetodoEnvioSeleccionado = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
+                MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
+                MetodoDeEnvio metodoEnvio = metodoDeEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvioSeleccionado); 
+
+                Prestamo prestamo = new Prestamo
+                {
+                    Usuario = usuarioActivo,
+                    FechaInicio = DateTime.Now,
+                    FechaFin = DateTime.Now.AddMonths(1),
+                    MetodoEnvio = ObtenerMetodoEnvioSeleccionado(),
+                    //MetodoRetiro = ObtenerMetodoRetiroSeleccionado(),
+                    CostoEnvio = ObtenerCostoEnvio(),
+                    Estado = "Pendiente",
+                    Devuelto = false
+                };
+
+                PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
+                //prestamoNegocio.Crear(prestamo);
+
+                // Si la dirección no existe, guardarla en la base de datos
+                if (chkGuardarParaProximoPago.Checked)
+                {
+                    GuardarDireccion(usuarioActivo);
+                }
+
+                Response.Redirect("ConfirmacionPedido.aspx");
+            }
+            catch (Exception ex)
+            {
+                // Mostrar error
+                lblTotal.Text = "Error al procesar el pedido: " + ex.Message;
+            }
+        }
+        
+        private MetodoDeEnvio ObtenerMetodoEnvioSeleccionado()
+        {
+            int idMetodoEnvio = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
+            MetodoDeEnvioNegocio metodoEnvioNegocio = new MetodoDeEnvioNegocio();
+            return metodoEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvio);
+        }
+
 
         private decimal ObtenerCostoEnvio()
         {
-            if (rdoFreeShipping.Checked) return 0;
-            if (rdoLocalShipping.Checked) return 5000;
-            if (rdoFlatRate.Checked) return 10000;
-            return 0;
+            return Convert.ToDecimal(rblOpcionesEnvio.SelectedValue);
         }
 
         private void GuardarDireccion(Usuario usuario)
@@ -112,8 +141,8 @@ namespace TPC_GayolSofia
             Direccion nuevaDireccion = new Direccion
             {
                 Usuario = usuario,
-                Calle = txtStreetAddress.Text,
-                Altura = Convert.ToInt32(txtCity.Text), // Aquí sería más específico, se debe manejar de acuerdo a los datos que se tenga
+                Calle = txtDireccion.Text,
+                Altura = Convert.ToInt32(txtCiudad.Text), // Aquí sería más específico, se debe manejar de acuerdo a los datos que se tenga
                 CodigoPostal = "AMBA", // Esto se tiene que obtener desde la dirección ingresada
                 Aclaracion = "Direccion guardada en el checkout",
                 Predeterminada = true
