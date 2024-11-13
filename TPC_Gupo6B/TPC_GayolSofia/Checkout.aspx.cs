@@ -67,21 +67,64 @@ namespace TPC_GayolSofia
 
         private void CargarMetodosDeEnvioyRetiro()
         {
+            string metodoEnvioSeleccionado = rblOpcionesEnvio.SelectedValue;
+            string metodoRetiroSeleccionado = rblOpcionesRetiro.SelectedValue;
+
+            string codigoPostal = txtCodigoPostal.Text.Trim();
             MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
+            bool esAMBA = metodoDeEnvioNegocio.EsCodigoPostalAMBA(codigoPostal);
+
 
             List<MetodoDeEnvio> metodosDeEnvio = metodoDeEnvioNegocio.ListarTodos();
+            foreach (var metodo in metodosDeEnvio)
+            {
+                decimal costo = esAMBA ? metodo.CostoAMBA : metodo.CostoExterior;
+                metodo.Descripcion += $" - <span style='color:green;'>${costo:N2}</span>";
+            }
 
             rblOpcionesEnvio.DataSource = metodosDeEnvio;
             rblOpcionesEnvio.DataTextField = "Descripcion";
             rblOpcionesEnvio.DataValueField = "IdMetodoEnvio";
             rblOpcionesEnvio.DataBind();
 
+            if (!string.IsNullOrEmpty(metodoEnvioSeleccionado) && rblOpcionesEnvio.Items.FindByValue(metodoEnvioSeleccionado) != null)
+            {
+                rblOpcionesEnvio.SelectedValue = metodoEnvioSeleccionado;
+            }
+
+
             List<MetodoDeRetiro> metodosDeRetiro = metodoDeEnvioNegocio.ListarTodosRetiro();
+            foreach (var metodo in metodosDeRetiro)
+            {
+                decimal costo = esAMBA ? metodo.CostoAMBA : metodo.CostoExterior;
+                metodo.Descripcion += $" - <span style='color:green;'>${costo:N2}</span>";
+            }
 
             rblOpcionesRetiro.DataSource = metodosDeRetiro;
             rblOpcionesRetiro.DataTextField = "Descripcion";
             rblOpcionesRetiro.DataValueField = "IdMetodoRetiro";
             rblOpcionesRetiro.DataBind();
+
+            if (!string.IsNullOrEmpty(metodoRetiroSeleccionado) && rblOpcionesRetiro.Items.FindByValue(metodoRetiroSeleccionado) != null)
+            {
+                rblOpcionesRetiro.SelectedValue = metodoRetiroSeleccionado;
+            }
+
+
+            if (string.IsNullOrEmpty(metodoEnvioSeleccionado))
+            {
+                rblOpcionesEnvio.SelectedIndex = 1; 
+            }
+
+            if (string.IsNullOrEmpty(metodoRetiroSeleccionado))
+            {
+                rblOpcionesRetiro.SelectedIndex = 1; 
+            }
+        }
+        protected void txtCodigoPostal_TextChanged(object sender, EventArgs e)
+        {
+            CargarMetodosDeEnvioyRetiro();
+            ActualizarTotal();
         }
 
         protected void rblOpcionesEnvio_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,6 +142,7 @@ namespace TPC_GayolSofia
             try
             {
                 string codigoPostal = txtCodigoPostal.Text.Trim();
+                MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
 
                 if (string.IsNullOrEmpty(codigoPostal) || codigoPostal.Length != 4 || !int.TryParse(codigoPostal, out _))
                 {
@@ -108,10 +152,10 @@ namespace TPC_GayolSofia
                     return;
                 }
 
-                MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
 
                 int idMetodoEnvioSeleccionado = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
                 decimal totalEnvio = metodoDeEnvioNegocio.ObtenerCostoEnvio(codigoPostal, idMetodoEnvioSeleccionado);
+
 
                 int idMetodoRetiroSeleccionado = Convert.ToInt32(rblOpcionesRetiro.SelectedValue);
                 decimal totalRetiro = metodoDeEnvioNegocio.ObtenerCostoRetiro(codigoPostal, idMetodoRetiroSeleccionado);

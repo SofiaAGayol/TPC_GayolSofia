@@ -29,7 +29,7 @@
                     </div>
                     <div class="mb-3">
                         <asp:Label ID="lblCodigoPostal" runat="server" CssClass="form-label" Text="Código Postal*" AssociatedControlID="txtCodigoPostal"></asp:Label>
-                        <asp:TextBox ID="txtCodigoPostal" runat="server" CssClass="form-control" placeholder="Código Postal" Required="True"></asp:TextBox>
+                        <asp:TextBox ID="txtCodigoPostal" runat="server" CssClass="form-control" placeholder="Código Postal" AutoPostBack="True" OnTextChanged="txtCodigoPostal_TextChanged" />
                     </div>
                     <div class="mb-3">
                         <asp:Label ID="lblCiudad" runat="server" CssClass="form-label" Text="Ciudad*" AssociatedControlID="txtCiudad"></asp:Label>
