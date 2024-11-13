@@ -25,7 +25,7 @@ namespace TPC_GayolSofia
 
                 CargarDatosUsuario(usuarioActivo);
                 CargarLibrosCarrito(usuarioActivo);
-                CargarMetodosDeEnvio();
+                CargarMetodosDeEnvioyRetiro();
             }
         }
 
@@ -65,15 +65,66 @@ namespace TPC_GayolSofia
             lblTotalLibros.Text = librosCarrito.Count.ToString();
         }
 
-        private void CargarMetodosDeEnvio()
+        private void CargarMetodosDeEnvioyRetiro()
         {
             MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
+
             List<MetodoDeEnvio> metodosDeEnvio = metodoDeEnvioNegocio.ListarTodos();
 
             rblOpcionesEnvio.DataSource = metodosDeEnvio;
             rblOpcionesEnvio.DataTextField = "Descripcion";
             rblOpcionesEnvio.DataValueField = "IdMetodoEnvio";
             rblOpcionesEnvio.DataBind();
+
+            List<MetodoDeRetiro> metodosDeRetiro = metodoDeEnvioNegocio.ListarTodosRetiro();
+
+            rblOpcionesRetiro.DataSource = metodosDeRetiro;
+            rblOpcionesRetiro.DataTextField = "Descripcion";
+            rblOpcionesRetiro.DataValueField = "IdMetodoRetiro";
+            rblOpcionesRetiro.DataBind();
+        }
+
+        protected void rblOpcionesEnvio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarTotal();
+        }
+
+        protected void rblOpcionesRetiro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarTotal();
+        }
+
+        protected void ActualizarTotal()
+        {
+            try
+            {
+                string codigoPostal = txtCodigoPostal.Text.Trim();
+
+                if (string.IsNullOrEmpty(codigoPostal) || codigoPostal.Length != 4 || !int.TryParse(codigoPostal, out _))
+                {
+                    lblTotal.Text = "0.00";
+                    string script = "alert('Debe ingresar un código postal válido de 4 dígitos.');";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
+                    return;
+                }
+
+                MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
+
+                int idMetodoEnvioSeleccionado = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
+                decimal totalEnvio = metodoDeEnvioNegocio.ObtenerCostoEnvio(codigoPostal, idMetodoEnvioSeleccionado);
+
+                int idMetodoRetiroSeleccionado = Convert.ToInt32(rblOpcionesRetiro.SelectedValue);
+                decimal totalRetiro = metodoDeEnvioNegocio.ObtenerCostoRetiro(codigoPostal, idMetodoRetiroSeleccionado);
+
+                decimal total = totalRetiro + totalEnvio;
+
+                lblTotal.Text = total.ToString("N2");
+
+            }
+            catch (Exception ex)
+            {
+                lblTotal.Text = "Error: " + ex.Message;
+            }
         }
 
         protected void btnRealizarPedido_Click(object sender, EventArgs e)
@@ -90,7 +141,7 @@ namespace TPC_GayolSofia
             {
                 int idMetodoEnvioSeleccionado = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
                 MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
-                MetodoDeEnvio metodoEnvio = metodoDeEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvioSeleccionado); 
+                MetodoDeEnvio metodoEnvio = metodoDeEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvioSeleccionado);
 
                 Prestamo prestamo = new Prestamo
                 {
@@ -117,11 +168,10 @@ namespace TPC_GayolSofia
             }
             catch (Exception ex)
             {
-                // Mostrar error
                 lblTotal.Text = "Error al procesar el pedido: " + ex.Message;
             }
         }
-        
+
         private MetodoDeEnvio ObtenerMetodoEnvioSeleccionado()
         {
             int idMetodoEnvio = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);

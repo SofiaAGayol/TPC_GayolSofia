@@ -87,6 +87,24 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.TextBox txtDireccion;
 
         /// <summary>
+        /// Control lblCodigoPostal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCodigoPostal;
+
+        /// <summary>
+        /// Control txtCodigoPostal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCodigoPostal;
+
+        /// <summary>
         /// Control lblCiudad.
         /// </summary>
         /// <remarks>
@@ -184,6 +202,15 @@ namespace TPC_GayolSofia
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rblOpcionesEnvio;
+
+        /// <summary>
+        /// Control rblOpcionesRetiro.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rblOpcionesRetiro;
 
         /// <summary>
         /// Control lblTotal.

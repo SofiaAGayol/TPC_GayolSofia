@@ -223,6 +223,13 @@ CREATE TABLE MetodosDeRetiro (
 );
 GO
 
+CREATE TABLE CodigosPostalesAMBA (
+    IDCodigoPostal INT IDENTITY(1,1) PRIMARY KEY,
+    CodigoPostal NVARCHAR(10) NOT NULL,    
+    Municipio NVARCHAR(100) NOT NULL,
+    Localidad NVARCHAR(100) NOT NULL
+);
+GO
 
 --INSERTS BASICOS NECESARIOS--
 
@@ -241,6 +248,17 @@ INSERT INTO TipoMembresia (Descripcion, Costo, LibrosALaVez, LibrosXMes, Duracio
 -- Insertar Usuarios
 INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, IDRol) VALUES
 ('admin', 'admin', 'Guido', 'Serco', '12345678', 'guido.serco@example.com', '123456789', 1);
+
+-- Insertar datos en MetodosDeEnvio y MetodosDeRetiro
+INSERT INTO MetodosDeEnvio (Descripcion, CostoAMBA, CostoExterior)
+VALUES ('Envio a Domicilio', 5000, 10000),
+       ('Retiro en Sucursal', 0, 0);
+GO
+
+INSERT INTO MetodosDeRetiro (Descripcion, CostoAMBA, CostoExterior)
+VALUES ('Retiro por Domicilio en 15 días', 3000, 5000),
+       ('Devolucion en Sucursal', 0, 0);
+GO
 
 -- -- Insertar Categorías
 INSERT INTO Categoria (Descripcion) VALUES
@@ -357,4 +375,85 @@ INSERT INTO Libro (Titulo, IDAutor, IDCategoria, FechaPublicacion, Ejemplares, D
 ('El camino de la autodependencia', 12, 1, '1990-01-01', 3, 3, 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe3uN4i3zMOeC9hPIUDCfXu07vDzjfnp8NRA&s'),
 ('Un mundo feliz', 13, 2, '1932-01-01', 6, 6, 1, 'https://losresumenes.com/wp-content/uploads/2023/11/Aldous-Huxley-Un-mundo-feliz.jpg'),
 ('Las aventuras de Tom Sawyer', 14, 4, '1876-01-01', 7, 7, 1, 'https://images.cdn2.buscalibre.com/fit-in/360x360/91/14/9114855ea78255e0e1ff72f287973cb0.jpg');
+
+---- INSERTS PARA METODO DE ENVIO
+-- Almirante Brown
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Adrogué', 'Almirante Brown', '1846');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Burzaco', 'Almirante Brown', '1852');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Claypole', 'Almirante Brown', '1849');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Rafael Calzada', 'Almirante Brown', '1847');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Glew', 'Almirante Brown', '1856');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Longchamps', 'Almirante Brown', '1854');
+
+-- Avellaneda
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Avellaneda', 'Avellaneda', '1870');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Dock Sud', 'Avellaneda', '1871');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Gerli', 'Avellaneda', '1874');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Piñeyro', 'Avellaneda', '1872');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Sarandí', 'Avellaneda', '1872');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Villa Domínico', 'Avellaneda', '1874');
+
+-- Berazategui
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Berazategui', 'Berazategui', '1884');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('El Pato', 'Berazategui', '1893');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Juan María Gutiérrez', 'Berazategui', '1888');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Plátanos', 'Berazategui', '1885');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Ranelagh', 'Berazategui', '1886');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Sourigues', 'Berazategui', '1886');
+
+-- Campana
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Campana', 'Campana', '2804');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Los Cardales', 'Campana', '2814');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Alto Los Cardales', 'Campana', '2814');
+
+-- Escobar
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Escobar', 'Escobar', '1625');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Garín', 'Escobar', '1619');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Ingeniero Maschwitz', 'Escobar', '1623');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Maquinista Savio', 'Escobar', '1619');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Matheu', 'Escobar', '1627');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Belén de Escobar', 'Escobar', '1625');
+
+-- San Fernando (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('San Fernando', 'San Fernando', '1646');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Victoria', 'San Fernando', '1644');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Virreyes', 'San Fernando', '1646');
+
+-- San Isidro (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('San Isidro', 'San Isidro', '1642');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Acassuso', 'San Isidro', '1643');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Martínez', 'San Isidro', '1640');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Boulogne', 'San Isidro', '1609');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('La Horqueta', 'San Isidro', '1646');
+
+-- Tigre (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Tigre', 'Tigre', '1648');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Don Torcuato', 'Tigre', '1611');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Benavídez', 'Tigre', '1621');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('General Pacheco', 'Tigre', '1617');
+
+-- Vicente López (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Olivos', 'Vicente López', '1636');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('La Lucila', 'Vicente López', '1637');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Munro', 'Vicente López', '1605');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Florida', 'Vicente López', '1602');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Villa Martelli', 'Vicente López', '1603');
+
+-- Tres de Febrero
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Caseros', 'Tres de Febrero', '1678');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Ciudadela', 'Tres de Febrero', '1702');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Loma Hermosa', 'Tres de Febrero', '1657');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Villa Bosch', 'Tres de Febrero', '1682');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Santos Lugares', 'Tres de Febrero', '1676');
+
+-- San Miguel (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('San Miguel', 'San Miguel', '1663');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Bella Vista', 'San Miguel', '1661');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Muñiz', 'San Miguel', '1663');
+
+-- Malvinas Argentinas (Zona Norte)
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Los Polvorines', 'Malvinas Argentinas', '1613');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Grand Bourg', 'Malvinas Argentinas', '1615');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Tortuguitas', 'Malvinas Argentinas', '1667');
+INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Pablo Nogués', 'Malvinas Argentinas', '1613');
 

@@ -223,7 +223,6 @@ namespace TPC_GayolSofia
             }
             else
             {
-                // Si el libro no está disponible
                 string script = "alert('El libro seleccionado no está disponible.');";
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
             }

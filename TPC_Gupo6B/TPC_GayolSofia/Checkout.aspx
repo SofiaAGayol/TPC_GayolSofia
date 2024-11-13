@@ -28,6 +28,10 @@
                         <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" placeholder="Dirección" Required="True"></asp:TextBox>
                     </div>
                     <div class="mb-3">
+                        <asp:Label ID="lblCodigoPostal" runat="server" CssClass="form-label" Text="Código Postal*" AssociatedControlID="txtCodigoPostal"></asp:Label>
+                        <asp:TextBox ID="txtCodigoPostal" runat="server" CssClass="form-control" placeholder="Código Postal" Required="True"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
                         <asp:Label ID="lblCiudad" runat="server" CssClass="form-label" Text="Ciudad*" AssociatedControlID="txtCiudad"></asp:Label>
                         <asp:TextBox ID="txtCiudad" runat="server" CssClass="form-control" placeholder="Ciudad" Required="True"></asp:TextBox>
                     </div>
@@ -54,9 +58,11 @@
                 <h4>Su Pedido</h4>
                 <div class="card">
                     <div class="card-body">
-                        <p><strong>Producto</strong> <span class="float-end">Subtotal:
+                        <p>
+                            <strong>Producto</strong> <span class="float-end">Subtotal:
                             <asp:Label ID="lblTotalLibros" runat="server" Text="0"></asp:Label>
-                        </span></p>
+                            </span>
+                        </p>
                         <hr />
                         <asp:Repeater ID="rptLibrosCarrito" runat="server">
                             <ItemTemplate>
@@ -65,7 +71,11 @@
                         </asp:Repeater>
                         <hr />
                         <p>Envío:</p>
-                        <asp:RadioButtonList ID="rblOpcionesEnvio" runat="server" CssClass="form-check">
+                        <asp:RadioButtonList ID="rblOpcionesEnvio" runat="server" CssClass="form-check" AutoPostBack="True" OnSelectedIndexChanged="rblOpcionesEnvio_SelectedIndexChanged">
+                        </asp:RadioButtonList>
+                        <br />
+                        <p>Retiro:</p>
+                        <asp:RadioButtonList ID="rblOpcionesRetiro" runat="server" CssClass="form-check" AutoPostBack="True" OnSelectedIndexChanged="rblOpcionesRetiro_SelectedIndexChanged">
                         </asp:RadioButtonList>
                         <hr />
                         <p>Total: <strong>$<asp:Label ID="lblTotal" runat="server" Text="0"></asp:Label></strong></p>
