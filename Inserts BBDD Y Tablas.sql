@@ -144,7 +144,7 @@ INSERT INTO Usuarios (Usuario, Clave, Nombre, Apellido, DNI, Email, Telefono, ID
 -- SET Estado = 1;
 -- GO
 
----------------------------- CUANDO HAGAS LAS MODIFICACIONES COMENTALO ASI YA SABEMSO QUE ESTA OK-------------------------------------------
+---------------------------- GUIDO CUANDO HAGAS LAS MODIFICACIONES COMENTALO ASI YA SABEMSO QUE ESTA OK-------------------------------------------
 
 --CAMBIO BIT POT TINYINT EN ESTADO PRESTAMO 07/11
 ALTER TABLE Membresias
@@ -359,3 +359,31 @@ INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Gr
 INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Tortuguitas', 'Malvinas Argentinas', '1667');
 INSERT INTO CodigosPostalesAMBA (Localidad, Municipio, CodigoPostal) VALUES ('Pablo Nogués', 'Malvinas Argentinas', '1613');
 
+------------------ MODIFICACIONES 13/11 COMENTAR UNA VEZ USADAS ---------------------
+
+ALTER TABLE Prestamo
+ADD IdDireccion INT;
+GO
+
+ALTER TABLE Prestamo
+ADD CONSTRAINT FK_Prestamo_Direccion FOREIGN KEY (IdDireccion) REFERENCES Direccion(IDDireccion);
+GO
+
+--borro esta columna xq ya no la uso, sino que relaciono con prestamolibro
+ALTER TABLE Prestamo
+DROP CONSTRAINT FK__Prestamo__IDLibr__56E8E7AB;
+GO
+
+ALTER TABLE Prestamo
+DROP COLUMN IDLibro;
+GO
+
+-- asocio un prestamo con varios libros
+CREATE TABLE PrestamoLibro (
+    IDPrestamo INT,
+    IDLibro INT,
+    FOREIGN KEY (IDPrestamo) REFERENCES Prestamo(IDPrestamo),
+    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
+    PRIMARY KEY (IDPrestamo, IDLibro)
+);
+GO

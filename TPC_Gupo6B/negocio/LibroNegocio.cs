@@ -229,6 +229,49 @@ namespace negocio
 
             return librosEnPrestamo;
         }
+        public List<Libro> ListarLibrosPorPrestamo(int idPrestamo)
+        {
+            List<Libro> listaLibros = new List<Libro>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor " +
+                                    "FROM PrestamoLibro pl " +
+                                    "JOIN Libro l ON pl.IDLibro = l.IDLibro " +
+                                    "JOIN Autores a ON l.IDAutor = a.IDAutor " +
+                                    "WHERE pl.IDPrestamo = @IDPrestamo");
+
+                datos.setearParametro("@IDPrestamo", idPrestamo);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        }
+                    };
+                    listaLibros.Add(libro);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los libros del préstamo: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return listaLibros;
+        }
 
         //Filtros y busqueda
         public Libro LibroPorID(int IdLibro)

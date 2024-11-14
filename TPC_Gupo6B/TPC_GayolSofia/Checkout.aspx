@@ -24,8 +24,12 @@
                         </asp:DropDownList>
                     </div>
                     <div class="mb-3">
-                        <asp:Label ID="lblDireccion" runat="server" CssClass="form-label" Text="Dirección*" AssociatedControlID="txtDireccion"></asp:Label>
-                        <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" placeholder="Dirección" Required="True"></asp:TextBox>
+                        <asp:Label ID="lblDireccion" runat="server" CssClass="form-label" Text="Calle*" AssociatedControlID="txtDireccion"></asp:Label>
+                        <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" placeholder="Calle" Required="True"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <asp:Label ID="lblAltura" runat="server" CssClass="form-label" Text="Altura*" AssociatedControlID="txtAltura"></asp:Label>
+                        <asp:TextBox ID="txtAltura" runat="server" CssClass="form-control" placeholder="Altura" Required="True"></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <asp:Label ID="lblCodigoPostal" runat="server" CssClass="form-label" Text="Código Postal*" AssociatedControlID="txtCodigoPostal"></asp:Label>
@@ -44,8 +48,8 @@
                         <asp:TextBox ID="txtCorreoElectronico" runat="server" CssClass="form-control" placeholder="Correo Electrónico" TextMode="Email" Required="True"></asp:TextBox>
                     </div>
                     <div class="form-check mb-3">
-                        <asp:CheckBox ID="chkGuardarParaProximoPago" runat="server" CssClass="form-check-input" />
-                        <asp:Label runat="server" CssClass="form-check-label" AssociatedControlID="chkGuardarParaProximoPago" Text="Guardar para mi próximo pago"></asp:Label>
+                        <asp:CheckBox ID="chkGuardarPredeterminada" runat="server" CssClass="form-check-input" />
+                        <asp:Label runat="server" CssClass="form-check-label" AssociatedControlID="chkGuardarPredeterminada" Text="Guardar como predeterminada"></asp:Label>
                     </div>
                     <div class="form-check mb-3">
                         <asp:CheckBox ID="chkEnviarADireccionDiferente" runat="server" CssClass="form-check-input" />
@@ -74,7 +78,7 @@
                         <asp:RadioButtonList ID="rblOpcionesEnvio" runat="server" CssClass="form-check" AutoPostBack="True" OnSelectedIndexChanged="rblOpcionesEnvio_SelectedIndexChanged">
                         </asp:RadioButtonList>
                         <br />
-                        <p>Retiro:</p>
+                        <p>Devolución:</p>
                         <asp:RadioButtonList ID="rblOpcionesRetiro" runat="server" CssClass="form-check" AutoPostBack="True" OnSelectedIndexChanged="rblOpcionesRetiro_SelectedIndexChanged">
                         </asp:RadioButtonList>
                         <hr />
@@ -86,7 +90,7 @@
                     <asp:RadioButtonList ID="rblMetodoPago" runat="server" CssClass="form-check">
                         <asp:ListItem Text="Transferencia Bancaria Directa" Value="TransferenciaBancaria" />
                         <asp:ListItem Text="Contra Reembolso" Value="ContraReembolso" />
-                        <asp:ListItem Text="Paypal" Value="Paypal" />
+                        <asp:ListItem Text="Tarjeta de Credito/Debito" Value="Tarjeta" />
                     </asp:RadioButtonList>
                 </div>
                 <div class="mt-3">

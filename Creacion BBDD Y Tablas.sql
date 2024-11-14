@@ -138,19 +138,29 @@ GO
 -- Tabla Prestamo
 CREATE TABLE Prestamo (
     IDPrestamo INT IDENTITY(1,1) PRIMARY KEY,
-    IDLibro INT,
     IDUsuario INT,
     FechaInicio DATE,
     FechaFin DATE,
     Devuelto BIT,
+    IdDireccion INT,
     IDMetodoEnvio INT,
     IDMetodoRetiro INT,
     CostoEnvio DECIMAL(10, 2),
     Estado NVARCHAR(50) DEFAULT 'Pendiente',
+    FOREIGN KEY (IdDireccion) REFERENCES Direccion(IDDireccion),
     FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
     FOREIGN KEY (IDUsuario) REFERENCES Usuarios(IDUsuario),
     FOREIGN KEY (IDMetodoEnvio) REFERENCES MetodosDeEnvio(IDMetodoEnvio),
     FOREIGN KEY (IDMetodoRetiro) REFERENCES MetodosDeRetiro(IDMetodoRetiro)
+);
+GO
+
+CREATE TABLE PrestamoLibro (
+    IDPrestamo INT,
+    IDLibro INT,
+    FOREIGN KEY (IDPrestamo) REFERENCES Prestamo(IDPrestamo),
+    FOREIGN KEY (IDLibro) REFERENCES Libro(IDLibro),
+    PRIMARY KEY (IDPrestamo, IDLibro)
 );
 GO
 

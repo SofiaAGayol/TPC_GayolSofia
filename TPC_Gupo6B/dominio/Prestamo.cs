@@ -12,15 +12,15 @@ namespace dominio
     public class Prestamo
     {
         public int IDPrestamo { get; set; }
-        public Usuario Usuario { get; set; } 
-        public Libro Libro { get; set; }     
+        public Usuario Usuario { get; set; }
+        public List<Libro> Libros { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        public MetodoDeEnvio MetodoEnvio { get; set; } 
-        public MetodoDeRetiro MetodoRetiro { get; set; } 
+        public MetodoDeEnvio MetodoEnvio { get; set; }
+        public MetodoDeRetiro MetodoRetiro { get; set; }
         public decimal CostoEnvio { get; set; }
         public string Estado { get; set; }
         public bool Devuelto { get; set; }
-
+        public Direccion Direccion { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPC_GayolSofia.dominio;
 
 namespace negocio
 {
@@ -13,15 +14,18 @@ namespace negocio
         {
             AccesoDatos datos = new AccesoDatos();
             List<Prestamo> listaPrestamos = new List<Prestamo>();
-            /*
+            LibroNegocio libroNegocio = new LibroNegocio();
+
             try
             {
                 datos.setearConsulta(
-                    "SELECT p.IdPrestamo, p.IdCliente, p.FechaPrestamo, p.FechaDevolucion, p.Estado, " +
-                    "l.IdLibro, l.Titulo, a.IdAutor, a.Nombre AS NombreAutor " +
-                    "FROM Prestamos p " +
-                    "JOIN Libros l ON p.IdLibro = l.IdLibro " +
-                    "JOIN Autores a ON l.IdAutor = a.IdAutor");
+                    "SELECT p.IDPrestamo, p.IDUsuario, p.FechaInicio, p.FechaFin, p.Devuelto, p.IDMetodoEnvio, p.IDMetodoRetiro, p.CostoEnvio, p.Estado, p.IdDireccion, " +
+                    "me.Descripcion AS MetodoEnvioDescripcion, mr.Descripcion AS MetodoRetiroDescripcion, " +
+                    "d.IDDireccion, d.Calle, d.Altura, d.CodigoPostal, d.Aclaracion " +
+                    "FROM Prestamo p " +
+                    "JOIN MetodosDeEnvio me ON p.IDMetodoEnvio = me.IDMetodoEnvio " +
+                    "JOIN MetodosDeRetiro mr ON p.IDMetodoRetiro = mr.IDMetodoRetiro " +
+                    "LEFT JOIN Direccion d ON p.IdDireccion = d.IDDireccion");
 
                 datos.ejecutarLectura();
 
@@ -29,21 +33,31 @@ namespace negocio
                 {
                     Prestamo prestamo = new Prestamo
                     {
-                        IDPrestamo = (int)datos.Lector["IdPrestamo"],
-                        IDUsuario = (int)datos.Lector["IdUsuario"],
-                        FechaInicio = (DateTime)datos.Lector["FechaPrestamo"],
-                        FechaFin = (DateTime)datos.Lector["FechaDevolucion"],
-                        Estado = (int)datos.Lector["Estado"],
-
-                        Libro = new Libro
+                        IDPrestamo = (int)datos.Lector["IDPrestamo"],
+                        Usuario = new Usuario { IdUsuario = (int)datos.Lector["IDUsuario"] },
+                        FechaInicio = (DateTime)datos.Lector["FechaInicio"],
+                        FechaFin = (DateTime)datos.Lector["FechaFin"],
+                        Devuelto = (bool)datos.Lector["Devuelto"],
+                        Estado = datos.Lector["Estado"].ToString(),
+                        CostoEnvio = (decimal)datos.Lector["CostoEnvio"],
+                        Libros = libroNegocio.ListarLibrosPorPrestamo((int)datos.Lector["IDPrestamo"]),
+                        MetodoEnvio = new MetodoDeEnvio
                         {
-                            IdLibro = (int)datos.Lector["IdLibro"],
-                            Titulo = datos.Lector["Titulo"].ToString(),
-                            Autor = new Autor
-                            {
-                                IdAutor = (int)datos.Lector["IdAutor"],
-                                Nombre = datos.Lector["NombreAutor"].ToString()
-                            }
+                            IdMetodoEnvio = (int)datos.Lector["IDMetodoEnvio"],
+                            Descripcion = datos.Lector["MetodoEnvioDescripcion"].ToString()
+                        },
+                        MetodoRetiro = new MetodoDeRetiro
+                        {
+                            IdMetodoRetiro = (int)datos.Lector["IDMetodoRetiro"],
+                            Descripcion = datos.Lector["MetodoRetiroDescripcion"].ToString()
+                        },
+                        Direccion = new Direccion
+                        {
+                            IdDireccion = datos.Lector["IDDireccion"] != DBNull.Value ? (int)datos.Lector["IDDireccion"] : 0,
+                            Calle = datos.Lector["Calle"]?.ToString(),
+                            Altura = datos.Lector["Altura"] != DBNull.Value ? (int)datos.Lector["Altura"] : 0,
+                            CodigoPostal = datos.Lector["CodigoPostal"]?.ToString(),
+                            Aclaracion = datos.Lector["Aclaracion"]?.ToString()
                         }
                     };
 
@@ -52,36 +66,57 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error al listar los préstamos: " + ex.Message);
             }
             finally
             {
                 datos.cerrarConexion();
             }
-            */
+
             return listaPrestamos;
         }
 
         public void GuardarPrestamo(Prestamo prestamo)
         {
             AccesoDatos datos = new AccesoDatos();
+            int idPrestamo = 0;
 
             try
             {
-                datos.setearConsulta("INSERT INTO Prestamo (IDLibro, IDUsuario, FechaInicio, FechaFin, Devuelto, MetodoEnvio, CostoEnvio, MetodoRetiro, Estado) " +
-                                     "VALUES (@IDLibro, @IDUsuario, @FechaInicio, @FechaFin, @Devuelto, @MetodoEnvio, @CostoEnvio, @MetodoRetiro, @Estado)");
+                datos.setearConsulta("INSERT INTO Prestamo (IDUsuario, FechaInicio, FechaFin, Devuelto, IDMetodoEnvio, CostoEnvio, IDMetodoRetiro, Estado, IdDireccion) " +
+                                     "OUTPUT INSERTED.IDPrestamo " +
+                                     "VALUES (@IDUsuario, @FechaInicio, @FechaFin, @Devuelto, @IDMetodoEnvio, @CostoEnvio, @IDMetodoRetiro, @Estado, @IdDireccion)");
 
-                datos.setearParametro("@IDLibro", prestamo.Libro.IdLibro);
                 datos.setearParametro("@IDUsuario", prestamo.Usuario.IdUsuario);
                 datos.setearParametro("@FechaInicio", prestamo.FechaInicio);
                 datos.setearParametro("@FechaFin", prestamo.FechaFin);
                 datos.setearParametro("@Devuelto", prestamo.Devuelto);
-                datos.setearParametro("@MetodoEnvio", prestamo.MetodoEnvio.IdMetodoEnvio); 
+                datos.setearParametro("@IDMetodoEnvio", prestamo.MetodoEnvio.IdMetodoEnvio);
                 datos.setearParametro("@CostoEnvio", prestamo.CostoEnvio);
-                datos.setearParametro("@MetodoRetiro", prestamo.MetodoRetiro.IdMetodoRetiro);
+                datos.setearParametro("@IDMetodoRetiro", prestamo.MetodoRetiro.IdMetodoRetiro);
                 datos.setearParametro("@Estado", prestamo.Estado);
+                datos.setearParametro("@IdDireccion", prestamo.Direccion.IdDireccion);
 
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read() && datos.Lector["IDPrestamo"] != DBNull.Value)
+                {
+                    idPrestamo = Convert.ToInt32(datos.Lector["IDPrestamo"]);
+                }
+                else
+                {
+                    throw new Exception("No se pudo obtener el ID del préstamo insertado.");
+                }
+                datos.cerrarConexion();
+
+                foreach (var libro in prestamo.Libros)
+                {
+                    datos.setearConsulta("INSERT INTO PrestamoLibro (IDPrestamo, IDLibro) VALUES (@IDPrestamo, @IDLibro)");
+                    datos.setearParametro("@IDPrestamo", idPrestamo);
+                    datos.setearParametro("@IDLibro", libro.IdLibro);
+                    datos.ejecutarAccion();
+                    datos.cerrarConexion();
+                }
             }
             catch (Exception ex)
             {
@@ -92,6 +127,31 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void ActualizarEstadoPrestamo(int idPrestamo, bool devuelto, string nuevoEstado)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Prestamo SET Devuelto = @Devuelto, Estado = @Estado WHERE IDPrestamo = @IDPrestamo");
+
+                datos.setearParametro("@Devuelto", devuelto);
+                datos.setearParametro("@Estado", nuevoEstado);
+                datos.setearParametro("@IDPrestamo", idPrestamo);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el estado del préstamo: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
     }
 }

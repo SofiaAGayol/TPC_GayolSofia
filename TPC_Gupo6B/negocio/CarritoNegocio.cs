@@ -193,6 +193,25 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void VaciarCarrito(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("DELETE FROM Carrito WHERE IDUsuario = @IDUsuario");
+                datos.setearParametro("@IDUsuario", idUsuario);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al vaciar el carrito: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 

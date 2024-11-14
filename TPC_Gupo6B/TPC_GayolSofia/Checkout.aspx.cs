@@ -43,10 +43,10 @@ namespace TPC_GayolSofia
                 Direccion predeterminada = direcciones.First(d => d.Predeterminada);
                 txtDireccion.Text = $"{predeterminada.Calle} {predeterminada.Altura}";
                 ddlPais.SelectedValue = "Argentina";
+                txtCodigoPostal.Text = predeterminada.CodigoPostal;
                 txtCiudad.Text = predeterminada.Aclaracion;
             }
         }
-
         private void CargarLibrosCarrito(Usuario usuarioActivo)
         {
             CarritoNegocio carritoNegocio = new CarritoNegocio();
@@ -64,7 +64,6 @@ namespace TPC_GayolSofia
 
             lblTotalLibros.Text = librosCarrito.Count.ToString();
         }
-
         private void CargarMetodosDeEnvioyRetiro()
         {
             string metodoEnvioSeleccionado = rblOpcionesEnvio.SelectedValue;
@@ -91,6 +90,10 @@ namespace TPC_GayolSofia
             {
                 rblOpcionesEnvio.SelectedValue = metodoEnvioSeleccionado;
             }
+            else
+            {
+                rblOpcionesEnvio.SelectedIndex = 1;
+            }
 
 
             List<MetodoDeRetiro> metodosDeRetiro = metodoDeEnvioNegocio.ListarTodosRetiro();
@@ -109,16 +112,9 @@ namespace TPC_GayolSofia
             {
                 rblOpcionesRetiro.SelectedValue = metodoRetiroSeleccionado;
             }
-
-
-            if (string.IsNullOrEmpty(metodoEnvioSeleccionado))
+            else
             {
-                rblOpcionesEnvio.SelectedIndex = 1; 
-            }
-
-            if (string.IsNullOrEmpty(metodoRetiroSeleccionado))
-            {
-                rblOpcionesRetiro.SelectedIndex = 1; 
+                rblOpcionesRetiro.SelectedIndex = 1;
             }
         }
         protected void txtCodigoPostal_TextChanged(object sender, EventArgs e)
@@ -126,17 +122,14 @@ namespace TPC_GayolSofia
             CargarMetodosDeEnvioyRetiro();
             ActualizarTotal();
         }
-
         protected void rblOpcionesEnvio_SelectedIndexChanged(object sender, EventArgs e)
         {
             ActualizarTotal();
         }
-
         protected void rblOpcionesRetiro_SelectedIndexChanged(object sender, EventArgs e)
         {
             ActualizarTotal();
         }
-
         protected void ActualizarTotal()
         {
             try
@@ -183,32 +176,68 @@ namespace TPC_GayolSofia
 
             try
             {
+                if (string.IsNullOrEmpty(rblMetodoPago.SelectedValue))
+                {
+                    string script = "alert('Debe seleccionar una forma de pago.');";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
+                    return;
+                }
+
+                DireccionNegocio direccionNegocio = new DireccionNegocio();
+                Direccion direccion = ObtenerDireccionDesdeFormulario();
+
+                int idDireccion = direccionNegocio.ObtenerIdDireccion(direccion);
+                if (idDireccion == 0)
+                {
+                    idDireccion = direccionNegocio.AgregarYRetornarId(direccion);
+                }
+
                 int idMetodoEnvioSeleccionado = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
                 MetodoDeEnvioNegocio metodoDeEnvioNegocio = new MetodoDeEnvioNegocio();
                 MetodoDeEnvio metodoEnvio = metodoDeEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvioSeleccionado);
 
+                int idMetodoRetiroSeleccionado = Convert.ToInt32(rblOpcionesRetiro.SelectedValue);
+                MetodoDeRetiro metodoRetiro = metodoDeEnvioNegocio.ObtenerMetodoRetiroPorID(idMetodoRetiroSeleccionado);
+
+                CarritoNegocio carritoNegocio = new CarritoNegocio();
+                List<Libro> librosCarrito = carritoNegocio.ListarLibrosEnCarrito(usuarioActivo.IdUsuario);
+
+                if (librosCarrito == null || librosCarrito.Count == 0)
+                {
+                    string script = "alert('El carrito está vacío. No se puede proceder con el pedido.');";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
+                    return;
+                }
+
+                PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
+
                 Prestamo prestamo = new Prestamo
                 {
                     Usuario = usuarioActivo,
+                    Libros = librosCarrito,
                     FechaInicio = DateTime.Now,
                     FechaFin = DateTime.Now.AddMonths(1),
-                    MetodoEnvio = ObtenerMetodoEnvioSeleccionado(),
-                    //MetodoRetiro = ObtenerMetodoRetiroSeleccionado(),
+                    MetodoEnvio = metodoEnvio,
+                    MetodoRetiro = metodoRetiro,
                     CostoEnvio = ObtenerCostoEnvio(),
                     Estado = "Pendiente",
-                    Devuelto = false
+                    Devuelto = false,
+                    Direccion = new Direccion { IdDireccion = idDireccion }
                 };
+                prestamoNegocio.GuardarPrestamo(prestamo);
 
-                PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
-                //prestamoNegocio.Crear(prestamo);
 
-                // Si la dirección no existe, guardarla en la base de datos
-                if (chkGuardarParaProximoPago.Checked)
+                carritoNegocio.VaciarCarrito(usuarioActivo.IdUsuario);
+
+                if (rblMetodoPago.SelectedValue == "Tarjeta")
                 {
-                    GuardarDireccion(usuarioActivo);
+                    Session["PrestamoActual"] = prestamo;
+                    Response.Redirect("PagoPedido.aspx");
                 }
-
-                Response.Redirect("ConfirmacionPedido.aspx");
+                else
+                {
+                    Response.Redirect("ConfirmacionPedido.aspx");
+                }
             }
             catch (Exception ex)
             {
@@ -216,32 +245,22 @@ namespace TPC_GayolSofia
             }
         }
 
-        private MetodoDeEnvio ObtenerMetodoEnvioSeleccionado()
-        {
-            int idMetodoEnvio = Convert.ToInt32(rblOpcionesEnvio.SelectedValue);
-            MetodoDeEnvioNegocio metodoEnvioNegocio = new MetodoDeEnvioNegocio();
-            return metodoEnvioNegocio.ObtenerMetodoEnvioPorID(idMetodoEnvio);
-        }
-
-
         private decimal ObtenerCostoEnvio()
         {
             return Convert.ToDecimal(rblOpcionesEnvio.SelectedValue);
         }
 
-        private void GuardarDireccion(Usuario usuario)
+        private Direccion ObtenerDireccionDesdeFormulario()
         {
-            DireccionNegocio direccionNegocio = new DireccionNegocio();
-            Direccion nuevaDireccion = new Direccion
+            return new Direccion
             {
-                Usuario = usuario,
+                Usuario = (Usuario)Session["UsuarioActivo"],
                 Calle = txtDireccion.Text,
-                Altura = Convert.ToInt32(txtCiudad.Text), // Aquí sería más específico, se debe manejar de acuerdo a los datos que se tenga
-                CodigoPostal = "AMBA", // Esto se tiene que obtener desde la dirección ingresada
-                Aclaracion = "Direccion guardada en el checkout",
-                Predeterminada = true
+                Altura = Convert.ToInt32(txtAltura.Text),
+                CodigoPostal = txtCodigoPostal.Text.Trim(),
+                Aclaracion = txtCiudad.Text,
+                Predeterminada = chkGuardarPredeterminada.Checked
             };
-            direccionNegocio.Agregar(nuevaDireccion);
         }
     }
 }

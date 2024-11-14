@@ -8,12 +8,12 @@ namespace TPC_GayolSofia.dominio
 {
     public class Pago
     {
-        private int IdPago { get; set; }
+        public int IdPago { get; set; }
         public Usuario Usuario { get; set; }
-        private TipoMembresia TipoMembresia { get; set; }
-        private MetodoPago MetodoPago { get; set; }
-        private DateTime? FechaPago { get; set; }
-        private float Importe { get; set; }
-        private bool Estado { get; set; }
+        public TipoMembresia TipoMembresia { get; set; }
+        public MetodoPago MetodoPago { get; set; }
+        public DateTime? FechaPago { get; set; }
+        public decimal Importe { get; set; }
+        public bool Estado { get; set; }
     }
 }
