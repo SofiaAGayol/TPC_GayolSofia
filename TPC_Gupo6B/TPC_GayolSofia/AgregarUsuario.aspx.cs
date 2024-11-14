@@ -41,6 +41,7 @@ namespace TPC_GayolSofia
                     Usuario usuario = new Usuario();
                     usuario = usuarioNegocio.ObtenerUsuarioPorId(id);
 
+                    ddlRol.SelectedValue = usuario.Rol.IDRol.ToString();
                     txtUsuario.Text = usuario.NombreUsuario;
                     txtClave.Text = usuario.Clave;
                     txtNombre.Text = usuario.Nombre;
