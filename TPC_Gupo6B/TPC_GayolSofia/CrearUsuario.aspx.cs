@@ -19,6 +19,7 @@ namespace TPC_GayolSofia
         protected void Btn_Registro_Click(object sender, EventArgs e)
         {
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            MembresiasNegocio membresiasNegocio = new MembresiasNegocio();
 
             string usuario = Tb_Usuario.Text;
             string clave = Tb_Clave.Text;
@@ -79,6 +80,29 @@ namespace TPC_GayolSofia
             }
             //YA LE DEJAMOS PRECARGADO COMO ID ROL = 4 QUE ES EL ROL "CLIENTE"
             usuarioNegocio.Agregar(usuario, clave, nombre, apellido, dni, email, telefono, 4);
+
+            string suscripcionSeleccionada = Request.Form["suscripcion"];
+
+            int IDTipoMembresia = 0, mesesDuracion = 0, idUsuario = usuarioNegocio.ObtenerIdUsuario(usuario);
+
+
+            //DEPENDIENDO EL PLAN SELECCIONADO OBTENEMOS EL ID TIPO MEMBRESIA Y LA DURACION EN MESES
+           
+            if (suscripcionSeleccionada == "basica")// Acción para la suscripcion básica
+            {
+                IDTipoMembresia = 1;
+                mesesDuracion = membresiasNegocio.ObtenerDuracionMeses(1);
+            }
+            else if (suscripcionSeleccionada == "premium")// Acción para la suscripcion Premium
+            {
+                IDTipoMembresia = 2;
+                mesesDuracion = membresiasNegocio.ObtenerDuracionMeses(2);
+            }
+
+
+
+            //LUEGO MODIFICAR ÚLTIMO PARÁMETRO CUANDO ESTÉ HECHO EL TEMA DE PAGOS:
+            membresiasNegocio.Agregar(idUsuario, IDTipoMembresia, mesesDuracion, 5);
 
             pnlMensaje.Style["display"] = "block";
             divAlert.Style["display"] = "none";

@@ -48,6 +48,7 @@
     <Compile Include="ClienteNegocio.cs" />
     <Compile Include="DireccionNegocio.cs" />
     <Compile Include="LibroNegocio.cs" />
+    <Compile Include="MembresiasNegocio.cs" />
     <Compile Include="MetodoDeEnvioNegocio.cs" />
     <Compile Include="MetodoPagoNegocio.cs" />
     <Compile Include="NacionalidadNegocio.cs" />

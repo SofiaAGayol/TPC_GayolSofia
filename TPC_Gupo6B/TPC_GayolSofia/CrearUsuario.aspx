@@ -54,7 +54,7 @@
 <div class="row mt-5">
 
     <!-- Suscripción Básica -->
-    <div class="col-md-4 d-flex justify-content-center mb-4">
+    <div class="col-md-6 d-flex justify-content-center mb-4">
         <div class="card" style="width: 18rem;">
             <img src="../imagenes/MembresiaBronce.png" class="card-img-top" alt="Suscripción Básica">
             <div class="card-body text-center">
@@ -65,20 +65,8 @@
         </div>
     </div>
 
-    <!-- Suscripción Estándar -->
-    <div class="col-md-4 d-flex justify-content-center mb-4">
-        <div class="card" style="width: 18rem;">
-            <img src="../imagenes/MembresiaPlateada.png" class="card-img-top" alt="Suscripción Estándar">
-            <div class="card-body text-center">
-                <h5 class="card-title">Suscripción Estándar</h5>
-                <p class="card-text">Acceso a contenido completo y soporte estándar.</p>
-                <input type="radio" name="suscripcion" value="estandar" class="form-check-input">
-            </div>
-        </div>
-    </div>
-
     <!-- Suscripción Premium -->
-    <div class="col-md-4 d-flex justify-content-center mb-4">
+    <div class="col-md-6 d-flex justify-content-center mb-4">
         <div class="card" style="width: 18rem;">
             <img src="../imagenes/MembresiaDorada.png" class="card-img-top" alt="Suscripción Premium">
             <div class="card-body text-center">
