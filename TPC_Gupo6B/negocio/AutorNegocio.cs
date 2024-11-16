@@ -17,7 +17,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDAutor, Nombre, Apellido, a.IdNacionalidad, n.Descripcion, BestSeller, Estado FROM Autores a JOIN Nacionalidad n ON a.IdNacionalidad = n.IdNacionalidad WHERE a.Estado = 1 ORDER BY Apellido ASC;\r\n");
+                datos.setearConsulta("SELECT IDAutor, Nombre, Apellido, a.IdNacionalidad, n.Descripcion, BestSeller, Estado FROM Autores a JOIN Nacionalidad n ON a.IdNacionalidad = n.IdNacionalidad ORDER BY Apellido ASC;\r\n");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

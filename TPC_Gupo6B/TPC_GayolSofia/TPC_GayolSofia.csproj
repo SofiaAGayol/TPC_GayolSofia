@@ -126,7 +126,6 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CrearUsuario.aspx" />
-    <Content Include="Default.aspx" />
     <Content Include="DetalleLibro.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -269,13 +268,6 @@
     </Compile>
     <Compile Include="CrearUsuario.aspx.designer.cs">
       <DependentUpon>CrearUsuario.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="DetalleLibro.aspx.cs">
       <DependentUpon>DetalleLibro.aspx</DependentUpon>
