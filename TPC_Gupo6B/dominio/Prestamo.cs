@@ -22,5 +22,21 @@ namespace dominio
         public string Estado { get; set; }
         public bool Devuelto { get; set; }
         public Direccion Direccion { get; set; }
+        public Prestamo(int idPrestamo, Usuario usuario, List<Libro> libros, DateTime fechaInicio, DateTime fechaFin,
+        bool devuelto, string estado, MetodoDeEnvio metodoEnvio, MetodoDeRetiro metodoRetiro, Direccion direccion, decimal costoEnvio)
+        {
+            IDPrestamo = idPrestamo;
+            Usuario = usuario;
+            Libros = libros;
+            FechaInicio = fechaInicio;
+            FechaFin = fechaFin;
+            Devuelto = devuelto;
+            Estado = estado;
+            MetodoEnvio = metodoEnvio;
+            MetodoRetiro = metodoRetiro;
+            Direccion = direccion;
+            CostoEnvio = costoEnvio;
+        }
+        public Prestamo() { }
     }
 }

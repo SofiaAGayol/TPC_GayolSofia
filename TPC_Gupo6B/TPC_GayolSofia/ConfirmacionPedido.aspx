@@ -37,7 +37,7 @@
                     <p><strong>Total:</strong> <asp:Label ID="lblTotal" runat="server"></asp:Label></p>
 
                     <div class="mt-4">
-                        <a href="SeguimientoPedido.aspx?pedidoId=<%# lblIdPedido.Text %>" class="btn btn-primary">Seguir Pedido</a>
+                        <a href="MisPrestamos.aspx" class="btn btn-primary">Seguir Pedido</a>
                         <a href="Home.aspx" class="btn btn-secondary">Volver a la Tienda</a>
                     </div>
                 </div>

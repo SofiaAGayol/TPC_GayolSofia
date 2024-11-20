@@ -144,7 +144,7 @@ namespace negocio
 
             return listaPrestamos;
         }
-        public void GuardarPrestamo(Prestamo prestamo)
+        public int GuardarPrestamoYObtenerID(Prestamo prestamo)
         {
             AccesoDatos datos = new AccesoDatos();
             int idPrestamo = 0;
@@ -152,8 +152,8 @@ namespace negocio
             try
             {
                 datos.setearConsulta("INSERT INTO Prestamo (IDUsuario, FechaInicio, FechaFin, Devuelto, IDMetodoEnvio, CostoEnvio, IDMetodoRetiro, Estado, IdDireccion) " +
-                                     "OUTPUT INSERTED.IDPrestamo " +
-                                     "VALUES (@IDUsuario, @FechaInicio, @FechaFin, @Devuelto, @IDMetodoEnvio, @CostoEnvio, @IDMetodoRetiro, @Estado, @IdDireccion)");
+                                     "VALUES (@IDUsuario, @FechaInicio, @FechaFin, @Devuelto, @IDMetodoEnvio, @CostoEnvio, @IDMetodoRetiro, @Estado, @IdDireccion); " +
+                                     "SELECT SCOPE_IDENTITY();");
 
                 datos.setearParametro("@IDUsuario", prestamo.Usuario.IdUsuario);
                 datos.setearParametro("@FechaInicio", prestamo.FechaInicio);
@@ -165,30 +165,62 @@ namespace negocio
                 datos.setearParametro("@Estado", prestamo.Estado);
                 datos.setearParametro("@IdDireccion", prestamo.Direccion.IdDireccion);
 
-                datos.ejecutarLectura();
+                idPrestamo = Convert.ToInt32(datos.ejecutarAccion());
 
-                if (datos.Lector.Read() && datos.Lector["IDPrestamo"] != DBNull.Value)
+                if (idPrestamo <= 0)
                 {
-                    idPrestamo = Convert.ToInt32(datos.Lector["IDPrestamo"]);
+                    throw new Exception("No se pudo obtener el ID del préstamo recién creado.");
                 }
-                else
-                {
-                    throw new Exception("No se pudo obtener el ID del préstamo insertado.");
-                }
-                datos.cerrarConexion();
 
-                foreach (var libro in prestamo.Libros)
-                {
-                    datos.setearConsulta("INSERT INTO PrestamoLibro (IDPrestamo, IDLibro) VALUES (@IDPrestamo, @IDLibro)");
-                    datos.setearParametro("@IDPrestamo", idPrestamo);
-                    datos.setearParametro("@IDLibro", libro.IdLibro);
-                    datos.ejecutarAccion();
-                    datos.cerrarConexion();
-                }
+                return idPrestamo; 
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al guardar el préstamo: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void GuardarLibrosDelPrestamo(int idPrestamo, List<Libro> libros)
+        {
+            foreach (var libro in libros)
+            {
+                AccesoDatos datosLibro = new AccesoDatos();
+                try
+                {
+                    datosLibro.setearConsulta("INSERT INTO PrestamoLibro (IDPrestamo, IDLibro) VALUES (@IDPrestamo, @IDLibro)");
+                    datosLibro.setearParametro("@IDPrestamo", idPrestamo);
+                    datosLibro.setearParametro("@IDLibro", libro.IdLibro);
+                    datosLibro.ejecutarAccion();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al guardar el libro del préstamo: " + ex.Message);
+                }
+                finally
+                {
+                    datosLibro.cerrarConexion();
+                }
+            }
+        }
+        public void ActualizarPrestamo(int idPrestamo, string nuevoEstado)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Prestamo SET Estado = @Estado WHERE IDPrestamo = @IDPrestamo");
+
+                datos.setearParametro("@Estado", nuevoEstado);
+                datos.setearParametro("@IDPrestamo", idPrestamo);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el estado del préstamo: " + ex.Message);
             }
             finally
             {
@@ -218,7 +250,38 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void ModificarPrestamo(Prestamo prestamo)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta("UPDATE Prestamo SET IDUsuario = @IDUsuario, FechaInicio = @FechaInicio, FechaFin = @FechaFin, Devuelto = @Devuelto, " +
+                                     "IDMetodoEnvio = @IDMetodoEnvio, IDMetodoRetiro = @IDMetodoRetiro, CostoEnvio = @CostoEnvio, Estado = @Estado, " +
+                                     "IdDireccion = @IdDireccion WHERE IDPrestamo = @IDPrestamo");
+
+                datos.setearParametro("@IDPrestamo", prestamo.IDPrestamo);
+                datos.setearParametro("@IDUsuario", prestamo.Usuario.IdUsuario);
+                datos.setearParametro("@FechaInicio", prestamo.FechaInicio);
+                datos.setearParametro("@FechaFin", prestamo.FechaFin);
+                datos.setearParametro("@Devuelto", prestamo.Devuelto);
+                datos.setearParametro("@IDMetodoEnvio", prestamo.MetodoEnvio.IdMetodoEnvio);
+                datos.setearParametro("@IDMetodoRetiro", prestamo.MetodoRetiro.IdMetodoRetiro);
+                datos.setearParametro("@CostoEnvio", prestamo.CostoEnvio);
+                datos.setearParametro("@Estado", prestamo.Estado);
+                datos.setearParametro("@IdDireccion", prestamo.Direccion.IdDireccion);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el préstamo: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

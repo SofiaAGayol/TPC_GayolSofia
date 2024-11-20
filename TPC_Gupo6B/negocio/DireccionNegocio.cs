@@ -10,9 +10,49 @@ namespace negocio
 {
     public class DireccionNegocio
     {
-        public List<Direccion> ListarPorUsuario(int idUsuario)
+
+        public List<Direccion> ListarDireccionesPorUsuario(int idUsuario)
         {
-            return new List<Direccion>();
+            AccesoDatos datos = new AccesoDatos();
+            List<Direccion> listaDirecciones = new List<Direccion>();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT IDDireccion, IDUsuario, Calle, Altura, CodigoPostal, Aclaracion, Predeterminada " +
+                    "FROM Direccion " +
+                    "WHERE IDUsuario = @IDUsuario " +
+                    "ORDER BY Predeterminada DESC");
+
+                datos.setearParametro("@IDUsuario", idUsuario);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Direccion direccion = new Direccion
+                    {
+                        IdDireccion = (int)datos.Lector["IDDireccion"],
+                        Usuario = new Usuario { IdUsuario = (int)datos.Lector["IDUsuario"] },
+                        Calle = datos.Lector["Calle"].ToString(),
+                        Altura = (int)datos.Lector["Altura"],
+                        CodigoPostal = datos.Lector["CodigoPostal"].ToString(),
+                        Aclaracion = datos.Lector["Aclaracion"] != DBNull.Value ? datos.Lector["Aclaracion"].ToString() : null,
+                        Predeterminada = (bool)datos.Lector["Predeterminada"]
+                    };
+
+                    listaDirecciones.Add(direccion);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar las direcciones: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return listaDirecciones;
         }
 
         public int AgregarYRetornarId(Direccion direccion)

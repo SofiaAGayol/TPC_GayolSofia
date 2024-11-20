@@ -51,10 +51,6 @@
                         <asp:CheckBox ID="chkGuardarPredeterminada" runat="server" CssClass="form-check-input" />
                         <asp:Label runat="server" CssClass="form-check-label" AssociatedControlID="chkGuardarPredeterminada" Text="Guardar como predeterminada"></asp:Label>
                     </div>
-                    <div class="form-check mb-3">
-                        <asp:CheckBox ID="chkEnviarADireccionDiferente" runat="server" CssClass="form-check-input" />
-                        <asp:Label runat="server" CssClass="form-check-label" AssociatedControlID="chkEnviarADireccionDiferente" Text="¿Enviar a una dirección diferente?"></asp:Label>
-                    </div>
                 </div>
             </div>
 

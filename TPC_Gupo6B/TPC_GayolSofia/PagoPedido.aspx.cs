@@ -3,6 +3,7 @@ using negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -36,15 +37,18 @@ namespace TPC_GayolSofia
             if (prestamo != null)
             {
                 string detallesLibros = string.Empty;
-                foreach (var libro in prestamo.Libros)
+                LibroNegocio libroNegocio = new LibroNegocio();
+                List<Libro> librosDelPrestamo = libroNegocio.ListarLibrosPorPrestamo(prestamo.IDPrestamo);
+
+                foreach (var libro in librosDelPrestamo)
                 {
                     detallesLibros += $"{libro.Titulo} - {libro.Autor.Nombre} {libro.Autor.Apellido}<br/>";
                 }
-                lblProductos.Text = detallesLibros;
+
+                lblProductos.Text = detallesLibros.ToString();
                 lblImporteTotal.Text = prestamo.CostoEnvio.ToString("N2");
             }
         }
-
         private void CargarMetodosPagoExistentes()
         {
             MetodoDePagoNegocio metodoDePagoNegocio = new MetodoDePagoNegocio();
@@ -67,7 +71,6 @@ namespace TPC_GayolSofia
             try
             {
                 Prestamo prestamo = (Prestamo)Session["PrestamoActual"];
-                int idPrestamo = prestamo.IDPrestamo;
 
                 if (chkNuevoMetodoPago.Checked)
                 {
@@ -86,8 +89,9 @@ namespace TPC_GayolSofia
 
                 PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
                 string nuevoEstado = "Pagado";
-                prestamoNegocio.ActualizarEstadoPrestamo(idPrestamo, false, nuevoEstado);
-
+                prestamo.Estado = nuevoEstado;
+                prestamoNegocio.ModificarPrestamo(prestamo);
+                Session["PrestamoActual"] = prestamo;
                 Response.Redirect("ConfirmacionPedido.aspx");
             }
             catch (Exception ex)

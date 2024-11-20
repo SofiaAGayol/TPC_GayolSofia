@@ -13,6 +13,16 @@ namespace dominio
         public string Descripcion { get; set; }
         public decimal CostoAMBA { get; set; }
         public decimal CostoExterior { get; set; }
+        public override string ToString()
+        {
+            return Descripcion;
+        }
+        public MetodoDeEnvio() { }
+        public MetodoDeEnvio(int idMetodoEnvio, string descripcion)
+        {
+            IdMetodoEnvio = idMetodoEnvio;
+            Descripcion = descripcion;
+        }
 
     }
 }
