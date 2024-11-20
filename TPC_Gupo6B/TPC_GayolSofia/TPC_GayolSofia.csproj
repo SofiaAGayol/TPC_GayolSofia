@@ -127,6 +127,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="CrearUsuario.aspx" />
     <Content Include="DetalleLibro.aspx" />
+    <Content Include="DevolverLibro.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Informes.aspx" />
@@ -277,6 +278,13 @@
     </Compile>
     <Compile Include="DetalleLibro.aspx.designer.cs">
       <DependentUpon>DetalleLibro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DevolverLibro.aspx.cs">
+      <DependentUpon>DevolverLibro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DevolverLibro.aspx.designer.cs">
+      <DependentUpon>DevolverLibro.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

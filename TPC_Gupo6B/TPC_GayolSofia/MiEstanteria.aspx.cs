@@ -41,8 +41,7 @@ namespace TPC_GayolSofia
         }
         protected void botonDevolver_Click(object sender, EventArgs e)
         {
-            PanelNoLibros.Visible = false;
-            CargarLibros();
+            Response.Redirect("DevolverLibro.aspx");
         }
     }
 }
