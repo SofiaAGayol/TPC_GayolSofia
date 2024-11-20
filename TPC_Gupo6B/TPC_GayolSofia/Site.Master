@@ -73,20 +73,22 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="MisPrestamos.aspx">Historial</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="MiEstanteria.aspx">Mi estanteria</a>
                                         </li>
-                                        <li class="nav-item dropdown">
+                                        <%--<li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mi Perfil
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#">Historial</a></li>
-                                                <li><a class="dropdown-item" href="#">Ajustes</a></li>
+                                                <li><a class="dropdown-item" href="#">Mi Estanteria</a></li>
                                                 <li><a class="dropdown-item" href="#">Cuenta</a></li>
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <li><a class="dropdown-item" href="#">Mi Membresia</a></li>
                                             </ul>
-                                        </li>
+                                        </li>--%>
                                     </ul>
                                 </div>
 

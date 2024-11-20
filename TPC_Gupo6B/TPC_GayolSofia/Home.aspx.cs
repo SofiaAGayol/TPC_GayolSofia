@@ -187,6 +187,7 @@ namespace TPC_GayolSofia
             CarritoNegocio carritoNegocio = new CarritoNegocio();
             LibroNegocio libroNegocio = new LibroNegocio();
             Button button = (Button)sender;
+            string script;
 
             usuarioActivo = (Usuario)Session["UsuarioActivo"];
 
@@ -197,12 +198,21 @@ namespace TPC_GayolSofia
             }
 
             int idLibroSeleccionado = Convert.ToInt32(button.CommandArgument);
+
+            List<Libro> librosEnPrestamo = libroNegocio.ListarLibrosEnPrestamoPorUsuario(usuarioActivo.IdUsuario);
+            bool libroYaEnPrestamo = librosEnPrestamo.Any(libro => libro.IdLibro == idLibroSeleccionado);
+
             List<Libro> listaLibros = libroNegocio.Listar();
             Libro libroSeleccionado = listaLibros.FirstOrDefault(l => l.IdLibro == idLibroSeleccionado);
 
-            if (libroSeleccionado != null && libroSeleccionado.Estado)
+            if (libroYaEnPrestamo)
             {
-                string script;
+                script = "alert('El libro ya está en préstamo activo y no puede ser agregado al carrito.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
+            }
+            else if (libroSeleccionado != null && libroSeleccionado.Estado)
+            {
+                
                 try
                 {
                     if (!carritoNegocio.ExisteEnCarrito(usuarioActivo.IdUsuario, libroSeleccionado.IdLibro))
@@ -217,13 +227,14 @@ namespace TPC_GayolSofia
                 }
                 catch (Exception ex)
                 {
-                    script = "alert('Ocurrió un error al intentar agregar el libro al carrito.');";
+                    script = "alert('El libro ya está en préstamo activo y no puede ser agregado al carrito.');";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
                 }
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
             }
             else
             {
-                string script = "alert('El libro seleccionado no está disponible.');";
+                script = "alert('El libro seleccionado no está disponible.');";
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", script, true);
             }
         }

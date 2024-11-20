@@ -133,6 +133,7 @@
     <Content Include="Libros.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="MiEstanteria.aspx" />
     <Content Include="MisPrestamos.aspx" />
     <Content Include="PagoPedido.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -307,6 +308,13 @@
     </Compile>
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MiEstanteria.aspx.cs">
+      <DependentUpon>MiEstanteria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MiEstanteria.aspx.designer.cs">
+      <DependentUpon>MiEstanteria.aspx</DependentUpon>
     </Compile>
     <Compile Include="MisPrestamos.aspx.cs">
       <DependentUpon>MisPrestamos.aspx</DependentUpon>

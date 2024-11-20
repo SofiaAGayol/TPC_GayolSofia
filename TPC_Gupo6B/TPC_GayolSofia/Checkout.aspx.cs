@@ -302,8 +302,6 @@ namespace TPC_GayolSofia
                 prestamoNegocio.GuardarLibrosDelPrestamo(idPrestamo, librosCarrito);
                 Session["PrestamoActual"] = prestamo;
 
-                CarritoNegocio carritoNegocio = new CarritoNegocio();
-                carritoNegocio.VaciarCarrito(usuarioActivo.IdUsuario);
                 Redireccionar(prestamo);
             }
             catch (Exception ex)

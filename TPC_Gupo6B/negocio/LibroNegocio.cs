@@ -272,6 +272,52 @@ namespace negocio
 
             return listaLibros;
         }
+        public List<Libro> ListarLibrosEnPrestamoPorUsuario(int idUsuario)
+        {
+            List<Libro> listaLibros = new List<Libro>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT l.IDLibro, l.Titulo, a.IDAutor, l.ImagenURL, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor " +
+                    "FROM Prestamo p " +
+                    "JOIN PrestamoLibro pl ON p.IDPrestamo = pl.IDPrestamo " +
+                    "JOIN Libro l ON pl.IDLibro = l.IDLibro " +
+                    "JOIN Autores a ON l.IDAutor = a.IDAutor " +
+                    "WHERE p.IDUsuario = @IDUsuario AND p.Devuelto = 0");
+
+                datos.setearParametro("@IDUsuario", idUsuario);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro libro = new Libro
+                    {
+                        IdLibro = (int)datos.Lector["IDLibro"],
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Imagen = datos.Lector["ImagenURL"] != DBNull.Value ? datos.Lector["ImagenURL"].ToString() : null,
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        }
+                    };
+                    listaLibros.Add(libro);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los libros en préstamo: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return listaLibros;
+        }
 
         //Filtros y busqueda
         public Libro LibroPorID(int IdLibro)
@@ -675,7 +721,28 @@ namespace negocio
             return (contador > 0);
         }
 
+        public void RestarDisponibilidad(int idLibro, int cantidad)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta("UPDATE Libro SET Disponibles = Disponibles - @Cantidad WHERE IDLibro = @IDLibro");
+
+                datos.setearParametro("@Cantidad", cantidad);
+                datos.setearParametro("@IDLibro", idLibro);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar la disponibilidad del libro: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         /*
         public void Agregar(Libro nuevo)

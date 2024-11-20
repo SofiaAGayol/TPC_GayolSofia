@@ -14,6 +14,14 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                LibroNegocio libroNegocio = new LibroNegocio();
+                List<Libro> librosEnPrestamo = libroNegocio.ListarLibrosEnPrestamoPorUsuario(idUsuario);
+                bool libroYaEnPrestamo = librosEnPrestamo.Any(libro => libro.IdLibro == idLibro);
+
+                if (libroYaEnPrestamo)
+                {
+                    throw new Exception("El libro ya está en préstamo activo y no puede ser agregado al carrito.");
+                }
                 if (!ExisteEnCarrito(idUsuario, idLibro))
                 {
                     datos.setearConsulta("INSERT INTO Carrito (IDUsuario, IDLibro) VALUES (@IDUsuario, @IDLibro)");

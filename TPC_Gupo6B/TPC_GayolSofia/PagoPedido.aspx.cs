@@ -87,11 +87,24 @@ namespace TPC_GayolSofia
                     metodoDePagoNegocio.Guardar(nuevoMetodoPago);
                 }
 
+                LibroNegocio libroNegocio = new LibroNegocio();
+                CarritoNegocio carritoNegocio = new CarritoNegocio();
+
+                List<Libro> librosCarrito = carritoNegocio.ListarLibrosEnCarrito(usuarioActivo.IdUsuario);
+
+                foreach (var libro in librosCarrito)
+                {
+                    libroNegocio.RestarDisponibilidad(libro.IdLibro, 1);
+                }
+
                 PrestamoNegocio prestamoNegocio = new PrestamoNegocio();
                 string nuevoEstado = "Pagado";
                 prestamo.Estado = nuevoEstado;
                 prestamoNegocio.ModificarPrestamo(prestamo);
                 Session["PrestamoActual"] = prestamo;
+
+                carritoNegocio.VaciarCarrito(usuarioActivo.IdUsuario);
+
                 Response.Redirect("ConfirmacionPedido.aspx");
             }
             catch (Exception ex)

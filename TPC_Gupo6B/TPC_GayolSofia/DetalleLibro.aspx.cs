@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Optimization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TPC_GayolSofia.dominio;
@@ -120,11 +121,22 @@ namespace TPC_GayolSofia
         protected void Solicitar_Click(object sender, EventArgs e)
         {
             CarritoNegocio negocio = new CarritoNegocio();
+            LibroNegocio libroNegocio = new LibroNegocio();
+
 
             usuarioActivo = (Usuario)Session["UsuarioActivo"];
             libroActivo = (Libro)Session["LibroActivo"];
 
-            if (Session["LibroActivo"] != null && libroActivo.Estado)
+            List<Libro> librosEnPrestamo = libroNegocio.ListarLibrosEnPrestamoPorUsuario(usuarioActivo.IdUsuario);
+            bool libroYaEnPrestamo = librosEnPrestamo.Any(libro => libro.IdLibro == libroActivo.IdLibro);
+
+            if (libroYaEnPrestamo)
+            {
+                alertMessage.InnerText = "El libro ya está en préstamo activo y no puede ser agregado al carrito.";
+                divAlert.Style["display"] = "block";
+            }
+
+            else if (Session["LibroActivo"] != null && libroActivo.Estado)
             {
                 negocio.AgregarLibroAlCarrito(usuarioActivo.IdUsuario, libroActivo.IdLibro);
                 Response.Redirect("Carrito.aspx");
@@ -141,6 +153,7 @@ namespace TPC_GayolSofia
         protected void AgregarCarrito_Click(object sender, EventArgs e)
         {
             CarritoNegocio negocio = new CarritoNegocio();
+            LibroNegocio libroNegocio = new LibroNegocio();
 
             usuarioActivo = (Usuario)Session["UsuarioActivo"];
             libroActivo = (Libro)Session["LibroActivo"];
@@ -151,7 +164,16 @@ namespace TPC_GayolSofia
                 return;
             }
 
-            if (Session["LibroActivo"] != null && libroActivo.Estado)
+            List<Libro> librosEnPrestamo = libroNegocio.ListarLibrosEnPrestamoPorUsuario(usuarioActivo.IdUsuario);
+            bool libroYaEnPrestamo = librosEnPrestamo.Any(libro => libro.IdLibro == libroActivo.IdLibro);
+
+            if (libroYaEnPrestamo)
+            {
+                alertMessage.InnerText = "El libro ya está en préstamo activo y no puede ser agregado al carrito.";
+                divAlert.Style["display"] = "block";
+            }
+
+            else if (Session["LibroActivo"] != null && libroActivo.Estado)
             {
                 try
                 {
