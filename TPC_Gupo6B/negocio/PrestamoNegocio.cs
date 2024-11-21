@@ -282,6 +282,24 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void MarcarPrestamoComoDevuelto(int idPrestamo)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta("UPDATE Prestamo SET Devuelto = 1 WHERE IDPrestamo = @IDPrestamo");
+                datos.setearParametro("@IDPrestamo", idPrestamo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al marcar el préstamo como devuelto: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

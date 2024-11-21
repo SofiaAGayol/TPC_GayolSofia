@@ -24,6 +24,15 @@ namespace TPC_GayolSofia
         protected global::System.Web.UI.WebControls.Label lblCantidadClientesActivos;
 
         /// <summary>
+        /// Control lblCantidadLibrosPrestamo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantidadLibrosPrestamo;
+
+        /// <summary>
         /// Control lblCantidadLibrosDisponibles.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace TPC_GayolSofia
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCantidadLibrosDisponibles;
+
+        /// <summary>
+        /// Control lblStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStock;
 
         /// <summary>
         /// Control gvLibrosEnPrestamo.

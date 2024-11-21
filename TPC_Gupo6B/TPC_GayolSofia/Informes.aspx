@@ -37,7 +37,9 @@
             </div>
             <div class="col-md-3 mb-4 h-100">
                 <div class="card bg-danger p-3">
-                    <h4>45</h4>
+                    <h4>
+                        <asp:Label ID="lblCantidadLibrosPrestamo" runat="server" Text="0"></asp:Label>
+                    </h4>
                     <p>Libros en lectura</p>
                 </div>
             </div>
@@ -46,13 +48,15 @@
                     <h4>
                         <asp:Label ID="lblCantidadLibrosDisponibles" runat="server"></asp:Label>
                     </h4>
-                    <p>Libros disponibles</p>
+                    <p>Titulos disponibles</p>
                 </div>
             </div>
             <div class="col-md-3 mb-4 h-100">
                 <div class="card bg-warning p-3 h-100">
-                    <h4>168</h4>
-                    <p>Paquetes activos</p>
+                    <h4>
+                        <asp:Label ID="lblStock" runat="server"></asp:Label>
+                    </h4>
+                    <p>Libros en Stock</p>
                 </div>
             </div>
         </div>
@@ -72,50 +76,31 @@
 
         <!-- Libros en prestamo -->
         <h4>Libros en prestamo</h4>
-        <asp:GridView ID="gvLibrosEnPrestamo" runat="server" CssClass="table table-dark table-bordered">
+        <asp:GridView ID="gvLibrosEnPrestamo" runat="server" CssClass="table table-dark table-bordered" AutoGenerateColumns="False">
             <Columns>
+                <asp:TemplateField HeaderText="Id Usuario">
+                    <ItemTemplate>
+                        <%# Eval("Prestamo.Usuario.IdUsuario") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Usuario">
+                    <ItemTemplate>
+                        <%# Eval("Prestamo.Usuario.Nombre") %> <%# Eval("Prestamo.Usuario.Apellido") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:BoundField HeaderText="Usuario" />
                 <asp:BoundField DataField="Titulo" HeaderText="Libro" />
                 <asp:BoundField DataField="Autor" HeaderText="Autor" />
-                <asp:BoundField DataField="FechaSolicitud" HeaderText="Fecha Solicitud" />
-                <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha Vencimiento" />
-                <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                <asp:TemplateField HeaderText="Notificar">
+                <asp:TemplateField HeaderText="Devolución">
                     <ItemTemplate>
-                        <button class="btn btn-outline-light btn-sm">Activo</button>
+                        <asp:Button ID="btnGenerarDevolucion" runat="server" Text="Generar Devolución" CssClass="btn btn-outline-light btn-sm" CommandName="DevolverLibro" CommandArgument='<%# Eval("Prestamo.IDPrestamo") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
 
-        <div class="table-responsive">
-            <table class="table table-dark table-bordered">
-                <thead>
-                    <tr>
-                        <th>Libro</th>
-                        <th>Autor</th>
-                        <th>Fecha solicitud</th>
-                        <th>Fecha vencimiento</th>
-                        <th>Estado</th>
-                        <th>Notificar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Libro 1</td>
-                        <td>Autor 1</td>
-                        <td>Thu 1/7/2021</td>
-                        <td>Thu 20/7/2021</td>
-                        <td><span class="badge bg-success">Paid</span></td>
-                        <td>
-                            <button class="btn btn-outline-light btn-sm">Activo</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         <!-- Busqueda -->
-        <div class="card bg-dark text-white p-3">
+        <%--<div class="card bg-dark text-white p-3">
             <h5>Buscar Libros</h5>
             <div class="mb-3">
                 <label for="recipient" class="form-label">Titulo</label>
@@ -137,9 +122,9 @@
             </div>
             <button class="btn btn-primary w-100">Buscar</button>
         </div>
-    </div>
+    </div>--%>
 
 
 
-    <asp:Label ID="Saludo" runat="server" Text=""></asp:Label>
+        <asp:Label ID="Saludo" runat="server" Text=""></asp:Label>
 </asp:Content>

@@ -17,7 +17,12 @@ namespace TPC_GayolSofia.dominio
         public string Telefono { get; set; }
         public Rol Rol { get; set; }
         public bool Estado { get; set; }
-
+        public override string ToString()
+        {
+            string nombreCompleto = Nombre + " " + Apellido;
+            return nombreCompleto;
+        }
+        public string NombreCompleto => $"{Nombre} {Apellido}";
         public Usuario() { }
         public Usuario(int idUsuario, string nombreUsuario, string clave, string nombre, string apellido, string dni, string email, string telefono, Rol rol, bool estado)
         {

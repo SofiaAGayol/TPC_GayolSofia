@@ -23,7 +23,7 @@
 
     <div class="row justify-content-center mb-2 mt-5">
         <div class="col-12 text-center">
-            <asp:GridView ID="Dgv_Autores" DataKeyNames="IdAutor" AllowPaging="True" PageSize="5"
+            <asp:GridView ID="Dgv_Autores" DataKeyNames="IdAutor" AllowPaging="True" PageSize="10"
                 runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-hover mx-auto"
                 OnPageIndexChanging="Dgv_Autores_PageIndexChanging" OnSelectedIndexChanged="Dgv_Autores_SelectedIndexChanged">
                 <Columns>

@@ -160,6 +160,32 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public int ContarLibrosStock()
+        {
+            int cantidadDisponibles = 0;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT SUM(Disponibles) FROM Libro;");
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read() && !datos.Lector.IsDBNull(0))
+                {
+                    cantidadDisponibles = datos.Lector.GetInt32(0);
+                }
+                return cantidadDisponibles;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al sumar los ejemplares disponibles: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         //Libros prestados
         public int ContarLibrosEnPrestamo()
@@ -169,7 +195,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT COUNT(*) FROM Libro WHERE Estado = 0;");
+                datos.setearConsulta(
+                    "SELECT COUNT(*) " +
+                    "FROM PrestamoLibro pl " +
+                    "JOIN Prestamo p ON pl.IDPrestamo = p.IDPrestamo " +
+                    "WHERE p.Devuelto = 0;");
 
                 datos.ejecutarLectura();
 
@@ -177,11 +207,12 @@ namespace negocio
                 {
                     cantidadEnPrestamo = (int)datos.Lector[0];
                 }
+
                 return cantidadEnPrestamo;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error al contar los libros en préstamo: " + ex.Message, ex);
             }
             finally
             {
@@ -192,28 +223,48 @@ namespace negocio
         {
             List<Libro> librosEnPrestamo = new List<Libro>();
             AccesoDatos datos = new AccesoDatos();
-            AutorNegocio autorNegocio = new AutorNegocio();
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
             try
             {
-                datos.setearConsulta("SELECT IdLibro, Titulo, AutorId, CategoriaId, AñoPublicacion, Ejemplares, Disponibles, Estado, Imagen FROM Libro WHERE Estado = 0;");
+                datos.setearConsulta("SELECT l.IDLibro, l.Titulo, a.IDAutor, a.Nombre AS NombreAutor, a.Apellido AS ApellidoAutor, " +
+                                     "p.IDPrestamo, u.IDUsuario, u.Nombre AS NombreUsuario, u.Apellido AS ApellidoUsuario " +
+                                     "FROM PrestamoLibro pl " +
+                                     "JOIN Libro l ON pl.IDLibro = l.IDLibro " +
+                                     "JOIN Autores a ON l.IDAutor = a.IDAutor " +
+                                     "JOIN Prestamo p ON pl.IDPrestamo = p.IDPrestamo " +
+                                     "JOIN Usuarios u ON p.IDUsuario = u.IDUsuario " +
+                                     "WHERE p.Devuelto = 0");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Libro libro = new Libro
                     {
-                        IdLibro = (int)datos.Lector["IdLibro"],
+                        IdLibro = (int)datos.Lector["IDLibro"],
                         Titulo = datos.Lector["Titulo"].ToString(),
-                        Autor = autorNegocio.ObtenerAutorPorId((int)datos.Lector["AutorId"]),
-                        Categoria = categoriaNegocio.ObtenerCategoriaPorId((int)datos.Lector["CategoriaId"]),
-                        FechaPublicacion = (DateTime)datos.Lector["FechaPublicacion"],
-                        Ejemplares = (int)datos.Lector["Ejemplares"],
-                        Disponibles = (int)datos.Lector["Disponibles"],
-                        Estado = (bool)datos.Lector["Estado"],
-                        Imagen = datos.Lector["Imagen"].ToString()
+                        Autor = new Autor
+                        {
+                            IdAutor = (int)datos.Lector["IDAutor"],
+                            Nombre = datos.Lector["NombreAutor"].ToString(),
+                            Apellido = datos.Lector["ApellidoAutor"].ToString()
+                        }
                     };
+
+                    Usuario usuario = new Usuario
+                    {
+                        IdUsuario = (int)datos.Lector["IDUsuario"],
+                        Nombre = datos.Lector["NombreUsuario"].ToString(),
+                        Apellido = datos.Lector["ApellidoUsuario"].ToString()
+                    };
+
+                    Prestamo prestamo = new Prestamo
+                    {
+                        IDPrestamo = (int)datos.Lector["IDPrestamo"],
+                        Usuario = usuario,
+                        Libros = new List<Libro> { libro }
+                    };
+
+                    libro.Prestamo = prestamo;
 
                     librosEnPrestamo.Add(libro);
                 }
@@ -743,7 +794,36 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void IncrementarStockLibro(int idPrestamo)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta("SELECT IDLibro FROM PrestamoLibro WHERE IDPrestamo = @IDPrestamo");
+                datos.setearParametro("@IDPrestamo", idPrestamo);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    int idLibro = (int)datos.Lector["IDLibro"];
+
+                    AccesoDatos datosUpdate = new AccesoDatos();
+                    datosUpdate.setearConsulta("UPDATE Libro SET Disponibles = Disponibles + 1 WHERE IDLibro = @IDLibro");
+                    datosUpdate.setearParametro("@IDLibro", idLibro);
+                    datosUpdate.ejecutarAccion();
+                    datosUpdate.cerrarConexion();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al incrementar el stock del libro: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         /*
         public void Agregar(Libro nuevo)
         {
